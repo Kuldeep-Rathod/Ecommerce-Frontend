@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import Loading from "./components/Loading";
 import Header from "./components/Header";
+import Shipping from "./pages/Shipping";
 
 const Home = lazy(() => import("./pages/Home"));
 const Cart = lazy(() => import("./pages/Cart"));
@@ -34,11 +35,15 @@ const App = () => {
 
             <Suspense fallback={<Loading />}>
                 <Routes>
+                    {/* Public Routes */}
                     <Route path="/" element={<Home />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/search" element={<Search />} />
 
-
+                    {/* Loggedin User Routes */}
+                    <Route>
+                        <Route path="/shipping" element={<Shipping />} />
+                    </Route>
 
                     {/* Admin Routes */}
                     <Route>

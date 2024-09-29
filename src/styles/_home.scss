@@ -46,11 +46,11 @@
         @include flex(column, flex-start, center, 4px);
         position: relative;
         background-color: white;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 10px;
 
         &:hover {
-            border: 1px solid skyblue;
+            border: 1px solid rgba(0, 104, 136, 0.5);
         }
 
         img {
@@ -65,14 +65,18 @@
         }
 
         > button {
-            background-color: skyblue;
+            background-color: $color3;
             color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+
+            &:hover {
+                opacity: 0.8;
+            }
         }
     }
 }

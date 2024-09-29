@@ -1,13 +1,3 @@
-@import "./admin/mixin";
-
-@import "home";
-
-@import "./admin/dashboard";
-@import "./admin/products";
-@import "./admin/customers";
-@import "./admin/chart";
-@import "./admin/dashboardApp";
-@import "./admin/mediaQuery";
 
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -46,11 +36,34 @@ $color3: rgb(0, 104, 136);
     color: rgb(0, 195, 0);
 }
 
+
+@import "./admin/mixin";
+
+@import "home";
+@import "cart";
+@import "shipping";
+
+@import "./admin/dashboard";
+@import "./admin/products";
+@import "./admin/customers";
+@import "./admin/chart";
+@import "./admin/dashboardApp";
+@import "./admin/mediaQuery";
+
+
+
+
+
+
+
 //home page
 
 .header {
     @include flex(row, flex-end, stretch, 1.2rem);
     padding: 1rem;
+    position: sticky;
+    top: 0;
+    background-color: $color1;
     
 
     a {
@@ -76,6 +89,7 @@ $color3: rgb(0, 104, 136);
     dialog {
       border: 1px solid #ccc;
       border-radius: 5px;
+      margin-top: 3rem;
       padding: 10px;
       width: 100px;
       position: absolute;
