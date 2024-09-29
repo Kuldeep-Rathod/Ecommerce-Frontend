@@ -23,6 +23,7 @@ a {
 $color1: white;
 $color2: rgb(46, 46, 46);
 $color3: rgb(0, 104, 136);
+$bg: rgb(247, 247, 247);
 
 .red {
     color: red;
@@ -42,6 +43,7 @@ $color3: rgb(0, 104, 136);
 @import "home";
 @import "cart";
 @import "shipping";
+@import "login";
 
 @import "./admin/dashboard";
 @import "./admin/products";
