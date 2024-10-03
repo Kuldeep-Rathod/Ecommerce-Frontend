@@ -8,15 +8,6 @@ const Loading = () => {
                 <div></div>
             </div>
         </section>
-
-        <section className="loaderSection">
-            <div className="loader">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </section>
     );
 };
 
