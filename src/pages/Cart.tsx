@@ -11,6 +11,7 @@ const cartItems = [
         price: 2000,
         quantity: 2,
         stock: 5,
+        // stock: 5,
     },
 ];
 
