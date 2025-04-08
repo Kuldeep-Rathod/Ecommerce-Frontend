@@ -1,8 +1,10 @@
-
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
+    ::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 * {
@@ -37,24 +39,21 @@ $bg: rgb(247, 247, 247);
     color: rgb(0, 195, 0);
 }
 
+@import './admin/mixin';
 
-@import "./admin/mixin";
+@import 'home';
+@import 'cart';
+@import 'shipping';
+@import 'login';
+@import 'search';
+@import 'header';
 
-@import "home";
-@import "cart";
-@import "shipping";
-@import "login";
-@import "search";
-
-@import "./admin/dashboard";
-@import "./admin/products";
-@import "./admin/customers";
-@import "./admin/chart";
-@import "./admin/dashboardApp";
-@import "./admin/mediaQuery";
-
-
-
+@import './admin/dashboard';
+@import './admin/products';
+@import './admin/customers';
+@import './admin/chart';
+@import './admin/dashboardApp';
+@import './admin/mediaQuery';
 
 .container {
     max-width: 1367px;
@@ -62,58 +61,13 @@ $bg: rgb(247, 247, 247);
     margin: auto;
     overflow: auto;
     > h1 {
-      @include heading;
-      margin: 1rem 0;
-      text-align: left;
+        @include heading;
+        margin: 1rem 0;
+        text-align: left;
     }
-  }
-  
-
+}
 
 //home page
-
-.header {
-    @include flex(row, flex-end, stretch, 1.2rem);
-    padding: 1rem;
-    position: sticky;
-    top: 0;
-    background-color: $color1;
-    
-
-    a {
-      color: $color2;
-      letter-spacing: 2px;
-      font-size: 1.2rem;
-  
-      &:hover {
-        color: $color3;
-      }
-    }
-  
-    button {
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      background-color: transparent;
-      &:hover {
-        color: $color3;
-      }
-    }
-  
-    dialog {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin-top: 3rem;
-      padding: 10px;
-      width: 100px;
-      position: absolute;
-      left: calc(100% - 100px);
-      top: 8%;
-      > div {
-        @include flex(column, flex-start, center, 0.25rem);
-      }
-    }
-  }
 
 // Admin Dashboard
 

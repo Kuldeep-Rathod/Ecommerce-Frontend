@@ -1,66 +1,124 @@
-import { Link } from "react-router-dom";
-import {
-    FaSearch,
-    FaShoppingBag,
-    FaSignInAlt,
-    FaUser,
-    FaSignOutAlt,
+import { Link, useNavigate } from "react-router-dom";
+import { 
+  FaSearch, 
+  FaShoppingBag, 
+  FaUser, 
+  FaBars,
+  FaTimes,
+  FaHeart
 } from "react-icons/fa";
-import { useState } from "react";
-
-const user = { _id: "", role: "" };
+import { useState, useEffect } from "react";
 
 const Header = () => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
-    const logoutHandler = async () => {
-        setIsOpen(false);
+  // Mock user data - replace with your auth logic
+  const user = { _id: "123", role: "user", name: "John Doe" };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
     };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    return (
-        <nav className="header">
-            <Link onClick={() => setIsOpen(false)} to={"/"}>
-                HOME
-            </Link>
-            <Link onClick={() => setIsOpen(false)} to={"/search"}>
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+      setIsMenuOpen(false);
+    }
+  };
+
+  return (
+    <header className={`header ${scrolled ? "scrolled" : ""}`}>
+      <div className="header-container">
+        <button 
+          className="mobile-menu-btn"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          {isMenuOpen ? <FaTimes /> : <FaBars />}
+        </button>
+
+        <Link to="/" className="header-logo">
+          <span>Shop</span>Ease
+        </Link>
+
+        <nav className={`nav-links ${isMenuOpen ? "open" : ""}`}>
+          <div className="mobile-search">
+            <form onSubmit={handleSearch}>
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <button type="submit">
                 <FaSearch />
-            </Link>
-            <Link onClick={() => setIsOpen(false)} to={"/cart"}>
-                <FaShoppingBag />
-            </Link>
+              </button>
+            </form>
+          </div>
 
-            {user?._id ? (
-                <>
-                    <button onClick={() => setIsOpen((prev) => !prev)}>
-                        <FaUser />
-                    </button>
-                    <dialog open={isOpen}>
-                        <div>
-                            {user.role === "admin" && (
-                                <Link
-                                    onClick={() => setIsOpen(false)}
-                                    to="/admin/dashboard"
-                                >
-                                    Admin
-                                </Link>
-                            )}
+          <div className="main-links">
+            <Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
+            <Link to="/products" onClick={() => setIsMenuOpen(false)}>Shop</Link>
+            <Link to="/categories" onClick={() => setIsMenuOpen(false)}>Categories</Link>
+            <Link to="/deals" onClick={() => setIsMenuOpen(false)}>Deals</Link>
+            <Link to="/about" onClick={() => setIsMenuOpen(false)}>About</Link>
+          </div>
 
-                            <Link onClick={() => setIsOpen(false)} to="/orders">
-                                Orders
-                            </Link>
-                            <button onClick={logoutHandler}>
-                                <FaSignOutAlt />
-                            </button>
-                        </div>
-                    </dialog>
-                </>
+          <div className="user-controls">
+            {user ? (
+              <div className="user-dropdown">
+                <button className="user-btn">
+                  <FaUser />
+                  <span className="user-name">{user.name.split(" ")[0]}</span>
+                </button>
+                <div className="dropdown-content">
+                  <Link to="/account">My Account</Link>
+                  <Link to="/orders">My Orders</Link>
+                  <Link to="/wishlist">Wishlist</Link>
+                  {user.role === "admin" && <Link to="/admin">Dashboard</Link>}
+                  <button className="logout-btn">Sign Out</button>
+                </div>
+              </div>
             ) : (
-                <Link to={"/login"}>
-                    <FaSignInAlt />
-                </Link>
+              <Link to="/login" className="auth-link">
+                <FaUser /> Sign In
+              </Link>
             )}
+
+            <Link to="/wishlist" className="icon-link">
+              <FaHeart />
+              <span className="badge">3</span>
+            </Link>
+
+            <Link to="/cart" className="icon-link cart-icon">
+              <FaShoppingBag />
+              <span className="badge">5</span>
+            </Link>
+          </div>
         </nav>
-    );
+
+        <form className="desktop-search" onSubmit={handleSearch}>
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button type="submit">
+            <FaSearch />
+          </button>
+        </form>
+      </div>
+    </header>
+  );
 };
 
 export default Header;

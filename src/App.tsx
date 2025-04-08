@@ -108,7 +108,7 @@ const App = () => {
                     </Route>
                 </Routes>
             </Suspense>
-            <Toaster position="bottom-center"/>
+            <Toaster position="top-center"/>
         </Router>
     );
 };
