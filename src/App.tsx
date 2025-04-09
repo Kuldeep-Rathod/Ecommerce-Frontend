@@ -9,6 +9,7 @@ import { auth } from './firebase';
 import { userExist, userNotExist } from './redux/reducer/userReducer';
 import { getUser } from './redux/api/userAPI';
 import { UserReducerInitialState } from './types/reducer-types';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const Login = lazy(() => import('./pages/Login'));
 const Home = lazy(() => import('./pages/Home'));
@@ -71,7 +72,9 @@ const App = () => {
         return () => unsubscribe();
     }, [dispatch]);
 
-    return loading ? <Loading /> : (
+    return loading ? (
+        <Loading />
+    ) : (
         <Router>
             {/* Header */}
 
@@ -96,11 +99,23 @@ const App = () => {
                     {/* Not logged In Route */}
                     <Route
                         path='/login'
-                        element={<Login />}
+                        element={
+                            <ProtectedRoute
+                                isAuthenticated={user ? false : true}
+                            >
+                                <Login />
+                            </ProtectedRoute>
+                        }
                     />
 
                     {/* Loggedin User Routes */}
-                    <Route>
+                    <Route
+                        element={
+                            <ProtectedRoute
+                                isAuthenticated={user ? true : false}
+                            />
+                        }
+                    >
                         <Route
                             path='/shipping'
                             element={<Shipping />}
@@ -116,7 +131,15 @@ const App = () => {
                     </Route>
 
                     {/* Admin Routes */}
-                    <Route>
+                    <Route
+                        element={
+                            <ProtectedRoute
+                                isAuthenticated={user ? true : false}
+                                adminRoute={true}
+                                isAdmin={user?.role === 'admin' ? true : false}
+                            />
+                        }
+                    >
                         <Route
                             path='/admin/dashboard'
                             element={<Dashboard />}
