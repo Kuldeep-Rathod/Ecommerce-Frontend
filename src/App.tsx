@@ -10,6 +10,7 @@ import { userExist, userNotExist } from './redux/reducer/userReducer';
 import { getUser } from './redux/api/userAPI';
 import { UserReducerInitialState } from './types/reducer-types';
 import ProtectedRoute from './components/ProtectedRoute';
+import HomeSkeleton from './components/HomeSkeleton';
 
 const Login = lazy(() => import('./pages/Login'));
 const Home = lazy(() => import('./pages/Home'));
@@ -73,7 +74,7 @@ const App = () => {
     }, [dispatch]);
 
     return loading ? (
-        <Loading />
+        <HomeSkeleton />
     ) : (
         <Router>
             {/* Header */}

@@ -1,3 +1,5 @@
+import { server } from '../redux/store';
+
 interface ProductCardProps {
     productId: string;
     photo: string;
@@ -18,6 +20,7 @@ const ProductCard = ({
     const stockStatus =
         stock === 0 ? 'out-of-stock' : stock < 10 ? 'low-stock' : 'in-stock';
 
+
     return (
         <div className='productCard'>
             {stock < 10 && (
@@ -26,7 +29,7 @@ const ProductCard = ({
                 </span>
             )}
             <img
-                src={photo}
+                src={`${server}/${photo}`}
                 alt={name}
             />
             <p>{name}</p>

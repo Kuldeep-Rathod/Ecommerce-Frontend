@@ -1,0 +1,155 @@
+.productCard {
+    background-color: white;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.093);
+    transition: all 0.3s ease;
+    @include flex(column, unset, unset, 0.8rem);
+    width: 100%;
+    max-width: 280px;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        transform: translateY(-3px);
+    }
+
+    img {
+        width: 100%;
+        height: 180px;
+        object-fit: contain;
+        border-radius: 8px;
+        // background-color: rgb(247, 247, 247);
+    }
+
+    p {
+        color: rgba(0, 0, 0, 0.825);
+        font-size: 0.95rem;
+        margin: 0;
+
+        &:first-of-type {
+            font-weight: 500;
+            color: black;
+            font-size: 1rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    span {
+        font-weight: 600;
+        color: rgba(0, 115, 255);
+        font-size: 1.1rem;
+    }
+
+    button {
+        background-color: rgba(0, 115, 255);
+        color: white;
+        border: none;
+        padding: 0.6rem 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        @include flex(row, center, center, 0.5rem);
+        margin-top: 0.5rem;
+
+        &:hover {
+            background-color: rgba(0, 95, 220);
+        }
+
+        &:disabled {
+            background-color: rgba(0, 115, 255, 0.5);
+            cursor: not-allowed;
+        }
+    }
+
+    .stock-indicator {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background-color: white;
+        padding: 0.3rem 0.6rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+
+        &.low-stock {
+            color: red;
+        }
+        &.in-stock {
+            color: rgb(0, 195, 0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        max-width: 100%;
+
+        img {
+            height: 150px;
+        }
+    }
+}
+
+.productCardSkeleton {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.093);
+    width: 100%;
+    max-width: 260px;
+    @include flex(column, unset, unset, 0.8rem);
+
+    .image-placeholder {
+        width: 100%;
+        height: 180px;
+        background-color: rgb(243, 243, 243);
+        border-radius: 8px;
+        animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .text-placeholder {
+        height: 16px;
+        width: 80%;
+        background-color: rgb(243, 243, 243);
+        border-radius: 4px;
+        animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .price-placeholder {
+        height: 20px;
+        width: 40%;
+        background-color: rgb(243, 243, 243);
+        border-radius: 4px;
+        animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .button-placeholder {
+        height: 36px;
+        width: 100%;
+        background-color: rgb(243, 243, 243);
+        border-radius: 8px;
+        margin-top: 0.5rem;
+        animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    @media (max-width: 768px) {
+        max-width: 100%;
+
+        .image-placeholder {
+            height: 150px;
+        }
+    }
+}
