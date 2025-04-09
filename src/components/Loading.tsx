@@ -7,6 +7,7 @@ const Loading = () => {
                 <div></div>
                 <div></div>
             </div>
+            <div className="txt">Loading</div>
         </section>
     );
 };
