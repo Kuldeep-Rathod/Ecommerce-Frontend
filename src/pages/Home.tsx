@@ -22,7 +22,7 @@ const Home = () => {
                     productId="1"
                     name="Macbook"
                     price={232223}
-                    stock={213}
+                    stock={14}
                     handler={() => {
                         addToCartHandler();
                     }}

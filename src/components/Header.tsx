@@ -9,6 +9,9 @@ import {
 } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { User } from '../types/types';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase';
+import toast from 'react-hot-toast';
 
 interface PropsType {
     user: User | null;
@@ -33,6 +36,16 @@ const Header = ({ user }: PropsType) => {
         if (searchQuery.trim()) {
             navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
             setIsMenuOpen(false);
+        }
+    };
+
+    const logoutHandler = async () => {
+        try {
+            await signOut(auth);
+            toast.success('Sign out successfully');
+        } catch (error) {
+            console.log('Failed to sign out', error);
+            toast.error('Failed to sign out');
         }
     };
 
@@ -116,9 +129,12 @@ const Header = ({ user }: PropsType) => {
                                     <Link to='/orders'>My Orders</Link>
                                     <Link to='/wishlist'>Wishlist</Link>
                                     {user.role === 'admin' && (
-                                        <Link to='/admin'>Dashboard</Link>
+                                        <Link to='/admin/dashboard'>Dashboard</Link>
                                     )}
-                                    <button className='logout-btn'>
+                                    <button
+                                        className='logout-btn'
+                                        onClick={logoutHandler}
+                                    >
                                         Sign Out
                                     </button>
                                 </div>

@@ -7,16 +7,38 @@ interface ProductCardProps {
     handler: () => void;
 }
 
-const ProductCard = ({productId, photo, name, price, stock, handler }: ProductCardProps) => {
+const ProductCard = ({
+    productId,
+    photo,
+    name,
+    price,
+    stock,
+    handler,
+}: ProductCardProps) => {
+    const stockStatus =
+        stock === 0 ? 'out-of-stock' : stock < 10 ? 'low-stock' : 'in-stock';
+
     return (
-        <div className="productCard">
-            <img src={photo} alt={name} />
+        <div className='productCard'>
+            {stock < 10 && (
+                <span className={`stock-indicator ${stockStatus}`}>
+                    {stock === 0 ? 'Sold Out' : `Only ${stock} left`}
+                </span>
+            )}
+            <img
+                src={photo}
+                alt={name}
+            />
             <p>{name}</p>
-            <span>${price}</span    >
-            <p>Stock: {stock}</p>
-            <button onClick={handler}>Add to cart</button>
+            <span>${price.toFixed(2)}</span>
+            <button
+                onClick={handler}
+                disabled={stock === 0}
+            >
+                {stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+            </button>
         </div>
-    )
+    );
 };
 
 export default ProductCard;
