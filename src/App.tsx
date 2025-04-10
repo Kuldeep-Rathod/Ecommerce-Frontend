@@ -10,7 +10,6 @@ import { userExist, userNotExist } from './redux/reducer/userReducer';
 import { getUser } from './redux/api/userAPI';
 import { UserReducerInitialState } from './types/reducer-types';
 import ProtectedRoute from './components/ProtectedRoute';
-import HomeSkeleton from './components/HomeSkeleton';
 
 const Login = lazy(() => import('./pages/Login'));
 const Home = lazy(() => import('./pages/Home'));
@@ -66,6 +65,7 @@ const App = () => {
                 console.error('Error during auth state change:', error);
                 // Optional: dispatch an error action if your Redux store handles it
                 // dispatch(userError(error));
+                dispatch(userNotExist());
             }
         });
 
@@ -74,7 +74,7 @@ const App = () => {
     }, [dispatch]);
 
     return loading ? (
-        <HomeSkeleton />
+        <Loading />
     ) : (
         <Router>
             {/* Header */}
@@ -187,11 +187,11 @@ const App = () => {
 
                         {/* Management */}
                         <Route
-                            path='/admin/products/new'
+                            path='/admin/product/new'
                             element={<NewProduct />}
                         />
                         <Route
-                            path='/admin/products/:id'
+                            path='/admin/product/:id'
                             element={<ProductManagement />}
                         />
                         <Route
