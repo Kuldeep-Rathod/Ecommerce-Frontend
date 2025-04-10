@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import ProductCard from '../components/ProductCard';
-import { useCategoriesQuery } from '../redux/api/productAPI';
+import {
+    useCategoriesQuery,
+    useSearchProductsQuery,
+} from '../redux/api/productAPI';
 import { CustomError } from '../types/api-types';
 import toast from 'react-hot-toast';
+import ProductCardSkeleton from '../components/productSceleton';
 
 const Search = () => {
     const {
@@ -18,6 +22,19 @@ const Search = () => {
     const [category, setCategory] = useState('');
     const [page, setPage] = useState(1);
 
+    const {
+        data: searchedData,
+        isLoading: productLoading,
+        isError: productIsError,
+        error: productError,
+    } = useSearchProductsQuery({
+        category,
+        page,
+        search,
+        sort,
+        price: maxPrice,
+    });
+
     const addToCartHandler = () => {
         alert('add to cart');
     };
@@ -27,6 +44,10 @@ const Search = () => {
 
     if (isError) {
         toast.error((error as CustomError).data.message);
+    }
+
+    if (productIsError) {
+        toast.error((productError as CustomError).data.message);
     }
 
     return (
@@ -85,36 +106,49 @@ const Search = () => {
                     onChange={(e) => setSearch(e.target.value)}
                 />
 
-                <div className='searchProductList'>
-                    <ProductCard
-                        productId='1'
-                        name='Macbook'
-                        price={232223}
-                        stock={213}
-                        handler={() => {
-                            addToCartHandler();
-                        }}
-                        photo='https://m.media-amazon.com/images/I/514T0SvwkHL._SL1500_.jpg'
-                    />
-                </div>
+                {productLoading ? (
+                    <div className='searchProductList'>
+                        <ProductCardSkeleton />
+                        <ProductCardSkeleton />
+                        <ProductCardSkeleton />
+                    </div>
+                ) : (
+                    <div className='searchProductList'>
+                        {searchedData?.products.map((product) => (
+                            <ProductCard
+                                key={product._id}
+                                productId={product._id}
+                                name={product.name}
+                                price={product.price}
+                                stock={product.stock}
+                                handler={() => {
+                                    addToCartHandler();
+                                }}
+                                photo={product.photo}
+                            />
+                        ))}
+                    </div>
+                )}
 
-                <article>
-                    <button
-                        disabled={!isPrevPage}
-                        onClick={() => setPage((prev) => prev - 1)}
-                    >
-                        Prev
-                    </button>
-                    <span>
-                        {page} of {10}
-                    </span>
-                    <button
-                        disabled={!isNextPage}
-                        onClick={() => setPage((prev) => prev + 1)}
-                    >
-                        Next
-                    </button>
-                </article>
+                {searchedData && searchedData.totalPage > 1 && (
+                    <article>
+                        <button
+                            disabled={!isPrevPage}
+                            onClick={() => setPage((prev) => prev - 1)}
+                        >
+                            Prev
+                        </button>
+                        <span>
+                            {page} of {searchedData.totalPage}
+                        </span>
+                        <button
+                            disabled={!isNextPage}
+                            onClick={() => setPage((prev) => prev + 1)}
+                        >
+                            Next
+                        </button>
+                    </article>
+                )}
             </main>
         </div>
     );

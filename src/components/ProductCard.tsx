@@ -20,7 +20,6 @@ const ProductCard = ({
     const stockStatus =
         stock === 0 ? 'out-of-stock' : stock < 10 ? 'low-stock' : 'in-stock';
 
-
     return (
         <div className='productCard'>
             {stock < 10 && (

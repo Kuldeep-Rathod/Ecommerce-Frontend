@@ -49,49 +49,6 @@
             flex-wrap: wrap;
             height: calc(100% - 10rem);
             overflow-y: auto;
-
-            .productCard {
-                width: 18.75rem;
-                margin: 0 2rem 2rem 0;
-                height: 25rem;
-                padding: 2rem;
-                flex: none;
-                @include flex(column, flex-start, center, 4px);
-                position: relative;
-                background-color: white;
-                border: 1px solid rgba(0, 0, 0, 0.1);
-                border-radius: 10px;
-        
-                &:hover {
-                    border: 1px solid rgba(0, 104, 136, 0.5);
-                }
-        
-                img {
-                    @include square(calc(18.75rem - 3rem));
-                    object-fit: cover;
-                    margin: 1rem;
-                }
-        
-                span {
-                    font-weight: 700;
-                    font-size: 1.1rem;
-                }
-        
-                > button {
-                    background-color: $color3;
-                    color: white;
-                    padding: 10px 20px;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    transition: background-color 0.3s ease, transform 0.2s ease;
-        
-                    &:hover {
-                        opacity: 0.8;
-                    }
-                }
-            }
         }
         // $p: 0.5rem 1rem, $bg, $color
         article {
