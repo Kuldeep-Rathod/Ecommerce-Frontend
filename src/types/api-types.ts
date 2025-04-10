@@ -22,3 +22,8 @@ export type AllProductResponse = {
     success: boolean;
     products: Product[];
 };
+
+export type CategoriesResponse = {
+    success: boolean;
+    categories: string[];
+};

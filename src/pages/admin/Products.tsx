@@ -53,7 +53,9 @@ const Products = () => {
 
     const [rows, setRows] = useState<DataType[]>([]);
 
-    if (isError) toast.error((error as CustomError).data.message);
+    if (isError) {
+        toast.error((error as CustomError).data.message);
+    }
 
     useEffect(() => {
         if (data) {
