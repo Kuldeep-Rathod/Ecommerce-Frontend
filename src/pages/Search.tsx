@@ -39,8 +39,8 @@ const Search = () => {
         alert('add to cart');
     };
 
-    const isNextPage = true;
-    const isPrevPage = true;
+    const isPrevPage = page > 1;
+    const isNextPage = page < (searchedData?.totalPage || 1);
 
     if (isError) {
         toast.error((error as CustomError).data.message);
@@ -130,20 +130,26 @@ const Search = () => {
                     </div>
                 )}
 
-                {searchedData && searchedData.totalPage > 1 && (
+                {searchedData && searchedData?.totalPage > 1 && (
                     <article>
                         <button
                             disabled={!isPrevPage}
-                            onClick={() => setPage((prev) => prev - 1)}
+                            onClick={() => {
+                                if (isPrevPage) setPage((prev) => prev - 1);
+                            }}
                         >
                             Prev
                         </button>
+
                         <span>
                             {page} of {searchedData.totalPage}
                         </span>
+
                         <button
                             disabled={!isNextPage}
-                            onClick={() => setPage((prev) => prev + 1)}
+                            onClick={() => {
+                                if (isNextPage) setPage((prev) => prev + 1);
+                            }}
                         >
                             Next
                         </button>
