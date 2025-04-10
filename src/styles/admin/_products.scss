@@ -1,3 +1,7 @@
+@use '../variables' as *;
+@use './mixin' as mixin;
+@use 'sass:color';
+
 .productPage {
     overflow-y: auto;
     &::-webkit-scrollbar {
@@ -10,7 +14,7 @@
         margin: 1rem;
         border-radius: 10px;
         overflow: auto;
-        // @include square(100%);
+        // @include mixin.square(100%);
         width: 95%;
         &::-webkit-scrollbar {
             display: none;
@@ -21,8 +25,8 @@
         position: fixed;
         right: 5rem;
         top: 3rem;
-        @include square(2.5rem);
-        @include flex(row, center, center, 0);
+        @include mixin.square(2.5rem);
+        @include mixin.flex(row, center, center, 0);
         border-radius: 50%;
         background-color: rgb(201, 9, 9);
         color: white;
@@ -35,7 +39,7 @@
 //---------------------------------Management-----------------------------------
 
 .productManagementContainer {
-    @include flex(row, center, unset);
+    @include mixin.flex(row, center, unset);
     padding: 3rem;
     // overflow-y: auto;
     &::-webkit-scrollbar {
@@ -50,7 +54,7 @@
         box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.216);
         background-color: white;
         padding: 2rem;
-        @include flex(column, unset, unset, 1rem);
+        @include mixin.flex(column, unset, unset, 1rem);
         position: relative;
         border-radius: 5px;
         &::-webkit-scrollbar {
@@ -58,12 +62,12 @@
         }
 
         > h2 {
-            @include heading(2px);
+            @include mixin.heading(2px);
             text-align: center;
         }
 
         > img {
-            // @include square(100%);
+            // @include mixin.square(100%);
             margin: auto;
             width: 42vh;
             object-fit: cover;
@@ -105,14 +109,14 @@
         }
 
         > form {
-            @include flex(column, unset, center, 1.90rem);
+            @include mixin.flex(column, unset, center, 1.90rem);
             > h2 {
                 text-transform: uppercase;
                 letter-spacing: 2px;
             }
 
             > img {
-                // @include square(5rem);
+                // @include mixin.square(5rem);
                 height: 5rem;
                 object-fit: cover;
                 border-radius: 5px;
@@ -128,7 +132,7 @@
                 }
 
                 > input {
-                    @include inputStyle(
+                    @include mixin.inputStyle(
                         100%,
                         1rem,
                         unset,
@@ -153,7 +157,7 @@
     .shippingInfoCard {
         > h1 {
             text-align: center;
-            @include heading(2px);
+            @include mixin.heading(2px);
         }
         > h5 {
             margin: 1.75rem 0 0 0.5rem;
@@ -181,10 +185,10 @@
 }
 
 .transactionProductCard {
-    @include flex(row, unset, center, 1rem);
+    @include mixin.flex(row, unset, center, 1rem);
 
     > img {
-        @include square(4rem);
+        @include mixin.square(4rem);
         object-fit: cover;
         border-radius: 5px;
     }

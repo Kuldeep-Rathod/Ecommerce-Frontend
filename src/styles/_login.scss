@@ -1,6 +1,11 @@
+@use 'variables' as *;
+@use './admin/mixin' as mixin;
+@use 'sass:color';
+
+
 .login{
     height: 90vh;
-    @include flex(column);
+    @include mixin.flex(column);
     background-color: $bg;
 
     > main {
@@ -11,15 +16,15 @@
         background-color: white;
         border-radius: 10px;
         border: 1px solid rgba(162, 162, 162, 0.3);
-        @include flex(column, center, stretch);
+        @include mixin.flex(column, center, stretch);
 
         >div{
             width: 100%;
-            @include flex(column, flex-start, stretch, 0.2rem);
+            @include mixin.flex(column, flex-start, stretch, 0.2rem);
 
             >input,
             >select{
-                @include inputStyle;
+                @include mixin.inputStyle;
                 border: 1px solid rgba(162, 162, 162, 0.53);
                 border-radius: 5px;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -35,8 +40,8 @@
                 width: 70%;
                 margin: auto;
                 height: 3rem;
-                @include btn(unset, rgb(62, 125, 242), white);
-                @include flex;
+                @include mixin.btn(unset, rgb(62, 125, 242), white);
+                @include mixin.flex;
                 border: 1px solid rgb(62, 125, 242);
                 border-radius: 5px;
                 font-size: 1.05rem;

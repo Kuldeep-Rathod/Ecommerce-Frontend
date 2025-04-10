@@ -1,3 +1,8 @@
+@use 'variables' as *;
+@use './admin/mixin' as mixin;
+@use 'sass:color';
+
+
 .home {
     padding: 0;
     display: flex;
@@ -49,7 +54,8 @@
                 transition: all 0.3s ease;
 
                 &:hover {
-                    background-color: darken($primary, 10%);
+                    background-color: color.scale($primary, $lightness: -10%);
+
                     transform: translateY(-2px);
                     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
                 }
@@ -70,7 +76,8 @@
         }
 
         .section-title {
-            @include heading(2px);
+            @include mixin.heading(2px);
+
             font-size: 2rem;
             margin: 0;
         }
@@ -84,7 +91,8 @@
             transition: all 0.3s ease;
 
             &:hover {
-                color: darken($primary, 15%);
+                color: color.scale($primary, $lightness: -15%);
+
                 transform: translateX(5px);
             }
         }

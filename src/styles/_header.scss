@@ -1,3 +1,8 @@
+@use 'variables' as *;
+@use './admin/mixin' as mixin;
+@use 'sass:color';
+
+
 .header {
     background-color: white;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.093);
@@ -15,7 +20,7 @@
         margin: 0 auto;
         padding: 0 2rem;
         height: 70px;
-        @include flex(row, space-between, center);
+        @include mixin.flex(row, space-between, center);
     }
 
     &-logo {
@@ -23,7 +28,7 @@
         font-weight: 500;
         color: black;
         text-decoration: none;
-        @include flex(row, unset, center, 0.5rem);
+        @include mixin.flex(row, unset, center, 0.5rem);
 
         span {
             color: rgba(0, 115, 255);
@@ -32,7 +37,7 @@
 
     .mobile-menu-btn {
         display: none;
-        @include square(2.5rem);
+        @include mixin.square(2.5rem);
         border: none;
         outline: none;
         cursor: pointer;
@@ -42,19 +47,19 @@
         border-radius: 50%;
 
         @media (max-width: 768px) {
-            @include flex;
+            @include mixin.flex;
         }
     }
 
     .nav-links {
-        @include flex(row, unset, center, 1.5rem);
+        @include mixin.flex(row, unset, center, 1.5rem);
 
         .mobile-search {
             display: none;
         }
 
         .main-links {
-            @include flex(row, unset, center, 1.5rem);
+            @include mixin.flex(row, unset, center, 1.5rem);
 
             a {
                 color: rgba(0, 0, 0, 0.825);
@@ -86,7 +91,7 @@
         }
 
         .user-controls {
-            @include flex(row, unset, center, 1rem);
+            @include mixin.flex(row, unset, center, 1rem);
             margin-left: 1rem;
 
             .icon-link {
@@ -106,8 +111,8 @@
                     background-color: red;
                     color: white;
                     border-radius: 50%;
-                    @include square(20px);
-                    @include flex;
+                    @include mixin.square(20px);
+                    @include mixin.flex;
                     font-size: 0.7rem;
                     font-weight: bold;
                 }
@@ -117,7 +122,7 @@
                 position: relative;
 
                 .user-btn {
-                    @include flex(row, unset, center, 0.5rem);
+                    @include mixin.flex(row, unset, center, 0.5rem);
                     background: none;
                     border: none;
                     color: rgba(0, 0, 0, 0.825);
@@ -186,7 +191,7 @@
             }
 
             .auth-link {
-                @include flex(row, unset, center, 0.5rem);
+                @include mixin.flex(row, unset, center, 0.5rem);
                 color: rgba(0, 0, 0, 0.825);
                 text-decoration: none;
                 font-weight: 400;
@@ -261,7 +266,7 @@
             left: 0;
             width: 100%;
             background: white;
-            @include flex(column, unset, flex-start, 0);
+            @include mixin.flex(column, unset, flex-start, 0);
             padding: 1rem;
             box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.093);
             transform: translateY(-150%);
@@ -304,7 +309,7 @@
             }
 
             .main-links {
-                @include flex(column, unset, flex-start, 0.5rem);
+                @include mixin.flex(column, unset, flex-start, 0.5rem);
                 width: 100%;
                 margin-bottom: 1rem;
 

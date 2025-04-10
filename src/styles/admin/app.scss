@@ -36,7 +36,7 @@ a {
 }
 
 .adminContainer {
-    @include grid(1fr 4fr, 2rem);
+    @include mixin.grid(1fr 4fr, 2rem);
     height: 100vh;
     background-color: rgb(247, 247, 247);
     > aside {
@@ -57,7 +57,7 @@ a {
                 display: grid;
                 place-items: center;
                 padding-right: 3px;
-                @include square(2.5rem);
+                @include mixin.square(2.5rem);
                 border: none;
                 outline: none;
                 cursor: pointer;
@@ -72,19 +72,19 @@ a {
         > div {
             margin: 1.5rem 1rem;
             > h5 {
-                @include heading(2px);
+                @include mixin.heading(2px);
                 opacity: 0.8;
                 margin: 1rem 0;
             }
             > ul {
-                @include flex(column, unset, unset, 0.5rem);
+                @include mixin.flex(column, unset, unset, 0.5rem);
                 list-style: none;
                 > li {
                     padding: 0.5rem 1rem;
                     border-radius: 10px;
                     a {
                         color: rgba(0, 0, 0, 0.825);
-                        @include flex(row, unset);
+                        @include mixin.flex(row, unset);
                     }
                 }
             }
@@ -159,7 +159,7 @@ a {
 }
 
 .tablePagination {
-    @include flex;
+    @include mixin.flex;
     padding: 2rem;
     > button {
         padding: 0.5rem 1rem;
@@ -179,7 +179,7 @@ a {
 #hamburger {
     display: grid;
     place-items: center;
-    @include square(2.5rem);
+    @include mixin.square(2.5rem);
     border: none;
     outline: none;
     cursor: pointer;
@@ -199,7 +199,7 @@ a {
 
     height: 100vh;
     width: 100%;
-    @include flex;
+    @include mixin.flex;
 
     .loader,
 .loader div {

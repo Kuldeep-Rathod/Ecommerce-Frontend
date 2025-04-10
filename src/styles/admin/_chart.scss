@@ -1,3 +1,7 @@
+@use '../variables' as *;
+@use './mixin' as mixin;
+@use 'sass:color';
+
 .chartContainer {
     background-color: white;
     margin: 0 1rem;
@@ -19,7 +23,7 @@
       > h2 {
         margin: 2rem 0;
         text-align: center;
-        @include heading(2px);
+        @include mixin.heading(2px);
       }
     }
   }
@@ -48,7 +52,7 @@
       > h2 {
         margin: 2rem 0;
         text-align: center;
-        @include heading(2px);
+        @include mixin.heading(2px);
       }
     }
   }

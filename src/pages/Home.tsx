@@ -20,7 +20,10 @@ const Home = () => {
                 <div className='hero-content'>
                     <h2>Discover Amazing Products</h2>
                     <p>Shop the latest collection with exclusive deals</p>
-                    <Link to='/search' className='shop-now-btn'>
+                    <Link
+                        to='/search'
+                        className='shop-now-btn'
+                    >
                         Shop Now
                     </Link>
                 </div>
@@ -30,7 +33,10 @@ const Home = () => {
             <div className='featured-container'>
                 <div className='section-header'>
                     <h1 className='section-title'>Latest Products</h1>
-                    <Link to='/search' className='findmore'>
+                    <Link
+                        to='/search'
+                        className='findmore'
+                    >
                         View All →
                     </Link>
                 </div>

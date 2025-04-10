@@ -1,13 +1,18 @@
+@use 'variables' as *;
+@use './admin/mixin' as mixin;
+@use 'sass:color';
+
+
 .shipping {
-    @include flex;
+    @include mixin.flex;
     background-color: rgb(247, 247, 247);
 
 
     .backBtn {
-      @include square(2.5rem);
+      @include mixin.square(2.5rem);
       background-color: $black;
       color: $white;
-      @include flex;
+      @include mixin.flex;
       position: fixed;
       top: 2rem;
       left: 2rem;
@@ -15,7 +20,7 @@
       border: none;
       outline: none;
       cursor: pointer;
-      @include baseShadow;
+      @include mixin.baseShadow;
   
       svg {
         transition: all 0.3s;
@@ -29,14 +34,14 @@
     > form {
       max-width: 450px;
       width: 100%;
-      @include flex(column, center, stretch, 2rem);
+      @include mixin.flex(column, center, stretch, 2rem);
       padding: 2rem;
       margin: 2rem auto;
       border-radius: 10px;
       background-color: $white;
   
       > h1 {
-        @include heading(2px);
+        @include mixin.heading(2px);
         margin: 0 2rem;
         text-align: center;
       }
@@ -50,7 +55,7 @@
       }
   
       > button {
-        @include btn(1rem, $primary, $white);
+        @include mixin.btn(1rem, $primary, $white);
         border-radius: 5px;
         font-size: 1.05rem;
         text-transform: uppercase;

@@ -1,10 +1,15 @@
+@use 'variables' as *;
+@use './admin/mixin' as mixin;
+@use 'sass:color';
+
+
 .productCard {
     background-color: white;
     border-radius: 10px;
     padding: 1rem;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.093);
     transition: all 0.3s ease;
-    @include flex(column, unset, unset, 0.8rem);
+    @include mixin.flex(column, unset, unset, 0.8rem);
     width: 100%;
     max-width: 280px;
     position: relative;
@@ -53,7 +58,7 @@
         font-size: 0.9rem;
         cursor: pointer;
         transition: all 0.3s ease;
-        @include flex(row, center, center, 0.5rem);
+        @include mixin.flex(row, center, center, 0.5rem);
         margin-top: 0.5rem;
 
         &:hover {
@@ -100,7 +105,7 @@
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.093);
     width: 100%;
     max-width: 260px;
-    @include flex(column, unset, unset, 0.8rem);
+    @include mixin.flex(column, unset, unset, 0.8rem);
 
     .image-placeholder {
         width: 100%;

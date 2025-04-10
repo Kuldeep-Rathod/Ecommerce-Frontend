@@ -90,7 +90,7 @@ const Header = ({ user }: PropsType) => {
                             Home
                         </Link>
                         <Link
-                            to='/products'
+                            to='/search'
                             onClick={() => setIsMenuOpen(false)}
                         >
                             Shop
