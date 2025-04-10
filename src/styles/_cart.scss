@@ -33,10 +33,10 @@
             font-size: 1.1rem;
         }
         > a {
-            background-color: $color3;
+            background-color: $primary;
             padding: 1rem;
             text-decoration: none;
-            color: $color1;
+            color: $white;
             @include flex;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -72,9 +72,9 @@
       @include flex(column, center, flex-start, 0.25rem);
       a {
         font-size: 1.2rem;
-        color: $color2;
+        color: $black;
         &:hover {
-          color: $color3;
+          color: $primary;
         }
       }
   
@@ -94,8 +94,8 @@
         cursor: pointer;
         font-size: 1.2rem;
         &:hover {
-          background-color: $color2;
-          color: $color1;
+          background-color: $black;
+          color: $white;
         }
       }
     }

@@ -55,12 +55,12 @@
             @include flex;
             > button {
                 @include flex;
-                @include btn(0.5rem 1rem, $color3, $color1);
+                @include btn(0.5rem 1rem, $primary, $white);
                 border-radius: 10px;
                 &:disabled {
                     cursor: not-allowed;
                     opacity: 0.5;
-                    color: $color2;
+                    color: $black;
                 }
             }
         }

@@ -5,8 +5,8 @@
 
     .backBtn {
       @include square(2.5rem);
-      background-color: $color2;
-      color: $color1;
+      background-color: $black;
+      color: $white;
       @include flex;
       position: fixed;
       top: 2rem;
@@ -33,7 +33,7 @@
       padding: 2rem;
       margin: 2rem auto;
       border-radius: 10px;
-      background-color: $color1;
+      background-color: $white;
   
       > h1 {
         @include heading(2px);
@@ -50,7 +50,7 @@
       }
   
       > button {
-        @include btn(1rem, $color3, $color1);
+        @include btn(1rem, $primary, $white);
         border-radius: 5px;
         font-size: 1.05rem;
         text-transform: uppercase;
