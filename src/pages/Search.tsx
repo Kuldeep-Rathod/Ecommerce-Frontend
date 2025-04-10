@@ -51,39 +51,43 @@ const Search = () => {
     }
 
     return (
-        <div className='productSearchPage'>
-            <aside>
-                <h2>Filters</h2>
-                <div>
-                    <h4>Sort</h4>
+        <div className='search-page'>
+            <aside className='filters-sidebar'>
+                <h2 className='filters-title'>Filters</h2>
+                
+                <div className='filter-group'>
+                    <label>Sort By</label>
                     <select
                         value={sort}
                         onChange={(e) => setSort(e.target.value)}
+                        className='filter-select'
                     >
-                        <option value=''>None</option>
+                        <option value=''>Default</option>
                         <option value='asc'>Price (Low to High)</option>
                         <option value='dsc'>Price (High to Low)</option>
                     </select>
                 </div>
 
-                <div>
-                    <h4>Max Price: {maxPrice || ''}</h4>
+                <div className='filter-group'>
+                    <label>Max Price: ₹{maxPrice || ''}</label>
                     <input
                         type='range'
                         min={100}
                         max={100000}
                         value={maxPrice}
                         onChange={(e) => setMaxPrice(Number(e.target.value))}
+                        className='price-slider'
                     />
                 </div>
 
-                <div>
-                    <h4>Category</h4>
+                <div className='filter-group'>
+                    <label>Category</label>
                     <select
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
+                        className='filter-select'
                     >
-                        <option value=''>ALL</option>
+                        <option value=''>All Categories</option>
                         {LoadingCategories === false
                             ? CategoriesResponse?.categories.map((i) => (
                                   <option
@@ -97,63 +101,59 @@ const Search = () => {
                     </select>
                 </div>
             </aside>
-            <main>
-                <h1>Products</h1>
-                <input
-                    type='text'
-                    placeholder='Search by name...'
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
 
-                {productLoading ? (
-                    <div className='searchProductList'>
-                        <ProductCardSkeleton />
-                        <ProductCardSkeleton />
-                        <ProductCardSkeleton />
-                    </div>
-                ) : (
-                    <div className='searchProductList'>
-                        {searchedData?.products.map((product) => (
+            <main className='products-main'>
+                <div className='search-header'>
+                    <h1 className='page-title'>Products</h1>
+                    <input
+                        type='text'
+                        placeholder='Search by name...'
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className='search-input'
+                    />
+                </div>
+
+                <div className='product-grid'>
+                    {productLoading ? (
+                        [...Array(6)].map((_, i) => <ProductCardSkeleton key={i} />)
+                    ) : (
+                        searchedData?.products.map((product) => (
                             <ProductCard
                                 key={product._id}
                                 productId={product._id}
                                 name={product.name}
                                 price={product.price}
                                 stock={product.stock}
-                                handler={() => {
-                                    addToCartHandler();
-                                }}
+                                handler={addToCartHandler}
                                 photo={product.photo}
                             />
-                        ))}
-                    </div>
-                )}
+                        ))
+                    )}
+                </div>
 
                 {searchedData && searchedData?.totalPage > 1 && (
-                    <article>
+                    <div className='pagination'>
                         <button
+                            className={`pagination-btn ${!isPrevPage ? 'disabled' : ''}`}
                             disabled={!isPrevPage}
-                            onClick={() => {
-                                if (isPrevPage) setPage((prev) => prev - 1);
-                            }}
+                            onClick={() => isPrevPage && setPage((prev) => prev - 1)}
                         >
-                            Prev
+                            Previous
                         </button>
-
-                        <span>
-                            {page} of {searchedData.totalPage}
+                        
+                        <span className='page-indicator'>
+                            Page {page} of {searchedData.totalPage}
                         </span>
-
+                        
                         <button
+                            className={`pagination-btn ${!isNextPage ? 'disabled' : ''}`}
                             disabled={!isNextPage}
-                            onClick={() => {
-                                if (isNextPage) setPage((prev) => prev + 1);
-                            }}
+                            onClick={() => isNextPage && setPage((prev) => prev + 1)}
                         >
                             Next
                         </button>
-                    </article>
+                    </div>
                 )}
             </main>
         </div>

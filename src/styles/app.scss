@@ -20,6 +20,7 @@ $gray-300: rgb(220, 220, 220);
 $gray-400: rgb(180, 180, 180);
 $gray-500: rgb(120, 120, 120);
 $gray-600: rgb(80, 80, 80);
+$gray-700: rgb(40, 40, 40);
 
 // Primary Variants
 $primary-light: lighten($primary, 10%);
@@ -104,10 +105,10 @@ a {
 .adminContainer {
     @include grid(1fr 4fr, 2rem);
     height: 100vh;
-    background-color: rgb(247, 247, 247);
+    background-color: $bg;
     > aside {
         width: 100%;
-        background-color: white;
+        background-color: $white;
         padding: 1rem;
         z-index: 10;
         overflow-y: auto;
@@ -193,9 +194,8 @@ a {
             }
             a {
                 text-decoration: none;
-                background-color: rgba(0, 115, 255);
-                // color: rgba(44, 104, 255);
-                color: rgb(255, 255, 255);
+                background-color: $primary;
+                color: $white;
                 padding: 0.4rem 0.7rem;
                 border-radius: 10px;
             }
@@ -233,8 +233,8 @@ a {
         outline: none;
         border-radius: 10px;
         cursor: pointer;
-        background-color: rgba(0, 115, 255);
-        color: white;
+        background-color: $primary;
+        color: $white;
         &:disabled {
             background-color: rgba(0, 115, 255, 0.1);
             cursor: not-allowed;
