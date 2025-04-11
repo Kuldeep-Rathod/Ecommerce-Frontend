@@ -1,4 +1,5 @@
 import { server } from '../redux/store';
+import { CartItem } from '../types/types';
 
 interface ProductCardProps {
     productId: string;
@@ -6,10 +7,11 @@ interface ProductCardProps {
     name: string;
     price: number;
     stock: number;
-    handler: () => void;
+    handler: (cartItem: CartItem) => string | undefined;
 }
 
 const ProductCard = ({
+    productId,
     photo,
     name,
     price,
@@ -33,7 +35,16 @@ const ProductCard = ({
             <p>{name}</p>
             <span>${price.toFixed(2)}</span>
             <button
-                onClick={handler}
+                onClick={() =>
+                    handler({
+                        productId,
+                        photo,
+                        name,
+                        price,
+                        stock,
+                        quantity: 1,
+                    })
+                }
                 disabled={stock === 0}
             >
                 {stock === 0 ? 'Out of Stock' : 'Add to Cart'}

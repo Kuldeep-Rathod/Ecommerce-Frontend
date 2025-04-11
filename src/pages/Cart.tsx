@@ -1,29 +1,43 @@
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { VscError } from 'react-icons/vsc';
-import CartItem from '../components/CartItem';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-const cartItems = [
-    {
-        productId: '1',
-        photo: 'https://m.media-amazon.com/images/I/514T0SvwkHL._SL1500_.jpg',
-        name: 'Macbook',
-        price: 2000,
-        quantity: 2,
-        stock: 5,
-        // stock: 5,
-    },
-];
-
-const subtotal = 4000;
-const shippingCharges = 200;
-const tax = Math.round(subtotal * 0.18);
-const discount = 400;
-const total = subtotal + shippingCharges + tax - discount;
+import CartItemCard from '../components/CartItem';
+import {
+    addToCart,
+    calculatePrice,
+    removeCartItem,
+} from '../redux/reducer/cartReducer';
+import { CartReducerInitialState } from '../types/reducer-types';
+import { CartItem } from '../types/types';
 
 const Cart = () => {
+    const { cartItems, subTotal, tax, discount, total, shippingCharges } =
+        useSelector(
+            (state: { cartReducer: CartReducerInitialState }) =>
+                state.cartReducer
+        );
+
     const [couponCode, setCouponCode] = useState<string>('');
     const [isValidCouponCode, setIsValidCouponCode] = useState<boolean>(true);
+
+    const dispatch = useDispatch();
+
+    const incrementHandler = (cartItem: CartItem) => {
+        if (cartItem.quantity >= cartItem.stock)
+            return toast.error(`We have only ${cartItem.stock} in Stock!`);
+        dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity + 1 }));
+    };
+
+    const decrementHandler = (cartItem: CartItem) => {
+        if (cartItem.quantity <= 1) return;
+        dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity - 1 }));
+    };
+
+    const removeHandler = (productId: string) => {
+        dispatch(removeCartItem(productId));
+    };
 
     useEffect(() => {
         const timeOutId = setTimeout(() => {
@@ -37,12 +51,19 @@ const Cart = () => {
         };
     }, [couponCode]);
 
+    useEffect(() => {
+        dispatch(calculatePrice());
+    }, [cartItems, dispatch]);
+
     return (
         <div className='cart'>
             <main>
                 {cartItems.length > 0 ? (
                     cartItems.map((i, idx) => (
-                        <CartItem
+                        <CartItemCard
+                            incrementHandler={incrementHandler}
+                            decrementHandler={decrementHandler}
+                            removeHandler={removeHandler}
                             key={idx}
                             cartItem={i}
                         />
@@ -52,7 +73,7 @@ const Cart = () => {
                 )}
             </main>
             <aside>
-                <p>Subtotal: ₹{subtotal}</p>
+                <p>Subtotal: ₹{subTotal}</p>
                 <p>Shipping Charges: ₹{shippingCharges}</p>
                 <p>Tax: ₹{tax}</p>
                 <p>
