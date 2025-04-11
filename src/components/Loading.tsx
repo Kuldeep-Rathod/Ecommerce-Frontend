@@ -1,13 +1,13 @@
 const Loading = () => {
     return (
-        <section className="loaderSection">
-            <div className="loader">
+        <section className='loaderSection'>
+            <div className='loader'>
                 <div></div>
                 <div></div>
                 <div></div>
                 <div></div>
             </div>
-            <div className="txt">Loading</div>
+            <div className='txt'>Loading</div>
         </section>
     );
 };

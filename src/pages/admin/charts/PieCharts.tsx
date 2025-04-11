@@ -1,18 +1,17 @@
-
-import { categories } from "../../../assets/data.json";
-import AdminSidebar from "../../../components/admin/AdminSidebar";
-import { DoughnutChart, PieChart } from "../../../components/admin/Charts";
+import { categories } from '../../../assets/data.json';
+import AdminSidebar from '../../../components/admin/AdminSidebar';
+import { DoughnutChart, PieChart } from '../../../components/admin/Charts';
 
 const PieCharts = () => {
     return (
-        <div className="adminContainer">
+        <div className='adminContainer'>
             <AdminSidebar />
-            <main className="pieChartContainer">
+            <main className='pieChartContainer'>
                 <h1>Pie & Doughnut Charts</h1>
                 <section>
                     <div>
                         <PieChart
-                            labels={["Processing", "Shipped", "Delivered"]}
+                            labels={['Processing', 'Shipped', 'Delivered']}
                             data={[12, 9, 13]}
                             backgroundColor={[
                                 `hsl(110,80%, 80%)`,
@@ -43,15 +42,15 @@ const PieCharts = () => {
                 <section>
                     <div>
                         <DoughnutChart
-                            labels={["In Stock", "Out of Stock"]}
+                            labels={['In Stock', 'Out of Stock']}
                             data={[444, 192]}
                             backgroundColor={[
-                                "hsl(269, 80%, 50%)",
-                                "rgb(53,162,255)",
+                                'hsl(269, 80%, 50%)',
+                                'rgb(53,162,255)',
                             ]}
                             legends={false}
                             offset={[0, 70]}
-                            cutout={"60%"}
+                            cutout={'60%'}
                         />
                     </div>
                     <h2>Stock Availability</h2>
@@ -61,19 +60,19 @@ const PieCharts = () => {
                     <div>
                         <DoughnutChart
                             labels={[
-                                "Marketing Cost",
-                                "Discount",
-                                "Burnt",
-                                "Production Cost",
-                                "Net Margin",
+                                'Marketing Cost',
+                                'Discount',
+                                'Burnt',
+                                'Production Cost',
+                                'Net Margin',
                             ]}
                             data={[32, 18, 5, 20, 25]}
                             backgroundColor={[
-                                "hsl(110,80%,40%)",
-                                "hsl(19,80%,40%)",
-                                "hsl(69,80%,40%)",
-                                "hsl(300,80%,40%)",
-                                "rgb(53, 162, 255)",
+                                'hsl(110,80%,40%)',
+                                'hsl(19,80%,40%)',
+                                'hsl(69,80%,40%)',
+                                'hsl(300,80%,40%)',
+                                'rgb(53, 162, 255)',
                             ]}
                             legends={false}
                             offset={[20, 30, 20, 30, 80]}
@@ -86,9 +85,9 @@ const PieCharts = () => {
                     <div>
                         <PieChart
                             labels={[
-                                "Teenager(Below 20)",
-                                "Adult (20-40)",
-                                "Older (above 40)",
+                                'Teenager(Below 20)',
+                                'Adult (20-40)',
+                                'Older (above 40)',
                             ]}
                             data={[53, 210, 77]}
                             backgroundColor={[
@@ -105,11 +104,11 @@ const PieCharts = () => {
                 <section>
                     <div>
                         <DoughnutChart
-                            labels={["Admin", "Customers"]}
+                            labels={['Admin', 'Customers']}
                             data={[40, 509]}
                             backgroundColor={[
                                 `hsl(335, 100%, 38%)`,
-                                "hsl(44, 98%, 50%)",
+                                'hsl(44, 98%, 50%)',
                             ]}
                             offset={[0, 80]}
                         />

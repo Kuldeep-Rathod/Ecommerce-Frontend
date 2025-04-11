@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaUpload } from 'react-icons/fa';
 
 const NewProduct = () => {
-    const { user, loading } = useSelector(
+    const { user } = useSelector(
         (state: { userReducer: UserReducerInitialState }) => state.userReducer
     );
 

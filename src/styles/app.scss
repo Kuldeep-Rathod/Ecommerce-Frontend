@@ -10,7 +10,6 @@
 @use 'productCard';
 @use 'variables' as *;
 
-
 @use './admin/dashboard';
 @use './admin/products';
 @use './admin/customers';
@@ -26,9 +25,6 @@
         display: none;
     }
 }
-
-
-
 
 * {
     margin: 0;
@@ -56,8 +52,6 @@ a {
 .green {
     color: rgb(0, 195, 0);
 }
-
-
 
 .container {
     max-width: 1367px;

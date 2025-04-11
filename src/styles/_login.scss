@@ -2,8 +2,7 @@
 @use './admin/mixin' as mixin;
 @use 'sass:color';
 
-
-.login{
+.login {
     height: 90vh;
     @include mixin.flex(column);
     background-color: $bg;
@@ -18,25 +17,24 @@
         border: 1px solid rgba(162, 162, 162, 0.3);
         @include mixin.flex(column, center, stretch);
 
-        >div{
+        > div {
             width: 100%;
             @include mixin.flex(column, flex-start, stretch, 0.2rem);
 
-            >input,
-            >select{
+            > input,
+            > select {
                 @include mixin.inputStyle;
                 border: 1px solid rgba(162, 162, 162, 0.53);
                 border-radius: 5px;
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             }
 
-            >p{
+            > p {
                 text-align: center;
                 margin: 2rem;
-
             }
 
-            button{
+            button {
                 width: 70%;
                 margin: auto;
                 height: 3rem;
@@ -46,14 +44,14 @@
                 border-radius: 5px;
                 font-size: 1.05rem;
 
-                >svg{
+                > svg {
                     background-color: white;
                     width: 30%;
                     height: 100%;
                     border-radius: 5px 0 0 5px;
                 }
 
-                > span{
+                > span {
                     width: 100%;
                     text-align: center;
                 }

@@ -2,7 +2,6 @@
 @use './admin/mixin' as mixin;
 @use 'sass:color';
 
-
 .cart {
     padding: 2rem 4rem;
     @include mixin.flex(row, unset, unset, 4rem);

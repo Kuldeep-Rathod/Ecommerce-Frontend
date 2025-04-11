@@ -63,18 +63,17 @@
         }
     }
 
-    .dashboardAppContainer
-    
-    {
-      padding: 3rem;
-      > section {
-        .couponForm,
-        .stopwatch {
-            display: flex;
-            flex-direction: column;
+    .dashboardAppContainer {
+        padding: 3rem;
+        > section {
+            .couponForm,
+            .stopwatch {
+                display: flex;
+                flex-direction: column;
+            }
+            .stopwatch {
+                align-items: center;
+            }
         }
-        .stopwatch {
-            align-items: center;
-        }
-    }}
+    }
 }

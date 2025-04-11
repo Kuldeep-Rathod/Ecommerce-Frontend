@@ -56,11 +56,11 @@
                 filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.132));
 
                 &:first-of-type {
-                    background-image: url("/heads.png");
+                    background-image: url('/heads.png');
                 }
 
                 &:last-of-type {
-                    background-image: url("/tails.png");
+                    background-image: url('/tails.png');
                     transform: rotateY(180deg);
                 }
             }

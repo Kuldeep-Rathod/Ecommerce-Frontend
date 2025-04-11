@@ -13,23 +13,22 @@
     }
 
     > h1 {
-      margin: 0 0 5rem 2rem;
+        margin: 0 0 5rem 2rem;
     }
-    
+
     > section {
-      width: 80%;
-      margin: 4rem auto;
-  
-      > h2 {
-        margin: 2rem 0;
-        text-align: center;
-        @include mixin.heading(2px);
-      }
+        width: 80%;
+        margin: 4rem auto;
+
+        > h2 {
+            margin: 2rem 0;
+            text-align: center;
+            @include mixin.heading(2px);
+        }
     }
-  }
+}
 
-
-  .pieChartContainer {
+.pieChartContainer {
     background-color: white;
     margin: 0 1rem;
     padding: 4rem;
@@ -39,20 +38,20 @@
         display: none;
     }
     > h1 {
-      margin: 0 0 5rem 2rem;
+        margin: 0 0 5rem 2rem;
     }
     > section {
-      > div {
-        max-width: 20rem;
-        margin: auto;
-        margin-top: 6rem;
-        margin-bottom: -1rem;
-      }
-  
-      > h2 {
-        margin: 2rem 0;
-        text-align: center;
-        @include mixin.heading(2px);
-      }
+        > div {
+            max-width: 20rem;
+            margin: auto;
+            margin-top: 6rem;
+            margin-bottom: -1rem;
+        }
+
+        > h2 {
+            margin: 2rem 0;
+            text-align: center;
+            @include mixin.heading(2px);
+        }
     }
-  }
+}

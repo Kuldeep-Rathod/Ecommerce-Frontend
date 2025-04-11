@@ -1,5 +1,5 @@
-import { useState } from "react";
-import AdminSidebar from "../../../components/admin/AdminSidebar";
+import { useState } from 'react';
+import AdminSidebar from '../../../components/admin/AdminSidebar';
 
 const Toss = () => {
     const [angle, setAngle] = useState<number>(0);
@@ -13,13 +13,13 @@ const Toss = () => {
     };
 
     return (
-        <div className="adminContainer">
+        <div className='adminContainer'>
             <AdminSidebar />
-            <main className="dashboardAppContainer">
+            <main className='dashboardAppContainer'>
                 <h1>Toss</h1>
                 <section>
                     <article
-                        className="tossContainer"
+                        className='tossContainer'
                         onClick={flipCoin}
                         style={{ transform: `rotateY(${angle}deg)` }}
                     >

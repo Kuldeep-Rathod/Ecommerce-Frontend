@@ -2,67 +2,65 @@
 @use './admin/mixin' as mixin;
 @use 'sass:color';
 
-
 .shipping {
     @include mixin.flex;
     background-color: rgb(247, 247, 247);
 
-
     .backBtn {
-      @include mixin.square(2.5rem);
-      background-color: $black;
-      color: $white;
-      @include mixin.flex;
-      position: fixed;
-      top: 2rem;
-      left: 2rem;
-      border-radius: 100%;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      @include mixin.baseShadow;
-  
-      svg {
-        transition: all 0.3s;
-      }
-  
-      &:hover svg {
-        translate: -0.25rem;
-      }
-    }
-  
-    > form {
-      max-width: 450px;
-      width: 100%;
-      @include mixin.flex(column, center, stretch, 2rem);
-      padding: 2rem;
-      margin: 2rem auto;
-      border-radius: 10px;
-      background-color: $white;
-  
-      > h1 {
-        @include mixin.heading(2px);
-        margin: 0 2rem;
-        text-align: center;
-      }
-      > input,
-      > select {
-        border: 1px solid rgba(31, 31, 31, 0.351);
-        padding: 1rem;
+        @include mixin.square(2.5rem);
+        background-color: $black;
+        color: $white;
+        @include mixin.flex;
+        position: fixed;
+        top: 2rem;
+        left: 2rem;
+        border-radius: 100%;
+        border: none;
         outline: none;
-        font-size: 1.05rem;
-        border-radius: 5px;
-      }
-  
-      > button {
-        @include mixin.btn(1rem, $primary, $white);
-        border-radius: 5px;
-        font-size: 1.05rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        &:hover {
-          opacity: 0.8;
+        cursor: pointer;
+        @include mixin.baseShadow;
+
+        svg {
+            transition: all 0.3s;
         }
-      }
+
+        &:hover svg {
+            translate: -0.25rem;
+        }
     }
-  }
+
+    > form {
+        max-width: 450px;
+        width: 100%;
+        @include mixin.flex(column, center, stretch, 2rem);
+        padding: 2rem;
+        margin: 2rem auto;
+        border-radius: 10px;
+        background-color: $white;
+
+        > h1 {
+            @include mixin.heading(2px);
+            margin: 0 2rem;
+            text-align: center;
+        }
+        > input,
+        > select {
+            border: 1px solid rgba(31, 31, 31, 0.351);
+            padding: 1rem;
+            outline: none;
+            font-size: 1.05rem;
+            border-radius: 5px;
+        }
+
+        > button {
+            @include mixin.btn(1rem, $primary, $white);
+            border-radius: 5px;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            &:hover {
+                opacity: 0.8;
+            }
+        }
+    }
+}

@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import AdminSidebar from "../../../components/admin/AdminSidebar";
+import { useEffect, useState } from 'react';
+import AdminSidebar from '../../../components/admin/AdminSidebar';
 
 const formatTime = (timeInSeconds: number) => {
     const hours = Math.floor(timeInSeconds / 3600);
     const minutes = Math.floor((timeInSeconds % 3600) / 60);
     const seconds = timeInSeconds % 60;
 
-    const hoursString = hours.toString().padStart(2, "0");
-    const minutesString = minutes.toString().padStart(2, "0");
-    const secondsString = seconds.toString().padStart(2, "0");
+    const hoursString = hours.toString().padStart(2, '0');
+    const minutesString = minutes.toString().padStart(2, '0');
+    const secondsString = seconds.toString().padStart(2, '0');
 
     return `${hoursString}: ${minutesString}: ${secondsString}`;
 };
@@ -22,7 +22,7 @@ const Stopwatch = () => {
     };
 
     useEffect(() => {
-        let intervalId: number;
+        let intervalId: ReturnType<typeof setTimeout>;
 
         if (isRunning) {
             intervalId = setInterval(() => {
@@ -36,15 +36,15 @@ const Stopwatch = () => {
     }, [isRunning]);
 
     return (
-        <div className="adminContainer">
+        <div className='adminContainer'>
             <AdminSidebar />
-            <main className="dashboardAppContainer">
+            <main className='dashboardAppContainer'>
                 <h1>Stopwatch</h1>
                 <section>
-                    <div className="stopwatch">
+                    <div className='stopwatch'>
                         <h2>{formatTime(time)}</h2>
                         <button onClick={() => setIsRunning(!isRunning)}>
-                            {isRunning ? "Stop" : "Start"}
+                            {isRunning ? 'Stop' : 'Start'}
                         </button>
                         <button onClick={resetHandler}>Reset</button>
                     </div>

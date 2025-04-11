@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { OrderItemType, OrderType } from '../../types';
 import { Link } from 'react-router-dom';
 import AdminSidebar from '../../../components/admin/AdminSidebar';
+import { OrderItemType, OrderType } from '../../../types/types';
 
 const img =
     'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8&w=1000&q=804';

@@ -1,7 +1,7 @@
-import { ReactElement, useState } from "react";
-import { Column } from "react-table";
-import TableHOC from "../components/admin/TableHOC";
-import { Link } from "react-router-dom";
+import { ReactElement, useState } from 'react';
+import { Column } from 'react-table';
+import TableHOC from '../components/admin/TableHOC';
+import { Link } from 'react-router-dom';
 
 type DataType = {
     _id: string;
@@ -14,53 +14,53 @@ type DataType = {
 
 const columns: Column<DataType>[] = [
     {
-        Header: "Id",
-        accessor: "_id",
+        Header: 'Id',
+        accessor: '_id',
     },
     {
-        Header: "Amount",
-        accessor: "amount",
+        Header: 'Amount',
+        accessor: 'amount',
     },
     {
-        Header: "Quantity",
-        accessor: "quantity",
+        Header: 'Quantity',
+        accessor: 'quantity',
     },
     {
-        Header: "Discount",
-        accessor: "discount",
+        Header: 'Discount',
+        accessor: 'discount',
     },
     {
-        Header: "Status",
-        accessor: "status",
+        Header: 'Status',
+        accessor: 'status',
     },
     {
-        Header: "Action",
-        accessor: "action",
+        Header: 'Action',
+        accessor: 'action',
     },
 ];
 
 const Orders = () => {
     const [rows] = useState<DataType[]>([
         {
-            _id: "1",
+            _id: '1',
             amount: 2000,
             quantity: 2,
             discount: 400,
-            status: <span className="green">Delivered</span>,
-            action: <Link to="/orders/1">View</Link>,
+            status: <span className='green'>Delivered</span>,
+            action: <Link to='/orders/1'>View</Link>,
         },
     ]);
 
     const Table = TableHOC<DataType>(
         columns,
         rows,
-        "dashboardProductBox",
-        "Orders",
+        'dashboardProductBox',
+        'Orders',
         rows.length > 5
     );
 
     return (
-        <div className="container">
+        <div className='container'>
             <h1>My Orders</h1>
 
             <Table />

@@ -54,7 +54,7 @@ const Search = () => {
         <div className='search-page'>
             <aside className='filters-sidebar'>
                 <h2 className='filters-title'>Filters</h2>
-                
+
                 <div className='filter-group'>
                     <label>Sort By</label>
                     <select
@@ -115,41 +115,49 @@ const Search = () => {
                 </div>
 
                 <div className='product-grid'>
-                    {productLoading ? (
-                        [...Array(6)].map((_, i) => <ProductCardSkeleton key={i} />)
-                    ) : (
-                        searchedData?.products.map((product) => (
-                            <ProductCard
-                                key={product._id}
-                                productId={product._id}
-                                name={product.name}
-                                price={product.price}
-                                stock={product.stock}
-                                handler={addToCartHandler}
-                                photo={product.photo}
-                            />
-                        ))
-                    )}
+                    {productLoading
+                        ? [...Array(6)].map((_, i) => (
+                              <ProductCardSkeleton key={i} />
+                          ))
+                        : searchedData?.products.map((product) => (
+                              <ProductCard
+                                  key={product._id}
+                                  productId={product._id}
+                                  name={product.name}
+                                  price={product.price}
+                                  stock={product.stock}
+                                  handler={addToCartHandler}
+                                  photo={product.photo}
+                              />
+                          ))}
                 </div>
 
                 {searchedData && searchedData?.totalPage > 1 && (
                     <div className='pagination'>
                         <button
-                            className={`pagination-btn ${!isPrevPage ? 'disabled' : ''}`}
+                            className={`pagination-btn ${
+                                !isPrevPage ? 'disabled' : ''
+                            }`}
                             disabled={!isPrevPage}
-                            onClick={() => isPrevPage && setPage((prev) => prev - 1)}
+                            onClick={() =>
+                                isPrevPage && setPage((prev) => prev - 1)
+                            }
                         >
                             Previous
                         </button>
-                        
+
                         <span className='page-indicator'>
                             Page {page} of {searchedData.totalPage}
                         </span>
-                        
+
                         <button
-                            className={`pagination-btn ${!isNextPage ? 'disabled' : ''}`}
+                            className={`pagination-btn ${
+                                !isNextPage ? 'disabled' : ''
+                            }`}
                             disabled={!isNextPage}
-                            onClick={() => isNextPage && setPage((prev) => prev + 1)}
+                            onClick={() =>
+                                isNextPage && setPage((prev) => prev + 1)
+                            }
                         >
                             Next
                         </button>

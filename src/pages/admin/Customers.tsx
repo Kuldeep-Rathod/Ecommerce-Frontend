@@ -1,8 +1,8 @@
-import { ReactElement, useCallback, useState } from "react";
-import { Column } from "react-table";
-import { FaTrash } from "react-icons/fa6";
-import TableHOC from "../../components/admin/TableHOC";
-import AdminSidebar from "../../components/admin/AdminSidebar";
+import { ReactElement, useCallback, useState } from 'react';
+import { Column } from 'react-table';
+import { FaTrash } from 'react-icons/fa6';
+import TableHOC from '../../components/admin/TableHOC';
+import AdminSidebar from '../../components/admin/AdminSidebar';
 
 interface DataType {
     avatar: ReactElement;
@@ -15,45 +15,45 @@ interface DataType {
 
 const columns: Column<DataType>[] = [
     {
-        Header: "Avatar",
-        accessor: "avatar",
+        Header: 'Avatar',
+        accessor: 'avatar',
     },
     {
-        Header: "Name",
-        accessor: "name",
+        Header: 'Name',
+        accessor: 'name',
     },
     {
-        Header: "Email",
-        accessor: "email",
+        Header: 'Email',
+        accessor: 'email',
     },
     {
-        Header: "Gender",
-        accessor: "gender",
+        Header: 'Gender',
+        accessor: 'gender',
     },
     {
-        Header: "Action",
-        accessor: "action",
+        Header: 'Action',
+        accessor: 'action',
     },
 ];
 
-const img = "https://randomuser.me/api/portraits/women/54.jpg";
-const img2 = "https://randomuser.me/api/portraits/women/50.jpg";
+const img = 'https://randomuser.me/api/portraits/women/54.jpg';
+const img2 = 'https://randomuser.me/api/portraits/women/50.jpg';
 
 const arr: DataType[] = [
     {
         avatar: (
             <img
                 style={{
-                    borderRadius: "50%",
+                    borderRadius: '50%',
                 }}
                 src={img}
-                alt="Shoes"
+                alt='Shoes'
             />
         ),
-        name: "Emily Palmer",
-        email: "emily.palmer@example.com",
-        gender: "female",
-        role: "user",
+        name: 'Emily Palmer',
+        email: 'emily.palmer@example.com',
+        gender: 'female',
+        role: 'user',
         action: (
             <button>
                 <FaTrash />
@@ -65,16 +65,16 @@ const arr: DataType[] = [
         avatar: (
             <img
                 style={{
-                    borderRadius: "50%",
+                    borderRadius: '50%',
                 }}
                 src={img2}
-                alt="Shoes"
+                alt='Shoes'
             />
         ),
-        name: "May Scoot",
-        email: "aunt.may@example.com",
-        gender: "female",
-        role: "user",
+        name: 'May Scoot',
+        email: 'aunt.may@example.com',
+        gender: 'female',
+        role: 'user',
         action: (
             <button>
                 <FaTrash />
@@ -90,18 +90,18 @@ const Customers = () => {
         TableHOC<DataType>(
             columns,
             data,
-            "dashboardProductBox",
-            "Customers",
+            'dashboardProductBox',
+            'Customers',
             true
         ),
         []
     );
 
     return (
-        <div className="adminContainer">
+        <div className='adminContainer'>
             <AdminSidebar />
             <main>
-                <div className="customerPageContainer">{Table()}</div>
+                <div className='customerPageContainer'>{Table()}</div>
             </main>
         </div>
     );

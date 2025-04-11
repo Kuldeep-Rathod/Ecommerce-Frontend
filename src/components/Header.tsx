@@ -129,7 +129,9 @@ const Header = ({ user }: PropsType) => {
                                     <Link to='/orders'>My Orders</Link>
                                     <Link to='/wishlist'>Wishlist</Link>
                                     {user.role === 'admin' && (
-                                        <Link to='/admin/dashboard'>Dashboard</Link>
+                                        <Link to='/admin/dashboard'>
+                                            Dashboard
+                                        </Link>
                                     )}
                                     <button
                                         className='logout-btn'
