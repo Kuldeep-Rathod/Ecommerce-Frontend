@@ -150,31 +150,33 @@ const ProductManagement = () => {
                         </div>
                     </div>
                 </section>
+
                 <article className='product-form-container'>
                     <form
                         onSubmit={submitHandler}
                         className='product-form'
                     >
                         <h2 className='form-title'>Update Product</h2>
-
-                        <div className='form-group'>
-                            <label
-                                htmlFor='name'
-                                className='form-label'
-                            >
-                                Name
-                            </label>
-                            <input
-                                id='name'
-                                type='text'
-                                placeholder='Product Name'
-                                value={nameUpdated}
-                                onChange={(e) => setNameUpdated(e.target.value)}
-                                className='form-input'
-                            />
-                        </div>
-
                         <div className='form-row'>
+                            <div className='form-group'>
+                                <label
+                                    htmlFor='name'
+                                    className='form-label'
+                                >
+                                    Name
+                                </label>
+                                <input
+                                    id='name'
+                                    type='text'
+                                    placeholder='Product Name'
+                                    value={nameUpdated}
+                                    onChange={(e) =>
+                                        setNameUpdated(e.target.value)
+                                    }
+                                    className='form-input'
+                                />
+                            </div>
+
                             <div className='form-group'>
                                 <label
                                     htmlFor='price'
@@ -195,7 +197,8 @@ const ProductManagement = () => {
                                     step='0.01'
                                 />
                             </div>
-
+                        </div>
+                        <div className='form-row'>
                             <div className='form-group'>
                                 <label
                                     htmlFor='stock'
@@ -215,47 +218,45 @@ const ProductManagement = () => {
                                     min={0}
                                 />
                             </div>
-                        </div>
 
-                        <div className='form-group'>
-                            <label
-                                htmlFor='category'
-                                className='form-label'
-                            >
-                                Category
-                            </label>
-                            <input
-                                id='category'
-                                type='text'
-                                placeholder='Product category'
-                                value={categoryUpdated}
-                                onChange={(e) =>
-                                    setCategoryUpdated(e.target.value)
-                                }
-                                className='form-input'
-                            />
+                            <div className='form-group'>
+                                <label
+                                    htmlFor='category'
+                                    className='form-label'
+                                >
+                                    Category
+                                </label>
+                                <input
+                                    id='category'
+                                    type='text'
+                                    placeholder='Product category'
+                                    value={categoryUpdated}
+                                    onChange={(e) =>
+                                        setCategoryUpdated(e.target.value)
+                                    }
+                                    className='form-input'
+                                />
+                            </div>
                         </div>
-
-                        <div className='form-group'>
-                            <label
-                                htmlFor='photo'
-                                className='form-label'
-                            >
-                                Photo
-                                <span className='upload-icon'>
-                                    <FaUpload />
-                                </span>
-                            </label>
-                            <input
-                                id='photo'
-                                type='file'
-                                onChange={changeImageHandler}
-                                className='file-input'
-                                accept='image/*'
-                            />
-                        </div>
-
-                        <div className='img-btn'>
+                        <div className='form-row'>
+                            <div className='form-group'>
+                                <label
+                                    htmlFor='photo'
+                                    className='form-label'
+                                >
+                                    Photo
+                                    <span className='upload-icon'>
+                                        <FaUpload />
+                                    </span>
+                                </label>
+                                <input
+                                    id='photo'
+                                    type='file'
+                                    onChange={changeImageHandler}
+                                    className='file-input'
+                                    accept='image/*'
+                                />
+                            </div>{' '}
                             {photoUpdated && (
                                 <div className='image-preview'>
                                     <img
@@ -265,14 +266,14 @@ const ProductManagement = () => {
                                     />
                                 </div>
                             )}
-
-                            <button
-                                type='submit'
-                                className='submit-btn'
-                            >
-                                <FaEdit /> Update Product
-                            </button>
                         </div>
+
+                        <button
+                            type='submit'
+                            className='submit-btn'
+                        >
+                            <FaEdit /> Update Product
+                        </button>
                     </form>
                 </article>
             </main>

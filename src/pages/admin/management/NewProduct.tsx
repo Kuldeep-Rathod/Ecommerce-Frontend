@@ -6,6 +6,7 @@ import { useNewProductMutation } from '../../../redux/api/productAPI';
 import toast from 'react-hot-toast';
 import { responseToast } from '../../../utils/features';
 import { useNavigate } from 'react-router-dom';
+import { FaUpload } from 'react-icons/fa';
 
 const NewProduct = () => {
     const { user, loading } = useSelector(
@@ -65,68 +66,124 @@ const NewProduct = () => {
         <div className='adminContainer'>
             <AdminSidebar />
             <main className='productManagementContainer'>
-                <article>
-                    <form onSubmit={submitHandler}>
-                        <h2>New Product</h2>
-                        <div>
-                            <label>Name</label>
-                            <input
-                                required
-                                type='text'
-                                placeholder='Product Name'
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
+                <article className='product-form-container'>
+                    <form
+                        onSubmit={submitHandler}
+                        className='product-form'
+                    >
+                        <h2 className='form-title'>New Product</h2>
+                        <div className='form-row'>
+                            <div className='form-group'>
+                                <label
+                                    htmlFor='name'
+                                    className='form-label'
+                                >
+                                    Name
+                                </label>
+                                <input
+                                    required
+                                    type='text'
+                                    placeholder='Product Name'
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    className='form-input'
+                                />
+                            </div>
+
+                            <div className='form-group'>
+                                <label
+                                    htmlFor='name'
+                                    className='form-label'
+                                >
+                                    Price
+                                </label>
+                                <input
+                                    required
+                                    type='number'
+                                    placeholder='Price'
+                                    value={price}
+                                    onChange={(e) =>
+                                        setPrice(Number(e.target.value))
+                                    }
+                                    className='form-input'
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <label>Price</label>
-                            <input
-                                required
-                                type='number'
-                                placeholder='Price'
-                                value={price}
-                                onChange={(e) =>
-                                    setPrice(Number(e.target.value))
-                                }
-                            />
+                        <div className='form-row'>
+                            <div className='form-group'>
+                                <label
+                                    htmlFor='name'
+                                    className='form-label'
+                                >
+                                    Stock
+                                </label>
+                                <input
+                                    required
+                                    type='number'
+                                    placeholder='Stock'
+                                    value={stock}
+                                    onChange={(e) =>
+                                        setStock(Number(e.target.value))
+                                    }
+                                    className='form-input'
+                                />
+                            </div>
+
+                            <div className='form-group'>
+                                <label
+                                    htmlFor='name'
+                                    className='form-label'
+                                >
+                                    Category
+                                </label>
+                                <input
+                                    required
+                                    type='text'
+                                    placeholder='eg. Laptop, Food'
+                                    value={category}
+                                    onChange={(e) =>
+                                        setCategory(e.target.value)
+                                    }
+                                    className='form-input'
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <label>Stock</label>
-                            <input
-                                required
-                                type='number'
-                                placeholder='Stock'
-                                value={stock}
-                                onChange={(e) =>
-                                    setStock(Number(e.target.value))
-                                }
-                            />
+                        <div className='form-row'>
+                            <div className='form-group'>
+                                <label
+                                    htmlFor='name'
+                                    className='form-label'
+                                >
+                                    Photo
+                                    <span className='upload-icon'>
+                                        <FaUpload />
+                                    </span>
+                                </label>
+                                <input
+                                    required
+                                    type='file'
+                                    onChange={changeImageHandler}
+                                    className='file-input'
+                                    accept='image/*'
+                                />
+                            </div>{' '}
+                            {photo && (
+                                <div className='image-preview'>
+                                    <img
+                                        src={photoPrev}
+                                        alt='Product'
+                                        className='preview-image'
+                                    />
+                                </div>
+                            )}
                         </div>
-                        <div>
-                            <label>Category</label>
-                            <input
-                                required
-                                type='text'
-                                placeholder='eg. Laptop, Food'
-                                value={category}
-                                onChange={(e) => setCategory(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <label>Photo</label>
-                            <input
-                                required
-                                type='file'
-                                onChange={changeImageHandler}
-                            />
-                        </div>
-                        {photo && (
-                            <img
-                                src={photoPrev}
-                                alt='Product'
-                            />
-                        )}
-                        <button type='submit'>Create</button>
+
+                        <button
+                            type='submit'
+                            className='submit-btn'
+                        >
+                            Create
+                        </button>
                     </form>
                 </article>
             </main>
