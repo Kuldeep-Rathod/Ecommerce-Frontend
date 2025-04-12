@@ -1,17 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { server } from '../store';
 import {
-    AllProductResponse,
+    AllOrderResponse,
     MessageResponse,
     NewOrderRequest,
     OrderDetailsResponse,
     UpdateOrderRequest,
 } from '../../types/api-types';
 
-const orderAPI = createApi({
+export const orderAPI = createApi({
     reducerPath: 'orderApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${server}/api/v1/order`,
+        baseUrl: `${import.meta.env.VITE_SERVER}/api/v1/order`,
     }),
     tagTypes: ['orders'],
     endpoints: (builder) => ({
@@ -37,11 +36,11 @@ const orderAPI = createApi({
             }),
             invalidatesTags: ['orders'],
         }),
-        myOrders: builder.query<AllProductResponse, string>({
+        myOrders: builder.query<AllOrderResponse, string>({
             query: (id) => `my?id=${id}`,
             providesTags: ['orders'],
         }),
-        allOrders: builder.query<AllProductResponse, string>({
+        allOrders: builder.query<AllOrderResponse, string>({
             query: (id) => `all?id=${id}`,
             providesTags: ['orders'],
         }),

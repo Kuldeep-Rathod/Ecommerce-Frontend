@@ -1,8 +1,13 @@
-import { ReactElement, useCallback, useState } from 'react';
-import { Column } from 'react-table';
-import TableHOC from '../../components/admin/TableHOC';
+import { ReactElement, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Column } from 'react-table';
 import AdminSidebar from '../../components/admin/AdminSidebar';
+import TableHOC from '../../components/admin/TableHOC';
+import { useAllOrdersQuery } from '../../redux/api/orderAPI';
+import { CustomError } from '../../types/api-types';
+import { UserReducerInitialState } from '../../types/reducer-types';
 
 interface DataType {
     user: string;
@@ -40,46 +45,57 @@ const columns: Column<DataType>[] = [
     },
 ];
 
-const arr: DataType[] = [
-    {
-        user: 'Charas',
-        amount: 4500,
-        discount: 400,
-        quantity: 3,
-        status: <span className='red'>Processing</span>,
-        action: <Link to='/admin/transaction/sajknaskd'>Manage</Link>,
-    },
-    {
-        user: 'Xavirors',
-        amount: 6999,
-        discount: 400,
-        status: <span className='green'>Shipped</span>,
-        quantity: 6,
-        action: <Link to='/admin/transaction/sajknaskd'>Manage</Link>,
-    },
-    {
-        user: 'Xavirors',
-        amount: 6999,
-        discount: 400,
-        status: <span className='purple'>Delivered</span>,
-        quantity: 6,
-        action: <Link to='/admin/transaction/sajknaskd'>Manage</Link>,
-    },
-];
-
 const Transaction = () => {
-    const [data] = useState<DataType[]>(arr);
-
-    const Table = useCallback(
-        TableHOC<DataType>(
-            columns,
-            data,
-            'dashboardProductBox',
-            'Transactions',
-            true
-        ),
-        []
+    const { user } = useSelector(
+        (state: { userReducer: UserReducerInitialState }) => state.userReducer
     );
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    const { isLoading, isError, error, data } = useAllOrdersQuery(user?._id!);
+
+    const [rows, setRows] = useState<DataType[]>([]);
+
+    if (isError) {
+        toast.error((error as CustomError).data.message);
+    }
+
+    useEffect(() => {
+        if (data) {
+            setRows(
+                data.orders.map((i) => ({
+                    user: i.user.name,
+                    amount: i.total,
+                    discount: i.discount,
+                    quantity: i.orderItems.length,
+                    status: (
+                        <span
+                            className={
+                                i.status === 'Processing'
+                                    ? 'red'
+                                    : i.status === 'Shipped'
+                                    ? 'green'
+                                    : 'purple'
+                            }
+                        >
+                            {i.status}
+                        </span>
+                    ),
+                    action: (
+                        <Link to={`/admin/transaction/${i._id}`}>Manage</Link>
+                    ),
+                }))
+            );
+        }
+    }, [data]);
+
+    const Table = TableHOC<DataType>(
+        columns,
+        rows,
+        'dashboardProductBox',
+        'Transactions',
+        rows.length > 5
+    );
+
     return (
         <div className='adminContainer'>
             <AdminSidebar />

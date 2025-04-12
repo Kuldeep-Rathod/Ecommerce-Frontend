@@ -7,7 +7,7 @@ import {
     useProductDetailsQuery,
     useUpdateProductMutation,
 } from '../../../redux/api/productAPI';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { server } from '../../../redux/store';
 import { responseToast } from '../../../utils/features';
 import { FaEdit, FaTrash, FaUpload } from 'react-icons/fa';
@@ -21,7 +21,7 @@ const ProductManagement = () => {
     const params = useParams();
     const navigate = useNavigate();
 
-    const { data, isLoading } = useProductDetailsQuery(params.id!);
+    const { data, isError, isLoading } = useProductDetailsQuery(params.id!);
 
     const { _id, name, price, category, photo, stock } = data?.product || {
         _id: '',
@@ -103,6 +103,8 @@ const ProductManagement = () => {
 
         responseToast(res, navigate, '/admin/products');
     };
+
+    if (isError) return <Navigate to={'/404'} />;
 
     if (isLoading) return <ProductCardSkeleton />;
 

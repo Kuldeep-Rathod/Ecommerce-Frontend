@@ -1,7 +1,12 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Column } from 'react-table';
 import TableHOC from '../components/admin/TableHOC';
-import { Link } from 'react-router-dom';
+import { useAllOrdersQuery } from '../redux/api/orderAPI';
+import { CustomError } from '../types/api-types';
+import { UserReducerInitialState } from '../types/reducer-types';
 
 type DataType = {
     _id: string;
@@ -40,16 +45,45 @@ const columns: Column<DataType>[] = [
 ];
 
 const Orders = () => {
-    const [rows] = useState<DataType[]>([
-        {
-            _id: '1',
-            amount: 2000,
-            quantity: 2,
-            discount: 400,
-            status: <span className='green'>Delivered</span>,
-            action: <Link to='/orders/1'>View</Link>,
-        },
-    ]);
+    const { user } = useSelector(
+        (state: { userReducer: UserReducerInitialState }) => state.userReducer
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    const { isLoading, isError, error, data } = useAllOrdersQuery(user?._id!);
+
+    const [rows, setRows] = useState<DataType[]>([]);
+
+    if (isError) {
+        toast.error((error as CustomError).data.message);
+    }
+
+    useEffect(() => {
+        if (data) {
+            setRows(
+                data.orders.map((i) => ({
+                    _id: i._id,
+                    amount: i.total,
+                    quantity: i.orderItems.length,
+                    discount: i.discount,
+                    status: (
+                        <span
+                            className={
+                                i.status === 'Processing'
+                                    ? 'red'
+                                    : i.status === 'Shipped'
+                                    ? 'green'
+                                    : 'purple'
+                            }
+                        >
+                            {i.status}
+                        </span>
+                    ),
+                    action: <Link to={`/admin/orders/${i._id}`}>View</Link>,
+                }))
+            );
+        }
+    }, [data]);
 
     const Table = TableHOC<DataType>(
         columns,
