@@ -78,7 +78,7 @@ const TransactionManagement = () => {
                 </section>
 
                 <article className='shippingInfoCard'>
-                    <h1>Order Info</h1>
+                   <div> <h1>Order Info</h1>
                     <h5>User Info</h5>
                     <p>Name: {name}</p>
                     <p>
@@ -109,7 +109,7 @@ const TransactionManagement = () => {
                         </span>
                     </p>
 
-                    <button onClick={updateHander}>Process Status</button>
+                    <button onClick={updateHander}>Process Status</button></div>
                 </article>
             </main>
         </div>

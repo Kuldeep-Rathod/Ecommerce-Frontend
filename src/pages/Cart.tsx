@@ -20,7 +20,8 @@ const Cart = () => {
         );
 
     const [couponCode, setCouponCode] = useState<string>('');
-    const [isValidCouponCode, setIsValidCouponCode] = useState<boolean>(true);
+    const [isValidCouponCode, setIsValidCouponCode] = useState<boolean>(false);
+    const [isCouponApplied, setIsCouponApplied] = useState<boolean>(false);
 
     const dispatch = useDispatch();
 
@@ -39,76 +40,131 @@ const Cart = () => {
         dispatch(removeCartItem(productId));
     };
 
-    useEffect(() => {
-        const timeOutId = setTimeout(() => {
-            if (Math.random() > 0.5) setIsValidCouponCode(true);
-            else setIsValidCouponCode(false);
-        }, 1000);
+    const applyCouponHandler = () => {
+        if (!couponCode) return;
 
-        return () => {
-            clearTimeout(timeOutId);
-            setIsValidCouponCode(false);
-        };
-    }, [couponCode]);
+        // Simulate coupon validation
+        const isValid = Math.random() > 0.5;
+        setIsValidCouponCode(isValid);
+        setIsCouponApplied(isValid);
+
+        if (isValid) {
+            toast.success('Coupon applied successfully!');
+        } else {
+            toast.error('Invalid coupon code');
+        }
+    };
 
     useEffect(() => {
         dispatch(calculatePrice());
     }, [cartItems, dispatch]);
 
-    return (
-        <div className='cart'>
-            <main>
-                {cartItems.length > 0 ? (
-                    cartItems.map((i, idx) => (
-                        <CartItemCard
-                            incrementHandler={incrementHandler}
-                            decrementHandler={decrementHandler}
-                            removeHandler={removeHandler}
-                            key={idx}
-                            cartItem={i}
-                        />
-                    ))
-                ) : (
-                    <h1>Your cart is empty</h1>
-                )}
-            </main>
-            <aside>
-                <p>Subtotal: ₹{subTotal}</p>
-                <p>Shipping Charges: ₹{shippingCharges}</p>
-                <p>Tax: ₹{tax}</p>
-                <p>
-                    Discount: <em className='red'> - ₹{discount}</em>
-                </p>
-                <p>
-                    <b>Total: ₹{total}</b>
-                </p>
+   // Keep your existing imports and component logic the same as before
+// Only update the return statement with this JSX:
 
+return (
+    <div className='cart-container'>
+      <div className='cart-header'>
+        <h1>Your Shopping Cart</h1>
+        {cartItems.length > 0 && (
+          <p>{cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}</p>
+        )}
+      </div>
+      
+      <div className='cart-content'>
+        <main className='cart-items'>
+          {cartItems.length > 0 ? (
+            cartItems.map((i, idx) => (
+              <CartItemCard
+                incrementHandler={incrementHandler}
+                decrementHandler={decrementHandler}
+                removeHandler={removeHandler}
+                key={idx}
+                cartItem={i}
+              />
+            ))
+          ) : (
+            <div className='empty-cart'>
+              <h2>Your cart is empty</h2>
+              <p>Looks like you haven't added anything to your cart yet</p>
+              <Link to="/" className='continue-shopping'>Continue Shopping</Link>
+            </div>
+          )}
+        </main>
+        
+        {cartItems.length > 0 && (
+          <aside className='cart-summary'>
+            <h3>Order Summary</h3>
+            
+            <div className='price-breakdown'>
+              <div className='summary-row'>
+                <span>Subtotal</span>
+                <span>₹{subTotal.toFixed(2)}</span>
+              </div>
+              
+              <div className='summary-row'>
+                <span>Shipping</span>
+                <span>₹{shippingCharges.toFixed(2)}</span>
+              </div>
+              
+              <div className='summary-row'>
+                <span>Tax</span>
+                <span>₹{tax.toFixed(2)}</span>
+              </div>
+              
+              {isCouponApplied && isValidCouponCode && (
+                <div className='summary-row discount'>
+                  <span>Discount ({couponCode})</span>
+                  <span>- ₹{discount.toFixed(2)}</span>
+                </div>
+              )}
+            </div>
+            
+            <div className='coupon-section'>
+              <div className='coupon-input'>
                 <input
-                    type='text'
-                    placeholder='Coupon Code'
-                    value={couponCode}
-                    onChange={(e) =>
-                        setCouponCode(
-                            e.target.value.toUpperCase().replace(/\s/g, '')
-                        )
-                    }
+                  type='text'
+                  placeholder='Enter coupon code'
+                  value={couponCode}
+                  onChange={(e) =>
+                    setCouponCode(
+                      e.target.value.toUpperCase().replace(/\s/g, '')
+                    )
+                  }
                 />
-
-                {couponCode &&
-                    (isValidCouponCode ? (
-                        <span className='green'>
-                            ₹{discount} off using the <code>{couponCode}</code>
-                        </span>
-                    ) : (
-                        <span className='red'>
-                            Invalid Coupon <VscError />
-                        </span>
-                    ))}
-
-                {cartItems.length > 0 && <Link to='/shipping'>Checkout</Link>}
-            </aside>
-        </div>
-    );
+                <button 
+                  onClick={applyCouponHandler}
+                  disabled={!couponCode.trim()}
+                >
+                  Apply
+                </button>
+              </div>
+              
+              {couponCode && !isValidCouponCode && (
+                <div className='coupon-error'>
+                  <VscError />
+                  <span>Invalid coupon code</span>
+                </div>
+              )}
+            </div>
+            
+            <div className='summary-row total'>
+              <span>Total</span>
+              <span>₹{total.toFixed(2)}</span>
+            </div>
+            
+            <Link to='/shipping' className='checkout-button'>
+              Proceed to Checkout
+            </Link>
+            
+            <Link to="/" className='continue-shopping'>
+              Continue Shopping
+            </Link>
+          </aside>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Cart;

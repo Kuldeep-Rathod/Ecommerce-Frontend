@@ -19,24 +19,61 @@ const CartItemCard = ({
     const { photo, productId, name, price, quantity } = cartItem;
 
     return (
-        <div className='cartItem'>
-            <img
-                src={`${server}/${photo}`}
-                alt={name}
-            />
-            <article>
-                <Link to={`/product/${productId}`}>{name}</Link>
-                <span>${price}</span>
-            </article>
-            <div>
-                <button onClick={() => decrementHandler(cartItem)}>-</button>
-                <span>{quantity}</span>
-                <button onClick={() => incrementHandler(cartItem)}>+</button>
+        <div className='cart-item'>
+            <div className='cart-item-image'>
+                <img
+                    src={`${server}/${photo}`}
+                    alt={name}
+                    loading='lazy'
+                />
             </div>
-
-            <button onClick={() => removeHandler(productId)}>
-                <FaTrash />
-            </button>
+            
+            <div className='cart-item-details'>
+                <Link to={`/product/${productId}`} className='cart-item-name'>{name}</Link>
+                <span className='cart-item-price'>${price}</span>
+                
+                <div className='cart-item-quantity-mobile'>
+                    <button 
+                        onClick={() => decrementHandler(cartItem)}
+                        aria-label="Decrease quantity"
+                    >
+                        -
+                    </button>
+                    <span>{quantity}</span>
+                    <button 
+                        onClick={() => incrementHandler(cartItem)}
+                        aria-label="Increase quantity"
+                    >
+                        +
+                    </button>
+                </div>
+            </div>
+            
+            <div className='cart-item-controls'>
+                <div className='cart-item-quantity'>
+                    <button 
+                        onClick={() => decrementHandler(cartItem)}
+                        aria-label="Decrease quantity"
+                    >
+                        -
+                    </button>
+                    <span>{quantity}</span>
+                    <button 
+                        onClick={() => incrementHandler(cartItem)}
+                        aria-label="Increase quantity"
+                    >
+                        +
+                    </button>
+                </div>
+                
+                <button 
+                    onClick={() => removeHandler(productId)}
+                    className='cart-item-remove'
+                    aria-label="Remove item"
+                >
+                    <FaTrash />
+                </button>
+            </div>
         </div>
     );
 };
