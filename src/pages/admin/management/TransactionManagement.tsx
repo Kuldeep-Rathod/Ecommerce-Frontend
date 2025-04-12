@@ -92,6 +92,17 @@ const TransactionManagement = () => {
                     style={{ padding: '2rem' }}
                     className='product-display'
                 >
+                    <div className='product-header'>
+                        <span className='product-id'>
+                            ID: {data?.order._id}
+                        </span>
+                        <button
+                            onClick={deleteHandler}
+                            className='delete-btn'
+                        >
+                            <FaTrash />
+                        </button>
+                    </div>
                     <h2>Order Items</h2>
 
                     {orderItems.map((i) => (
@@ -109,9 +120,6 @@ const TransactionManagement = () => {
 
                 <article className='shippingInfoCard'>
                     <div>
-                        <button onClick={deleteHandler}>
-                            <FaTrash />
-                        </button>
                         <h1>Order Info</h1>
                         <h5>User Info</h5>
                         <p>Name: {name}</p>
