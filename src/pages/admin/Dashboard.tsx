@@ -30,7 +30,6 @@ const Dashboard = () => {
     if (isLoading) return <div>Loading dashboard...</div>;
     if (!stats) return toast.error('Error to fetch Statistics');
 
-    console.log(stats.chart);
     return (
         <div className='adminContainer'>
             <AdminSidebar />

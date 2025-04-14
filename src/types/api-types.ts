@@ -1,6 +1,7 @@
 import {
     CartItem,
     OrderType,
+    Pie,
     Product,
     ShippingInfo,
     Statistics,
@@ -25,6 +26,11 @@ export type MessageResponse = {
 export type StatsResponse = {
     success: boolean;
     Statistics: Statistics;
+};
+
+export type PieResponse = {
+    success: boolean;
+    pieCharts: Pie;
 };
 
 export type AllUsersResponse = {
