@@ -59,3 +59,34 @@ export type OrderType = {
     };
     _id: string;
 };
+
+type changePercent_counts = {
+    revenue: number;
+    products: number;
+    users: number;
+    orders: number;
+};
+
+type latestTransactions = {
+    _id: string;
+    discount: number;
+    amount: number;
+    quantity: number;
+    status: string;
+};
+
+export type Statistics = {
+    categories: string[];
+    categoryCounts: Record<string, number>[];
+    changePercent: changePercent_counts;
+    counts: changePercent_counts;
+    chart: {
+        orders: number[];
+        revenue: number[];
+    };
+    genderRatios: {
+        male: number;
+        female: number;
+    };
+    latestTransactions: latestTransactions[];
+};

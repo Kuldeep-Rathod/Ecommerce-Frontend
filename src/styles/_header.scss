@@ -189,6 +189,14 @@
                     }
                 }
 
+                @media (max-width: 768px) {
+                    .dropdown-content {
+                        position: absolute;
+                        left: 0;
+                        top: 100%;
+                    }
+                }
+
                 &:hover .dropdown-content {
                     opacity: 1;
                     visibility: visible;

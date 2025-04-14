@@ -1,14 +1,36 @@
-import { FaRegBell } from 'react-icons/fa6';
-import { BsSearch } from 'react-icons/bs';
-import userImg from '../../assets/images/userpic.png';
-import { HiTrendingDown, HiTrendingUp } from 'react-icons/hi';
-import data from '../../assets/data.json';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { BiMaleFemale } from 'react-icons/bi';
-import Table from '../../components/admin/DashboardTable';
+import { BsSearch } from 'react-icons/bs';
+import { FaRegBell } from 'react-icons/fa6';
+import { HiTrendingDown, HiTrendingUp } from 'react-icons/hi';
+import { useSelector } from 'react-redux';
+import userImg from '../../assets/images/userpic.png';
 import AdminSidebar from '../../components/admin/AdminSidebar';
 import { BarChart, DoughnutChart } from '../../components/admin/Charts';
+import Table from '../../components/admin/DashboardTable';
+import { useStatsQuery } from '../../redux/api/dashboardAPI';
+import { RootState } from '../../redux/store';
+import { CustomError } from '../../types/api-types';
 
-const dashboard = () => {
+const Dashboard = () => {
+    const { user } = useSelector((state: RootState) => state.userReducer);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    const { data, isError, error, isLoading } = useStatsQuery(user?._id!);
+
+    const stats = data?.Statistics;
+
+    useEffect(() => {
+        if (isError && error) {
+            const err = error as CustomError;
+            toast.error(err?.data?.message || 'Something went wrong');
+        }
+    }, [isError, error]);
+
+    if (isLoading) return <div>Loading dashboard...</div>;
+    if (!stats) return toast.error('Error to fetch Statistics');
+
+    console.log(stats.chart);
     return (
         <div className='adminContainer'>
             <AdminSidebar />
@@ -33,30 +55,30 @@ const dashboard = () => {
 
                 <section className='widgetContainer'>
                     <WidgetItem
-                        percent={40}
+                        percent={stats.changePercent.revenue}
                         amount={true}
-                        value={340000}
+                        value={stats.counts.revenue}
                         heading='Revenue'
                         color='rgb(0,115,225)'
                     />
                     <WidgetItem
-                        percent={-14}
+                        percent={stats.changePercent.users}
                         amount={false}
-                        value={400}
+                        value={stats.counts.users}
                         heading='Users'
                         color='rgb(0,198,202)'
                     />
                     <WidgetItem
-                        percent={80}
+                        percent={stats.changePercent.orders}
                         amount={false}
-                        value={23000}
+                        value={stats.counts.orders}
                         heading='Transactions'
                         color='rgb(255,196,0)'
                     />
                     <WidgetItem
-                        percent={30}
+                        percent={stats.changePercent.products}
                         amount={false}
-                        value={1000}
+                        value={stats.counts.products}
                         heading='Products'
                         color='rgb(76,0,255)'
                     />
@@ -67,8 +89,8 @@ const dashboard = () => {
                         <h2>Revenue & Transaction</h2>
                         {/* Graph here */}
                         <BarChart
-                            data_2={[300, 144, 433, 655, 237, 755, 190]}
-                            data_1={[200, 444, 343, 556, 778, 455, 990]}
+                            data_2={stats.chart.orders}
+                            data_1={stats.chart.revenue}
                             title_1='Revenue'
                             title_2='Transaction'
                             bgColor_1='rgb(0,115,255)'
@@ -79,16 +101,20 @@ const dashboard = () => {
                     <div className='dashboardCategories'>
                         <h2>Inventory</h2>
                         <div>
-                            {data.categories.map((i) => (
-                                <CategoryItem
-                                    key={i.heading}
-                                    heading={i.heading}
-                                    value={i.value}
-                                    color={`hsl(${i.value * 3}, ${
-                                        i.value
-                                    }%, 50%)`}
-                                />
-                            ))}
+                            {stats?.categoryCounts.map((i) => {
+                                const [heading, value] = Object.entries(i)[0];
+
+                                return (
+                                    <CategoryItem
+                                        key={heading}
+                                        heading={heading}
+                                        value={value}
+                                        color={`hsl(${
+                                            value * 3
+                                        }, ${value}%, 50%)`}
+                                    />
+                                );
+                            })}
                         </div>
                     </div>
                 </section>
@@ -99,7 +125,10 @@ const dashboard = () => {
 
                         <DoughnutChart
                             labels={['Female', 'Male']}
-                            data={[12, 19]}
+                            data={[
+                                stats.genderRatios.female,
+                                stats.genderRatios.male,
+                            ]}
                             backgroundColor={[
                                 'hsl(340,82%,56%)',
                                 'rgba(53,162,235,0.8)',
@@ -112,8 +141,7 @@ const dashboard = () => {
                             <BiMaleFemale />
                         </p>
                     </div>
-
-                    <Table data={data.transaction} />
+                    <Table data={stats.latestTransactions} />
                 </section>
             </main>
         </div>
@@ -139,7 +167,7 @@ const WidgetItem = ({
     <article className='widget'>
         <div className='widgetInfo'>
             <p>{heading}</p>
-            <h4>{amount ? `$${value}` : value}</h4>
+            <h4>{amount ? `₹${value}` : value}</h4>
             {percent > 0 ? (
                 <span className='green'>
                     <HiTrendingUp /> + {percent}%{''}
@@ -160,7 +188,10 @@ const WidgetItem = ({
                 )`,
             }}
         >
-            <span style={{ color }}>{percent}%</span>
+            <span style={{ color }}>
+                {percent > 0 && `${percent > 10000 ? 9999 : percent}`}%
+                {percent < 0 && `${percent > -10000 ? -9999 : percent}`}%
+            </span>
         </div>
     </article>
 );
@@ -187,4 +218,4 @@ const CategoryItem = ({ color, value, heading }: CategoryItemProps) => (
     </div>
 );
 
-export default dashboard;
+export default Dashboard;

@@ -125,11 +125,29 @@ const Header = ({ user }: PropsType) => {
                                     </span>
                                 </button>
                                 <div className='dropdown-content'>
-                                    <Link to='/account'>My Account</Link>
-                                    <Link to='/orders'>My Orders</Link>
-                                    <Link to='/wishlist'>Wishlist</Link>
+                                    <Link
+                                        to='/account'
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        My Account
+                                    </Link>
+                                    <Link
+                                        to='/orders'
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        My Orders
+                                    </Link>
+                                    <Link
+                                        to='/wishlist'
+                                        onClick={() => setIsMenuOpen(false)}
+                                    >
+                                        Wishlist
+                                    </Link>
                                     {user.role === 'admin' && (
-                                        <Link to='/admin/dashboard'>
+                                        <Link
+                                            to='/admin/dashboard'
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
                                             Dashboard
                                         </Link>
                                     )}
@@ -152,6 +170,7 @@ const Header = ({ user }: PropsType) => {
 
                         <Link
                             to='/wishlist'
+                            onClick={() => setIsMenuOpen(false)}
                             className='icon-link'
                         >
                             <FaHeart />
@@ -160,6 +179,7 @@ const Header = ({ user }: PropsType) => {
 
                         <Link
                             to='/cart'
+                            onClick={() => setIsMenuOpen(false)}
                             className='icon-link cart-icon'
                         >
                             <FaShoppingBag />
