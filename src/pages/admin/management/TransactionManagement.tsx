@@ -23,7 +23,7 @@ const defaultData: OrderType = {
     },
     orderItems: [],
     status: '',
-    subtotal: 0,
+    subTotal: 0,
     discount: 0,
     shippingCharges: 0,
     tax: 0,
@@ -52,7 +52,7 @@ const TransactionManagement = () => {
         discount,
         shippingCharges,
         status,
-        subtotal,
+        subTotal,
         tax,
         total,
     } = data?.order || defaultData;
@@ -128,7 +128,7 @@ const TransactionManagement = () => {
                             {`${address}, ${city}, ${state}, ${country} ${pinCode}`}
                         </p>
                         <h5>Amount Info</h5>
-                        <p>Subtotal: {subtotal}</p>
+                        <p>Subtotal: {subTotal}</p>
                         <p>Shipping Charges: {shippingCharges}</p>
                         <p>Tax: {tax}</p>
                         <p>Discount: {discount}</p>

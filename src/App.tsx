@@ -10,7 +10,6 @@ import { userExist, userNotExist } from './redux/reducer/userReducer';
 import { getUser } from './redux/api/userAPI';
 import { UserReducerInitialState } from './types/reducer-types';
 import ProtectedRoute from './components/ProtectedRoute';
-import NotFoundPage from './pages/NotFoundPage';
 
 const Login = lazy(() => import('./pages/Login'));
 const Home = lazy(() => import('./pages/Home'));
@@ -19,6 +18,8 @@ const Search = lazy(() => import('./pages/Search'));
 const Shipping = lazy(() => import('./pages/Shipping'));
 const Orders = lazy(() => import('./pages/Orders'));
 const OrderDetails = lazy(() => import('./pages/OrderDetails'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const Checkout = lazy(() => import('./pages/Checkout'));
 
 //Admin Routes Importing
 const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
@@ -121,6 +122,10 @@ const App = () => {
                         <Route
                             path='/shipping'
                             element={<Shipping />}
+                        />
+                        <Route
+                            path='/pay'
+                            element={<Checkout />}
                         />
                         <Route
                             path='/orders'

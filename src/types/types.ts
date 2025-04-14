@@ -48,7 +48,7 @@ export type OrderType = {
     shippingInfo: ShippingInfo;
     orderItems: OrderItem[];
     status: string;
-    subtotal: number;
+    subTotal: number;
     discount: number;
     shippingCharges: number;
     tax: number;
