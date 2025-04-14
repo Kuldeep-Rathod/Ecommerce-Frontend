@@ -23,9 +23,9 @@
 
     .createProductBtn {
         position: fixed;
-        right: 5rem;
-        top: 3rem;
-        @include mixin.square(2.5rem);
+        right: 4rem;
+        top: 6rem;
+        @include mixin.square(2rem);
         @include mixin.flex(row, center, center, 0);
         border-radius: 50%;
         background-color: rgb(201, 9, 9);
@@ -61,8 +61,6 @@
         flex-direction: column;
         gap: 1.5rem;
         width: 100%;
-     
-        
 
         @media (min-width: 768px) {
             width: 50%;
@@ -70,7 +68,6 @@
             overflow-y: auto;
             position: sticky;
             top: 1.5rem;
-          
         }
 
         .product-header {

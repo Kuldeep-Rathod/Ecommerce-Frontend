@@ -176,22 +176,22 @@ a {
     }
 }
 
-#hamburger {
-    display: grid;
-    place-items: center;
-    @include mixin.square(2.5rem);
-    border: none;
-    outline: none;
-    cursor: pointer;
-    color: rgba(44, 104, 255);
-    position: fixed;
-    top: 1rem;
-    left: 1rem;
-    font-size: 1.7rem;
-    background-color: rgba(0, 115, 255, 0.1);
-    border-radius: 50%;
-    z-index: 9;
-}
+// #hamburger {
+//     display: grid;
+//     place-items: center;
+//     @include mixin.square(2.5rem);
+//     border: none;
+//     outline: none;
+//     cursor: pointer;
+//     color: rgba(44, 104, 255);
+//     position: fixed;
+//     top: 1rem;
+//     left: 1rem;
+//     font-size: 1.7rem;
+//     background-color: rgba(0, 115, 255, 0.1);
+//     border-radius: 50%;
+//     z-index: 9;
+// }
 
 .loaderSection {
     height: 100vh;

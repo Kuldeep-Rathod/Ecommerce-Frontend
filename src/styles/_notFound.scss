@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // Variables
 $primary-color: #2563eb;
 $secondary-color: #f3f4f6;
@@ -74,7 +76,8 @@ $transition: all 0.3s ease;
             color: white;
 
             &:hover {
-                background-color: darken($primary-color, 10%);
+                background-color: color.scale($primary-color, $lightness: -10%);
+
                 transform: translateY(-2px);
             }
         }
@@ -84,7 +87,10 @@ $transition: all 0.3s ease;
             color: $text-color;
 
             &:hover {
-                background-color: darken($secondary-color, 5%);
+                background-color: color.scale(
+                    $secondary-color,
+                    $lightness: -5%
+                );
                 transform: translateY(-2px);
             }
         }

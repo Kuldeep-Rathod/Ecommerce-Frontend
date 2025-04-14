@@ -20,6 +20,13 @@
         padding: 0 2rem;
         height: 70px;
         @include mixin.flex(row, space-between, center);
+
+        @media (max-width: 768px) {
+            height: 50px;
+        }
+        @media (max-width: 425px) {
+            height: auto;
+        }
     }
 
     &-logo {
@@ -261,7 +268,7 @@
 
         .nav-links {
             position: fixed;
-            top: 70px;
+            top: 50px;
             left: 0;
             width: 100%;
             background: white;
@@ -324,6 +331,15 @@
                 margin-left: 0;
                 padding-top: 1rem;
                 border-top: 1px solid rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        @media (max-width: 425px) {
+            .nav-links {
+                position: fixed;
+                top: 40px;
+                left: 0;
+                width: 100%;
             }
         }
     }

@@ -51,9 +51,9 @@ function AdminSidebar() {
                 }
             >
                 <div className="logoHamburger">
-                    <h2>
+                    {/* <h2>
                         <a href="/admin/dashboard">Logo.</a>
-                    </h2>
+                    </h2> */}
 
                     {phoneActive && (
                         <button className="hello" onClick={() => setSowModal(!showModal)}>
@@ -153,7 +153,7 @@ const DivThree = ({ location }: { location: Location }) => (
 
 interface LiProps {
     url: string;
-    text: String;
+    text: string;
     location: Location;
     Icon: IconType;
 }

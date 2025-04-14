@@ -219,12 +219,28 @@ a {
     cursor: pointer;
     color: rgba(44, 104, 255);
     position: fixed;
-    top: 1rem;
+    top: 5.3rem;
     left: 1rem;
     font-size: 1.7rem;
     background-color: rgba(0, 115, 255, 0.1);
     border-radius: 50%;
     z-index: 9;
+}
+
+@media (max-width: 786px) {
+    #hamburger {
+        position: fixed;
+        top: 4.3rem;
+        left: 1rem;
+    }
+}
+
+@media (max-width: 425px) {
+    #hamburger {
+        position: fixed;
+        top: 3.3rem;
+        left: 1rem;
+    }
 }
 
 .loaderSection {
