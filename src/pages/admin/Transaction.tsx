@@ -6,8 +6,8 @@ import { Column } from 'react-table';
 import AdminSidebar from '../../components/admin/AdminSidebar';
 import TableHOC from '../../components/admin/TableHOC';
 import { useAllOrdersQuery } from '../../redux/api/orderAPI';
+import { RootState } from '../../redux/store';
 import { CustomError } from '../../types/api-types';
-import { UserReducerInitialState } from '../../types/reducer-types';
 
 interface DataType {
     user: string;
@@ -46,9 +46,11 @@ const columns: Column<DataType>[] = [
 ];
 
 const Transaction = () => {
-    const { user } = useSelector(
-        (state: { userReducer: UserReducerInitialState }) => state.userReducer
-    );
+    const { user } = useSelector((state: RootState) => state.userReducer);
+    //Shorter version of this
+    // const { user } = useSelector(
+    //     (state: { userReducer: UserReducerInitialState }) => state.userReducer
+    // );
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     const { isLoading, isError, error, data } = useAllOrdersQuery(user?._id!);

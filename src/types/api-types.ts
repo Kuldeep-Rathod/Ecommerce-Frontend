@@ -8,9 +8,15 @@ export type CustomError = {
     };
 };
 
+//Response
+
 export type MessageResponse = {
     success: boolean;
     message: string;
+};
+export type AllUsersResponse = {
+    success: boolean;
+    users: User[];
 };
 
 export type UserResponse = {
@@ -45,6 +51,18 @@ export type productResponse = {
     product: Product;
 };
 
+export type AllOrderResponse = {
+    success: boolean;
+    orders: OrderType[];
+};
+
+export type OrderDetailsResponse = {
+    success: boolean;
+    order: OrderType;
+};
+
+//Requests
+
 export type NewProductRequest = {
     id: string;
     formData: FormData;
@@ -71,17 +89,13 @@ export type NewOrderRequest = {
     total: number;
     user: string;
 };
+
 export type UpdateOrderRequest = {
     userId: string;
     orderId: string;
 };
 
-export type AllOrderResponse = {
-    success: boolean;
-    orders: OrderType[];
-};
-
-export type OrderDetailsResponse = {
-    success: boolean;
-    order: OrderType;
+export type DeleteUserRequest = {
+    userId: string;
+    adminUserId: string;
 };
