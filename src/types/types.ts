@@ -124,4 +124,14 @@ export type Bar = {
     users: number[];
     products: number[];
     orders: number[];
+    twelveMonths: string[];
+    sixMonths: string[];
+};
+
+export type Line = {
+    users: number[];
+    products: number[];
+    revenue: number[];
+    discount: number[];
+    twelveMonths: string[];
 };

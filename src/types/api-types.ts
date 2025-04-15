@@ -1,6 +1,7 @@
 import {
     Bar,
     CartItem,
+    Line,
     OrderType,
     Pie,
     Product,
@@ -37,6 +38,11 @@ export type PieResponse = {
 export type BarResponse = {
     success: boolean;
     barCharts: Bar;
+};
+
+export type LineResponse = {
+    success: boolean;
+    lineCharts: Line;
 };
 
 export type AllUsersResponse = {

@@ -7,21 +7,6 @@ import { useBarQuery } from '../../../redux/api/dashboardAPI';
 import { RootState } from '../../../redux/store';
 import { CustomError } from '../../../types/api-types';
 
-const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'Aug',
-    'Sept',
-    'Oct',
-    'Nov',
-    'Dec',
-];
-
 const BarCharts = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
@@ -36,7 +21,7 @@ const BarCharts = () => {
         }
     }, [isError, error]);
 
-    if (isLoading) return <div>Loading Pie Charts...</div>;
+    if (isLoading) return <div>Loading Bar Charts...</div>;
     if (!barCharts) return toast.error('Error to fetch Charts');
 
     return (
@@ -52,6 +37,7 @@ const BarCharts = () => {
                         title_2='Users'
                         bgColor_1={`hsl(260,50%,30%)`}
                         bgColor_2={`hsl(360,90%,90%)`}
+                        labels={barCharts.sixMonths}
                     />
                     <h2>Top Selling Products & Top Customers</h2>
                 </section>
@@ -64,7 +50,7 @@ const BarCharts = () => {
                         title_2=''
                         bgColor_1={`hsl(240, 50%, 40%)`}
                         bgColor_2=''
-                        labels={months}
+                        labels={barCharts.twelveMonths}
                     />
                     <h2>Orders throughout the year</h2>
                 </section>
