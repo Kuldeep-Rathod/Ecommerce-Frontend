@@ -12,12 +12,17 @@ import { User } from '../types/types';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase';
 import toast from 'react-hot-toast';
+import { CartReducerInitialState } from '../types/reducer-types';
+import { useSelector } from 'react-redux';
 
 interface PropsType {
     user: User | null;
 }
 
 const Header = ({ user }: PropsType) => {
+    const { cartItems } = useSelector(
+        (state: { cartReducer: CartReducerInitialState }) => state.cartReducer
+    );
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
@@ -183,7 +188,13 @@ const Header = ({ user }: PropsType) => {
                             className='icon-link cart-icon'
                         >
                             <FaShoppingBag />
-                            <span className='badge'>5</span>
+                            {cartItems.length > 0 ? (
+                                <span className='badge'>
+                                    {cartItems.length}
+                                </span>
+                            ) : (
+                                ''
+                            )}
                         </Link>
                     </div>
                 </nav>

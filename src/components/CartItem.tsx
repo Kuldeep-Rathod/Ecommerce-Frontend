@@ -1,6 +1,5 @@
 import { FaTrash } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
-import { server } from '../redux/store';
 import { CartItem } from '../types/types';
 
 type CartItemProps = {
@@ -22,7 +21,7 @@ const CartItemCard = ({
         <div className='cart-item'>
             <div className='cart-item-image'>
                 <img
-                    src={`${server}/${photo}`}
+                    src={photo}
                     alt={name}
                     loading='lazy'
                 />

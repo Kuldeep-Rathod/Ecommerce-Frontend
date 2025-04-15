@@ -1,17 +1,16 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import AdminSidebar from '../../../components/admin/AdminSidebar';
+import { FaEdit, FaTrash, FaUpload } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
-import { UserReducerInitialState } from '../../../types/reducer-types';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import AdminSidebar from '../../../components/admin/AdminSidebar';
+import ProductCardSkeleton from '../../../components/productSceleton';
 import {
     useDeleteProductMutation,
     useProductDetailsQuery,
     useUpdateProductMutation,
 } from '../../../redux/api/productAPI';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { server } from '../../../redux/store';
+import { UserReducerInitialState } from '../../../types/reducer-types';
 import { responseToast } from '../../../utils/features';
-import { FaEdit, FaTrash, FaUpload } from 'react-icons/fa';
-import ProductCardSkeleton from '../../../components/productSceleton';
 
 const ProductManagement = () => {
     const { user } = useSelector(
@@ -125,7 +124,7 @@ const ProductManagement = () => {
 
                     <div className='product-image-container'>
                         <img
-                            src={`${server}/${photo}`}
+                            src={photo}
                             alt={name}
                             className='product-image'
                         />

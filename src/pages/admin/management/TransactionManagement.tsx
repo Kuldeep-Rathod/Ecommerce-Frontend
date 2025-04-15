@@ -9,7 +9,6 @@ import {
 } from '../../../redux/api/orderAPI';
 import { UserReducerInitialState } from '../../../types/reducer-types';
 import { OrderItem, OrderType } from '../../../types/types';
-import { server } from '../../../redux/store';
 import { responseToast } from '../../../utils/features';
 
 const defaultData: OrderType = {
@@ -109,7 +108,7 @@ const TransactionManagement = () => {
                         <ProductCard
                             key={i._id}
                             name={i.name}
-                            photo={`${server}/${i.photo}`}
+                            photo={i.photo}
                             productId={i.productId}
                             price={i.price}
                             quantity={i.quantity}

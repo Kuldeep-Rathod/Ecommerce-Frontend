@@ -1,4 +1,3 @@
-import { server } from '../redux/store';
 import { CartItem } from '../types/types';
 
 interface ProductCardProps {
@@ -29,7 +28,7 @@ const ProductCard = ({
                 </span>
             )}
             <img
-                src={`${server}/${photo}`}
+                src={photo}
                 alt={name}
             />
             <p>{name}</p>
