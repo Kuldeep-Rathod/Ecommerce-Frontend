@@ -7,6 +7,7 @@ import TableHOC from '../components/admin/TableHOC';
 import { useAllOrdersQuery } from '../redux/api/orderAPI';
 import { CustomError } from '../types/api-types';
 import { UserReducerInitialState } from '../types/reducer-types';
+import TableSkeleton from '../components/admin/skeleton/TableSkeleton';
 
 type DataType = {
     _id: string;
@@ -96,8 +97,7 @@ const Orders = () => {
     return (
         <div className='container'>
             <h1>My Orders</h1>
-
-            <Table />
+            {isLoading ? <TableSkeleton /> : <Table />}
         </div>
     );
 };
