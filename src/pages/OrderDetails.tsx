@@ -1,13 +1,7 @@
-import ProductCard from '../components/ProductCard';
-
-const addToCartHandler = () => {
-    alert('add to cart');
-};
-
 const OrderDetails = () => {
     return (
         <div>
-            <ProductCard
+            {/* <ProductCard
                 productId='1'
                 name='Macbook'
                 price={232223}
@@ -16,7 +10,7 @@ const OrderDetails = () => {
                     addToCartHandler();
                 }}
                 photo='https://m.media-amazon.com/images/I/514T0SvwkHL._SL1500_.jpg'
-            />
+            /> */}
         </div>
     );
 };
