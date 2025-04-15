@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import AdminSidebar from '../../../components/admin/AdminSidebar';
 import { DoughnutChart, PieChart } from '../../../components/admin/Charts';
 import { usePieQuery } from '../../../redux/api/dashboardAPI';
@@ -14,12 +14,11 @@ const PieCharts = () => {
 
     const pieCharts = data?.pieCharts;
 
-    useEffect(() => {
-        if (isError && error) {
-            const err = error as CustomError;
-            toast.error(err?.data?.message || 'Something went wrong');
-        }
-    }, [isError, error]);
+    if (isError && error) {
+        const err = error as CustomError;
+        toast.error(err?.data?.message || 'Something went wrong');
+        return <Navigate to={'/admin/dashboard'} />;
+    }
 
     if (isLoading) return <div>Loading Pie Charts...</div>;
     if (!pieCharts) return toast.error('Error to fetch Charts');

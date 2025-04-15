@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import AdminSidebar from '../../../components/admin/AdminSidebar';
 import { BarChart } from '../../../components/admin/Charts';
 import { useBarQuery } from '../../../redux/api/dashboardAPI';
@@ -13,13 +13,15 @@ const BarCharts = () => {
     const { data, isError, error, isLoading } = useBarQuery(user?._id!);
 
     const barCharts = data?.barCharts;
+    const products = barCharts?.products || [];
+    const users = barCharts?.users || [];
+    const orders = barCharts?.orders || [];
 
-    useEffect(() => {
-        if (isError && error) {
-            const err = error as CustomError;
-            toast.error(err?.data?.message || 'Something went wrong');
-        }
-    }, [isError, error]);
+    if (isError && error) {
+        const err = error as CustomError;
+        toast.error(err?.data?.message || 'Something went wrong');
+        return <Navigate to={'/admin/dashboard'} />;
+    }
 
     if (isLoading) return <div>Loading Bar Charts...</div>;
     if (!barCharts) return toast.error('Error to fetch Charts');
@@ -31,8 +33,8 @@ const BarCharts = () => {
                 <h1>Bar Charts</h1>
                 <section>
                     <BarChart
-                        data_1={barCharts.products}
-                        data_2={barCharts.users}
+                        data_1={products}
+                        data_2={users}
                         title_1='Products'
                         title_2='Users'
                         bgColor_1={`hsl(260,50%,30%)`}
@@ -44,7 +46,7 @@ const BarCharts = () => {
                 <section>
                     <BarChart
                         horizontal={true}
-                        data_1={barCharts.orders}
+                        data_1={orders}
                         data_2={[]}
                         title_1='Orders'
                         title_2=''

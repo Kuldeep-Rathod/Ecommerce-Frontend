@@ -7,18 +7,30 @@
     background-color: rgb(247, 247, 247);
 
     .backBtn {
-        @include mixin.square(2.5rem);
+        @include mixin.square(2rem);
         background-color: $black;
         color: $white;
         @include mixin.flex;
         position: fixed;
-        top: 2rem;
+        top: 6rem;
         left: 2rem;
         border-radius: 100%;
         border: none;
         outline: none;
         cursor: pointer;
         @include mixin.baseShadow;
+
+        @media (max-width: 768px) {
+            position: fixed;
+            top: 4rem;
+            left: 2rem;
+        }
+
+        @media (max-width: 425px) {
+            position: fixed;
+            top: 3rem;
+            left: 0.5rem;
+        }
 
         svg {
             transition: all 0.3s;

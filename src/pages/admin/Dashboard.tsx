@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { BiMaleFemale } from 'react-icons/bi';
 import { BsSearch } from 'react-icons/bs';
 import { FaRegBell } from 'react-icons/fa6';
 import { HiTrendingDown, HiTrendingUp } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import userImg from '../../assets/images/userpic.png';
 import AdminSidebar from '../../components/admin/AdminSidebar';
 import { BarChart, DoughnutChart } from '../../components/admin/Charts';
@@ -20,12 +20,11 @@ const Dashboard = () => {
 
     const stats = data?.Statistics;
 
-    useEffect(() => {
-        if (isError && error) {
-            const err = error as CustomError;
-            toast.error(err?.data?.message || 'Something went wrong');
-        }
-    }, [isError, error]);
+    if (isError && error) {
+        const err = error as CustomError;
+        toast.error(err?.data?.message || 'Something went wrong');
+        return <Navigate to={'/'} />;
+    }
 
     if (isLoading) return <div>Loading dashboard...</div>;
     if (!stats) return toast.error('Error to fetch Statistics');

@@ -1,24 +1,11 @@
 import { HiSortAscending, HiSortDescending } from 'react-icons/hi';
 import {
-    useTable,
     Column,
     TableOptions,
-    useSortBy,
     usePagination,
-    PluginHook,
-    TableInstance,
-    UseSortByInstanceProps,
-    UsePaginationInstanceProps,
-    UseSortByState,
-    UsePaginationState,
+    useSortBy,
+    useTable,
 } from 'react-table';
-
-// Define the type for the table instance with both sorting and pagination plugins
-type TableInstanceWithPlugins<T extends object> = TableInstance<T> &
-    UseSortByInstanceProps<T> &
-    UsePaginationInstanceProps<T> & {
-        state: UseSortByState<T> & UsePaginationState<T>;
-    };
 
 function TableHOC<T extends object>(
     columns: Column<T>[],
@@ -48,11 +35,7 @@ function TableHOC<T extends object>(
             canPreviousPage,
             pageCount,
             state: { pageIndex },
-        } = useTable(
-            options,
-            useSortBy,
-            usePagination
-        ) as TableInstanceWithPlugins<T>;
+        } = useTable(options, useSortBy, usePagination);
 
         return (
             <div className={containerClassname}>
@@ -63,9 +46,9 @@ function TableHOC<T extends object>(
                     {...getTableProps()}
                 >
                     <thead>
-                        {headerGroups.map((headerGroup) => (
-                            <tr {...headerGroup.getHeaderGroupProps()}>
-                                {headerGroup.headers.map((column) => (
+                        {headerGroups.map((headerGroups) => (
+                            <tr {...headerGroups.getHeaderGroupProps()}>
+                                {headerGroups.headers.map((column) => (
                                     <th
                                         {...column.getHeaderProps(
                                             column.getSortByToggleProps()

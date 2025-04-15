@@ -24,6 +24,8 @@ const Shipping = () => {
         pinCode: '',
     });
 
+    const [isLoadingShip, SetIsLoadingShip] = useState(false);
+
     const changeHandler = (
         e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
@@ -36,6 +38,7 @@ const Shipping = () => {
         dispatch(saveShippingInfo(shippingInfo));
 
         try {
+            SetIsLoadingShip(true);
             const { data } = await axios.post(
                 `${server}/api/v1/payment/create`,
                 { amount: total },
@@ -48,9 +51,11 @@ const Shipping = () => {
             navigate('/pay', {
                 state: data.clientSecret,
             });
+            SetIsLoadingShip(false);
         } catch (error) {
             console.log(error);
             toast.error('Somthing Went Wrong');
+            SetIsLoadingShip(false);
         }
     };
 
@@ -112,7 +117,15 @@ const Shipping = () => {
                     onChange={changeHandler}
                 />
 
-                <button type='submit'>Pay Now</button>
+                <button
+                    type='submit'
+                    disabled={isLoadingShip}
+                    style={{
+                        cursor: isLoadingShip ? 'not-allowed' : 'pointer',
+                    }}
+                >
+                    {isLoadingShip ? 'Processing' : 'Pay Now'}
+                </button>
             </form>
         </div>
     );

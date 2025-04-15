@@ -28,7 +28,7 @@ const ProductManagement = () => {
         name: '',
         price: 0,
         category: '',
-        stock: 1,
+        stock: 0,
         photo: '',
     };
 

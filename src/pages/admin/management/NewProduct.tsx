@@ -15,8 +15,8 @@ const NewProduct = () => {
 
     const [name, setName] = useState<string>('');
     const [category, setCategory] = useState<string>('');
-    const [price, setPrice] = useState<number>(1000);
-    const [stock, setStock] = useState<number>(1);
+    const [price, setPrice] = useState<number>(0);
+    const [stock, setStock] = useState<number>(0);
     const [photoPrev, setPhotoPrev] = useState<string>('');
     const [photo, setPhoto] = useState<File>();
 
@@ -43,10 +43,13 @@ const NewProduct = () => {
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!name || !photo || !price || !category || !stock) {
+        if (!name || !photo || !price || !category) {
             return toast.error('All field are required');
         }
-        console.log('inside subit handler');
+        if (stock < 0) {
+            return toast.error('Verify Stock value');
+        }
+
         const formData = new FormData();
 
         formData.set('name', name);

@@ -1,11 +1,11 @@
+import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import AdminSidebar from '../../../components/admin/AdminSidebar';
 import { LineChart } from '../../../components/admin/Charts';
-import { RootState } from '../../../redux/store';
 import { useLineQuery } from '../../../redux/api/dashboardAPI';
-import { useEffect } from 'react';
+import { RootState } from '../../../redux/store';
 import { CustomError } from '../../../types/api-types';
-import toast from 'react-hot-toast';
 
 const LineCharts = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
@@ -13,13 +13,16 @@ const LineCharts = () => {
     const { data, isError, error, isLoading } = useLineQuery(user?._id!);
 
     const lineCharts = data?.lineCharts;
+    const products = lineCharts?.products || [];
+    const discount = lineCharts?.discount || [];
+    const revenue = lineCharts?.revenue || [];
+    const users = lineCharts?.users || [];
 
-    useEffect(() => {
-        if (isError && error) {
-            const err = error as CustomError;
-            toast.error(err?.data?.message || 'Something went wrong');
-        }
-    }, [isError, error]);
+    if (isError && error) {
+        const err = error as CustomError;
+        toast.error(err?.data?.message || 'Something went wrong');
+        return <Navigate to={'/admin/dashboard'} />;
+    }
 
     if (isLoading) return <div>Loading Line Charts...</div>;
     if (!lineCharts) return toast.error('Error to fetch Charts');
@@ -31,7 +34,7 @@ const LineCharts = () => {
                 <h1>Line Charts</h1>
                 <section>
                     <LineChart
-                        data={lineCharts.users}
+                        data={users}
                         label='Users'
                         backgroundColor='hsl(240, 80%, 75%)'
                         borderColor='hsl(240, 80%, 55%)'
@@ -41,7 +44,7 @@ const LineCharts = () => {
                 </section>
                 <section>
                     <LineChart
-                        data={lineCharts.products}
+                        data={products}
                         backgroundColor={'hsla(269,80%,40%,0.4)'}
                         borderColor={'hsl(269,80%,40%)'}
                         label='Products'
@@ -52,7 +55,7 @@ const LineCharts = () => {
 
                 <section>
                     <LineChart
-                        data={lineCharts.revenue}
+                        data={revenue}
                         backgroundColor={'hsla(129,80%,40%,0.4)'}
                         borderColor={'hsl(129,80%,40%)'}
                         label='Revenue'
@@ -63,7 +66,7 @@ const LineCharts = () => {
 
                 <section>
                     <LineChart
-                        data={lineCharts.discount}
+                        data={discount}
                         backgroundColor={'hsla(29,80%,40%,0.4)'}
                         borderColor={'hsl(29,80%,40%)'}
                         label='Discount'
