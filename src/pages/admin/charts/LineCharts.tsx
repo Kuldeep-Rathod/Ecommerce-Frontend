@@ -6,6 +6,7 @@ import { LineChart } from '../../../components/admin/Charts';
 import { useLineQuery } from '../../../redux/api/dashboardAPI';
 import { RootState } from '../../../redux/store';
 import { CustomError } from '../../../types/api-types';
+import ChartsSkeleton from '../../../components/admin/skeleton/ChartsSkeleton';
 
 const LineCharts = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
@@ -24,7 +25,7 @@ const LineCharts = () => {
         return <Navigate to={'/admin/dashboard'} />;
     }
 
-    if (isLoading) return <div>Loading Line Charts...</div>;
+    if (isLoading) return <ChartsSkeleton />;
     if (!lineCharts) return toast.error('Error to fetch Charts');
 
     return (

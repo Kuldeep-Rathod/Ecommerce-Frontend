@@ -8,6 +8,7 @@ import TableHOC from '../../components/admin/TableHOC';
 import { useAllOrdersQuery } from '../../redux/api/orderAPI';
 import { RootState } from '../../redux/store';
 import { CustomError } from '../../types/api-types';
+import TableSkeleton from '../../components/admin/skeleton/TableSkeleton';
 
 interface DataType {
     user: string;
@@ -96,13 +97,17 @@ const Transaction = () => {
         'dashboardProductBox',
         'Transactions',
         rows.length > 5
-    );
+    )();
 
     return (
         <div className='adminContainer'>
             <AdminSidebar />
             <main>
-                <div className='customerPageContainer'>{Table()}</div>
+                {isLoading ? (
+                    <TableSkeleton />
+                ) : (
+                    <div className='customerPageContainer'>{Table}</div>
+                )}
             </main>
         </div>
     );

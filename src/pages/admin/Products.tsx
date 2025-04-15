@@ -1,16 +1,16 @@
 import { ReactElement, useEffect, useState } from 'react';
-import { Column } from 'react-table';
-import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { FaPlus } from 'react-icons/fa6';
-import TableHOC from '../../components/admin/TableHOC';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Column } from 'react-table';
 import AdminSidebar from '../../components/admin/AdminSidebar';
+import TableHOC from '../../components/admin/TableHOC';
 import { useAllProductsQuery } from '../../redux/api/productAPI';
 import { server } from '../../redux/store';
-import toast from 'react-hot-toast';
 import { CustomError } from '../../types/api-types';
-import { useSelector } from 'react-redux';
 import { UserReducerInitialState } from '../../types/reducer-types';
-import Loading from '../../components/Loading';
+import TableSkeleton from '../../components/admin/skeleton/TableSkeleton';
 
 interface DataType {
     photo: ReactElement;
@@ -83,7 +83,7 @@ const Products = () => {
         <div className='adminContainer'>
             <AdminSidebar />
             <main className='productPage'>
-                {isLoading ? <Loading /> : Table}
+                {isLoading ? <TableSkeleton /> : Table}
                 <Link
                     to='/admin/product/new'
                     className='createProductBtn'

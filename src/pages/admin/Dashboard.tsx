@@ -12,6 +12,7 @@ import Table from '../../components/admin/DashboardTable';
 import { useStatsQuery } from '../../redux/api/dashboardAPI';
 import { RootState } from '../../redux/store';
 import { CustomError } from '../../types/api-types';
+import DashboardSkeleton from '../../components/admin/skeleton/DashboardSkeleton';
 
 const Dashboard = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
@@ -26,7 +27,7 @@ const Dashboard = () => {
         return <Navigate to={'/'} />;
     }
 
-    if (isLoading) return <div>Loading dashboard...</div>;
+    if (isLoading) return <DashboardSkeleton />;
     if (!stats) return toast.error('Error to fetch Statistics');
 
     return (

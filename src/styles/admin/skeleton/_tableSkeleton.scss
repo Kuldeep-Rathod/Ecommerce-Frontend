@@ -1,0 +1,55 @@
+// TableSkeleton.scss
+@keyframes table-skeleton-pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+  }
+  
+  .table-skeleton-container {
+    width: 90%;
+    background: white;
+    padding: 1rem 2rem;
+    margin: 2rem;
+    border-radius: 10px;
+    
+    .table-skeleton-header {
+      display: grid;
+      grid-template-columns: 100px 2fr 1fr 1fr 100px;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #f0f0f0;
+  
+      &-cell {
+        height: 20px;
+        background: #f5f5f5;
+        border-radius: 4px;
+        animation: table-skeleton-pulse 1.5s ease-in-out infinite;
+      }
+    }
+  
+    .table-skeleton-row {
+      display: grid;
+      grid-template-columns: 100px 2fr 1fr 1fr 100px;
+      gap: 1rem;
+      padding: 1rem 0;
+      align-items: center;
+  
+      .table-skeleton-cell {
+        height: 20px;
+        background: #f5f5f5;
+        border-radius: 4px;
+        animation: table-skeleton-pulse 1.5s ease-in-out infinite;
+  
+        &.table-skeleton-image {
+          height: 50px;
+          width: 50px;
+        }
+  
+        &.table-skeleton-action {
+          width: 80px;
+          height: 30px;
+        }
+      }
+    }
+  }

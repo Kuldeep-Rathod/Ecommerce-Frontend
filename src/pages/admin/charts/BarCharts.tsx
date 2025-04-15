@@ -6,6 +6,7 @@ import { BarChart } from '../../../components/admin/Charts';
 import { useBarQuery } from '../../../redux/api/dashboardAPI';
 import { RootState } from '../../../redux/store';
 import { CustomError } from '../../../types/api-types';
+import ChartsSkeleton from '../../../components/admin/skeleton/ChartsSkeleton';
 
 const BarCharts = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
@@ -23,7 +24,7 @@ const BarCharts = () => {
         return <Navigate to={'/admin/dashboard'} />;
     }
 
-    if (isLoading) return <div>Loading Bar Charts...</div>;
+    if (isLoading) return <ChartsSkeleton />;
     if (!barCharts) return toast.error('Error to fetch Charts');
 
     return (

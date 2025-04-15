@@ -12,6 +12,7 @@ import {
 import { RootState } from '../../redux/store';
 import { CustomError } from '../../types/api-types';
 import { responseToast } from '../../utils/features';
+import TableSkeleton from '../../components/admin/skeleton/TableSkeleton';
 
 interface DataType {
     avatar: ReactElement;
@@ -103,16 +104,16 @@ const Customers = () => {
 
     return (
         <div className='adminContainer'>
-            {isLoading ? (
-                <div>Loading Customer data...</div>
-            ) : (
-                <>
-                    <AdminSidebar />
-                    <main>
+            <>
+                <AdminSidebar />
+                <main>
+                    {isLoading ? (
+                        <TableSkeleton />
+                    ) : (
                         <CustomersTable rows={rows} />
-                    </main>
-                </>
-            )}
+                    )}
+                </main>
+            </>
         </div>
     );
 };

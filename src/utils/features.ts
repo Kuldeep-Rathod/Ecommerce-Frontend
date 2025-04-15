@@ -23,6 +23,6 @@ export const responseToast = (
     } else {
         const error = res.error as FetchBaseQueryError;
         const MessageResponse = error.data as MessageResponse;
-        toast.error(MessageResponse.message);
+        toast.error(MessageResponse.message || 'Something Went Wrong');
     }
 };

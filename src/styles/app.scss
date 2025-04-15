@@ -17,6 +17,9 @@
 @use './admin/chart';
 @use './admin/dashboardApp';
 @use './admin/mediaQuery';
+@use './admin//skeleton/dashboardSkeleton';
+@use './admin/skeleton/tableSkeleton';
+@use './admin/skeleton/chartsSkeleton';
 
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

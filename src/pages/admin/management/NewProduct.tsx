@@ -42,27 +42,30 @@ const NewProduct = () => {
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        try {
+            if (!name || !photo || !price || !category) {
+                return toast.error('All field are required');
+            }
+            if (stock < 0) {
+                return toast.error('Verify Stock value');
+            }
 
-        if (!name || !photo || !price || !category) {
-            return toast.error('All field are required');
+            const formData = new FormData();
+
+            formData.set('name', name);
+            formData.set('price', price.toString());
+            formData.set('stock', stock.toString());
+            formData.set('photo', photo);
+            formData.set('category', category);
+
+            if (!user) return toast.error('User Not Found');
+
+            const res = await NewProductssssss({ id: user._id!, formData });
+
+            responseToast(res, navigate, '/admin/products');
+        } catch (error) {
+            console.error('Product creation failed:', error);
         }
-        if (stock < 0) {
-            return toast.error('Verify Stock value');
-        }
-
-        const formData = new FormData();
-
-        formData.set('name', name);
-        formData.set('price', price.toString());
-        formData.set('stock', stock.toString());
-        formData.set('photo', photo);
-        formData.set('category', category);
-
-        if (!user) return toast.error('User Not Found');
-
-        const res = await NewProductssssss({ id: user._id!, formData });
-
-        responseToast(res, navigate, '/admin/products');
     };
 
     return (

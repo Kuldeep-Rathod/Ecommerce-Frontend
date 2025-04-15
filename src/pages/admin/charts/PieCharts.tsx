@@ -6,6 +6,7 @@ import { DoughnutChart, PieChart } from '../../../components/admin/Charts';
 import { usePieQuery } from '../../../redux/api/dashboardAPI';
 import { RootState } from '../../../redux/store';
 import { CustomError } from '../../../types/api-types';
+import ChartsSkeleton from '../../../components/admin/skeleton/ChartsSkeleton';
 
 const PieCharts = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
@@ -20,7 +21,7 @@ const PieCharts = () => {
         return <Navigate to={'/admin/dashboard'} />;
     }
 
-    if (isLoading) return <div>Loading Pie Charts...</div>;
+    if (isLoading) return <ChartsSkeleton />;
     if (!pieCharts) return toast.error('Error to fetch Charts');
 
     return (
