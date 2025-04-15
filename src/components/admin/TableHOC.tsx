@@ -1,13 +1,26 @@
-import { HiSortAscending, HiSortDescending } from "react-icons/hi";
+import { HiSortAscending, HiSortDescending } from 'react-icons/hi';
 import {
     useTable,
     Column,
     TableOptions,
     useSortBy,
     usePagination,
-} from "react-table";
+    PluginHook,
+    TableInstance,
+    UseSortByInstanceProps,
+    UsePaginationInstanceProps,
+    UseSortByState,
+    UsePaginationState,
+} from 'react-table';
 
-function TableHOC<T extends Object>(
+// Define the type for the table instance with both sorting and pagination plugins
+type TableInstanceWithPlugins<T extends object> = TableInstance<T> &
+    UseSortByInstanceProps<T> &
+    UsePaginationInstanceProps<T> & {
+        state: UseSortByState<T> & UsePaginationState<T>;
+    };
+
+function TableHOC<T extends object>(
     columns: Column<T>[],
     data: T[],
     containerClassname: string,
@@ -34,26 +47,31 @@ function TableHOC<T extends Object>(
             canNextPage,
             canPreviousPage,
             pageCount,
-            state:{
-                pageIndex
-            }
-        } = useTable(options, useSortBy, usePagination);
+            state: { pageIndex },
+        } = useTable(
+            options,
+            useSortBy,
+            usePagination
+        ) as TableInstanceWithPlugins<T>;
 
         return (
             <div className={containerClassname}>
-                <h2 className="heading">{heading}</h2>
+                <h2 className='heading'>{heading}</h2>
 
-                <table className="table" {...getTableProps()}>
+                <table
+                    className='table'
+                    {...getTableProps()}
+                >
                     <thead>
-                        {headerGroups.map((headerGroups) => (
-                            <tr {...headerGroups.getHeaderGroupProps()}>
-                                {headerGroups.headers.map((column) => (
+                        {headerGroups.map((headerGroup) => (
+                            <tr {...headerGroup.getHeaderGroupProps()}>
+                                {headerGroup.headers.map((column) => (
                                     <th
                                         {...column.getHeaderProps(
                                             column.getSortByToggleProps()
                                         )}
                                     >
-                                        {column.render("Header")}{" "}
+                                        {column.render('Header')}{' '}
                                         {column.isSorted && (
                                             <span>
                                                 {column.isSortedDesc ? (
@@ -76,7 +94,7 @@ function TableHOC<T extends Object>(
                                 <tr {...row.getRowProps()}>
                                     {row.cells.map((cell) => (
                                         <td {...cell.getCellProps()}>
-                                            {cell.render("Cell")}
+                                            {cell.render('Cell')}
                                         </td>
                                     ))}
                                 </tr>
@@ -86,17 +104,18 @@ function TableHOC<T extends Object>(
                 </table>
 
                 {showPagination && (
-                    <div className="tablePagination">
+                    <div className='tablePagination'>
                         <button
                             disabled={!canPreviousPage}
                             onClick={previousPage}
                         >
                             Prev
                         </button>
-                        <span>
-                            {`Page ${pageIndex + 1} of ${pageCount}`}
-                        </span>
-                        <button disabled={!canNextPage} onClick={nextPage}>
+                        <span>{`Page ${pageIndex + 1} of ${pageCount}`}</span>
+                        <button
+                            disabled={!canNextPage}
+                            onClick={nextPage}
+                        >
                             Next
                         </button>
                     </div>

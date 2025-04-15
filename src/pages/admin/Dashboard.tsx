@@ -188,8 +188,8 @@ const WidgetItem = ({
             }}
         >
             <span style={{ color }}>
-                {percent > 0 && `${percent > 10000 ? 9999 : percent}`}%
-                {percent < 0 && `${percent > -10000 ? -9999 : percent}`}%
+                {percent > 0 && `${percent > 10000 ? 9999 : percent}%`}
+                {percent < 0 && `${percent > -10000 ? -9999 : percent}%`}
             </span>
         </div>
     </article>

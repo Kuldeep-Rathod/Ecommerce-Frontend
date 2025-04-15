@@ -1,4 +1,5 @@
 import {
+    Bar,
     CartItem,
     OrderType,
     Pie,
@@ -31,6 +32,11 @@ export type StatsResponse = {
 export type PieResponse = {
     success: boolean;
     pieCharts: Pie;
+};
+
+export type BarResponse = {
+    success: boolean;
+    barCharts: Bar;
 };
 
 export type AllUsersResponse = {

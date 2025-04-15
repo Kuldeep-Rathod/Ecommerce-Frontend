@@ -1,5 +1,11 @@
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 import AdminSidebar from '../../../components/admin/AdminSidebar';
 import { BarChart } from '../../../components/admin/Charts';
+import { useBarQuery } from '../../../redux/api/dashboardAPI';
+import { RootState } from '../../../redux/store';
+import { CustomError } from '../../../types/api-types';
 
 const months = [
     'January',
@@ -17,6 +23,22 @@ const months = [
 ];
 
 const BarCharts = () => {
+    const { user } = useSelector((state: RootState) => state.userReducer);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    const { data, isError, error, isLoading } = useBarQuery(user?._id!);
+
+    const barCharts = data?.barCharts;
+
+    useEffect(() => {
+        if (isError && error) {
+            const err = error as CustomError;
+            toast.error(err?.data?.message || 'Something went wrong');
+        }
+    }, [isError, error]);
+
+    if (isLoading) return <div>Loading Pie Charts...</div>;
+    if (!barCharts) return toast.error('Error to fetch Charts');
+
     return (
         <div className='adminContainer'>
             <AdminSidebar />
@@ -24,8 +46,8 @@ const BarCharts = () => {
                 <h1>Bar Charts</h1>
                 <section>
                     <BarChart
-                        data_1={[200, 444, 343, 556, 778, 455, 990]}
-                        data_2={[300, 144, 433, 655, 237, 755, 190]}
+                        data_1={barCharts.products}
+                        data_2={barCharts.users}
                         title_1='Products'
                         title_2='Users'
                         bgColor_1={`hsl(260,50%,30%)`}
@@ -36,12 +58,9 @@ const BarCharts = () => {
                 <section>
                     <BarChart
                         horizontal={true}
-                        data_1={[
-                            200, 444, 343, 556, 778, 455, 990, 444, 122, 334,
-                            890, 909,
-                        ]}
+                        data_1={barCharts.orders}
                         data_2={[]}
-                        title_1='Products'
+                        title_1='Orders'
                         title_2=''
                         bgColor_1={`hsl(240, 50%, 40%)`}
                         bgColor_2=''

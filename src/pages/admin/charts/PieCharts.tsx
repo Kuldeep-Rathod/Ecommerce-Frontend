@@ -24,11 +24,6 @@ const PieCharts = () => {
     if (isLoading) return <div>Loading Pie Charts...</div>;
     if (!pieCharts) return toast.error('Error to fetch Charts');
 
-    const categoryRatio = pieCharts.productCategories.map((category) => {
-        const [label, value] = Object.entries(category)[0];
-        return { label, value };
-    });
-
     return (
         <div className='adminContainer'>
             <AdminSidebar />
@@ -56,12 +51,18 @@ const PieCharts = () => {
                 <section>
                     <div>
                         <DoughnutChart
-                            labels={categoryRatio.map((i) => i.label)}
-                            data={categoryRatio.map((i) => i.value)}
-                            backgroundColor={categoryRatio.map(
+                            labels={pieCharts.productCategories.map(
+                                (i) => Object.keys(i)[0]
+                            )}
+                            data={pieCharts.productCategories.map(
+                                (i) => Object.values(i)[0]
+                            )}
+                            backgroundColor={pieCharts.productCategories.map(
                                 (_, index) =>
                                     `hsl(${
-                                        ((index * 360) / categoryRatio.length) %
+                                        ((index * 360) /
+                                            pieCharts.productCategories
+                                                .length) %
                                         360
                                     }, 70%, 65%)`
                             )}

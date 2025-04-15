@@ -71,7 +71,7 @@ const Customers = () => {
                 data.users.map((i) => ({
                     avatar: (
                         <img
-                            // style={{ borderRadius: '50%' }}
+                            style={{ borderRadius: '50%' }}
                             alt={i.name}
                             src={`${i.photo}`}
                         />
@@ -90,20 +90,29 @@ const Customers = () => {
         }
     }, [data]);
 
-    const Table = TableHOC<DataType>(
-        columns,
-        rows,
-        'dashboardProductBox',
-        'Customers',
-        rows.length > 5
-    );
+    const CustomersTable = ({ rows }: { rows: DataType[] }) => {
+        const Table = TableHOC<DataType>(
+            columns,
+            rows,
+            'dashboardProductBox',
+            'Customers',
+            rows.length > 5
+        );
+        return <div className='customerPageContainer'>{Table()}</div>;
+    };
 
     return (
         <div className='adminContainer'>
-            <AdminSidebar />
-            <main>
-                <div className='customerPageContainer'>{Table()}</div>
-            </main>
+            {isLoading ? (
+                <div>Loading Customer data...</div>
+            ) : (
+                <>
+                    <AdminSidebar />
+                    <main>
+                        <CustomersTable rows={rows} />
+                    </main>
+                </>
+            )}
         </div>
     );
 };
