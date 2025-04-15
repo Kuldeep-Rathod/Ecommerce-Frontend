@@ -57,6 +57,21 @@ const CheckoutForm = () => {
             user: user?._id!,
         };
 
+        if (cartItems.length === 0) {
+            toast.error('Your cart is empty.');
+            return;
+        }
+
+        if (
+            !shippingInfo.address ||
+            !shippingInfo.city ||
+            !shippingInfo.country ||
+            !shippingInfo.pinCode
+        ) {
+            toast.error('Shipping information is incomplete.');
+            return;
+        }
+
         const { paymentIntent, error } = await stripe.confirmPayment({
             elements,
             confirmParams: { return_url: window.location.origin },

@@ -23,7 +23,7 @@ export type ShippingInfo = {
     state: string;
     country: string;
     pinCode: string;
-    phoneNo?: number;
+    phoneNo?: string;
 };
 
 export type CartItem = {

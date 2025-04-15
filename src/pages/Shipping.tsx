@@ -22,6 +22,7 @@ const Shipping = () => {
         state: '',
         country: '',
         pinCode: '',
+        phoneNo: '',
     });
 
     const [isLoadingShip, SetIsLoadingShip] = useState(false);
@@ -49,7 +50,7 @@ const Shipping = () => {
                 }
             );
             navigate('/pay', {
-                state: data.clientSecret,
+                state: data.client_secret,
             });
             SetIsLoadingShip(false);
         } catch (error) {
@@ -114,6 +115,14 @@ const Shipping = () => {
                     placeholder='PinCode'
                     name='pinCode'
                     value={shippingInfo.pinCode}
+                    onChange={changeHandler}
+                />
+                <input
+                    required
+                    type='number'
+                    placeholder='Phone Number'
+                    name='phoneNo'
+                    value={shippingInfo.phoneNo}
                     onChange={changeHandler}
                 />
 

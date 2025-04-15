@@ -3,8 +3,9 @@ import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Column } from 'react-table';
+import TableSkeleton from '../components/admin/skeleton/TableSkeleton';
 import TableHOC from '../components/admin/TableHOC';
-import { useAllOrdersQuery } from '../redux/api/orderAPI';
+import { useMyOrdersQuery } from '../redux/api/orderAPI';
 import { CustomError } from '../types/api-types';
 import { UserReducerInitialState } from '../types/reducer-types';
 
@@ -50,7 +51,7 @@ const Orders = () => {
     );
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-    const { isLoading, isError, error, data } = useAllOrdersQuery(user?._id!);
+    const { isLoading, isError, error, data } = useMyOrdersQuery(user?._id!);
 
     const [rows, setRows] = useState<DataType[]>([]);
 
@@ -97,7 +98,7 @@ const Orders = () => {
         <div className='container'>
             <h1>My Orders</h1>
 
-            <Table />
+            {isLoading ? <TableSkeleton /> : <Table />}
         </div>
     );
 };
