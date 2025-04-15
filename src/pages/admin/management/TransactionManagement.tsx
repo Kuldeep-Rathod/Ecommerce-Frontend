@@ -19,7 +19,7 @@ const defaultData: OrderType = {
         state: '',
         country: '',
         pinCode: '',
-        phoneNo: 0,
+        phoneNo: '',
     },
     orderItems: [],
     status: '',
