@@ -48,25 +48,79 @@
         font-size: 1.1rem;
     }
 
-    button {
-        background-color: rgba(0, 115, 255);
-        color: white;
-        border: none;
-        padding: 0.6rem 1rem;
-        border-radius: 8px;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        @include mixin.flex(row, center, center, 0.5rem);
-        margin-top: 0.5rem;
+    > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
 
-        &:hover {
-            background-color: rgba(0, 95, 220);
+        button {
+            background-color: rgba(0, 115, 255, 0.945);
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            @include mixin.flex(row, center, center, 0.5rem);
+            margin-top: 0.5rem;
+            flex-grow: 1;
+            // position: relative;
+
+            &:hover {
+                background-color: rgba(0, 95, 220);
+            }
+
+            &:active {
+                transform: scale(0.98);
+            }
+
+            &:disabled {
+                background-color: rgba(0, 115, 255, 0.5);
+                cursor: not-allowed;
+            }
         }
 
-        &:disabled {
-            background-color: rgba(0, 115, 255, 0.5);
-            cursor: not-allowed;
+        .favorite {
+            font-size: 1.4rem;
+            color: #ff6b6b;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 0.8rem;
+            margin-top: 0.5rem;
+            position: relative;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background-color: rgba(255, 107, 107, 0.1);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                transition: width 0.3s ease, height 0.3s ease;
+            }
+
+            &:hover {
+                transform: scale(1.1);
+
+                &::before {
+                    width: 2.5rem;
+                    height: 2.5rem;
+                }
+            }
+
+            &:active {
+                transform: scale(0.9);
+            }
+
+            &.active {
+                color: #ff4757;
+                animation: heartBeat 0.5s;
+            }
         }
     }
 
@@ -89,11 +143,15 @@
     }
 
     @media (max-width: 768px) {
-        max-width: 100%;
+        max-width: 280px;
 
         img {
             height: 150px;
         }
+    }
+
+    @media (max-width: 425px) {
+        max-width: 100%;
     }
 }
 

@@ -1,19 +1,20 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import {
+    FaBars,
+    FaHeart,
     FaSearch,
     FaShoppingBag,
-    FaUser,
-    FaBars,
     FaTimes,
-    FaHeart,
+    FaUser,
 } from 'react-icons/fa';
-import { useState, useEffect } from 'react';
-import { User } from '../types/types';
-import { signOut } from 'firebase/auth';
-import { auth } from '../firebase';
-import toast from 'react-hot-toast';
-import { CartReducerInitialState } from '../types/reducer-types';
 import { useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth } from '../firebase';
+import { useGetWishlistQuery } from '../redux/api/wishlistAPI';
+import { CartReducerInitialState } from '../types/reducer-types';
+import { User } from '../types/types';
 
 interface PropsType {
     user: User | null;
@@ -23,6 +24,9 @@ const Header = ({ user }: PropsType) => {
     const { cartItems } = useSelector(
         (state: { cartReducer: CartReducerInitialState }) => state.cartReducer
     );
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+    const { data: wishlistData } = useGetWishlistQuery(user?._id!);
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
@@ -69,7 +73,7 @@ const Header = ({ user }: PropsType) => {
                     to='/'
                     className='header-logo'
                 >
-                    <span>Shop</span>Ease
+                    <span>Quick</span>Cart
                 </Link>
 
                 <nav className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
@@ -179,7 +183,9 @@ const Header = ({ user }: PropsType) => {
                             className='icon-link'
                         >
                             <FaHeart />
-                            <span className='badge'>3</span>
+                            <span className='badge'>
+                                {wishlistData?.items.length}
+                            </span>
                         </Link>
 
                         <Link

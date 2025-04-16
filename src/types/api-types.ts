@@ -8,6 +8,7 @@ import {
     ShippingInfo,
     Statistics,
     User,
+    WishlistItem,
 } from './types';
 
 export type CustomError = {
@@ -84,11 +85,21 @@ export type OrderDetailsResponse = {
     order: OrderType;
 };
 
+export interface WishlistResponse {
+    success: boolean;
+    items: WishlistItem[];
+}
+
 //Requests
 
 export type NewProductRequest = {
     id: string;
     formData: FormData;
+};
+
+export type ToggleWishlistRequest = {
+    productId: string;
+    userId: string;
 };
 
 export type UpdateProductRequest = {

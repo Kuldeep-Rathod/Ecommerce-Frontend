@@ -1,14 +1,38 @@
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import ProductCardSkeleton from '../components/productSceleton';
 import { useLatestProductsQuery } from '../redux/api/productAPI';
 import { addToCart } from '../redux/reducer/cartReducer';
 import { CartItem } from '../types/types';
+import { RootState } from '../redux/store';
+import {
+    useGetWishlistQuery,
+    useToggleWishlistMutation,
+} from '../redux/api/wishlistAPI';
+import { responseToast } from '../utils/features';
 
 const Home = () => {
+    const { user } = useSelector((state: RootState) => state.userReducer);
+
     const { data, isLoading, isError } = useLatestProductsQuery('');
+
+    const { data: wishlistData, isLoading: wishlistLoading } =
+        useGetWishlistQuery(user?._id || '');
+
+    const [toggleWishlist] = useToggleWishlistMutation();
+
+    const toggleHandler = async (productId: string) => {
+        if (!user?._id) return toast.error('Please log in to add to wishlist');
+
+        const res = await toggleWishlist({
+            productId,
+            userId: user._id,
+        });
+
+        responseToast(res, null, '');
+    };
 
     const dispatch = useDispatch();
 
@@ -53,7 +77,8 @@ const Home = () => {
                         ? [...Array(4)].map((_, i) => (
                               <ProductCardSkeleton key={i} />
                           ))
-                        : data?.products.map((product) => (
+                        : !wishlistLoading &&
+                          data?.products.map((product) => (
                               <ProductCard
                                   key={product._id}
                                   productId={product._id}
@@ -62,6 +87,13 @@ const Home = () => {
                                   stock={product.stock}
                                   handler={addToCartHandler}
                                   photo={product.photo}
+                                  toggleHandler={toggleHandler}
+                                  isWishlisted={
+                                      wishlistData?.items.some(
+                                          (item) =>
+                                              item.product._id === product._id
+                                      ) || false
+                                  }
                               />
                           ))}
                 </div>

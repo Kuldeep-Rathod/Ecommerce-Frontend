@@ -18,6 +18,13 @@ export interface Product {
     _id: string;
 }
 
+export interface WishlistItem {
+    _id: string;
+    product: Product
+    addedAt: string;
+    id: string;
+}
+
 export type ShippingInfo = {
     address: string;
     city: string;
