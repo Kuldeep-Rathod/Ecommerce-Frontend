@@ -6,6 +6,7 @@ export interface User {
     role: string;
     dob: string;
     _id: string;
+    createdAt?: string;
 }
 
 export interface Product {

@@ -6,6 +6,7 @@ import { auth } from '../firebase';
 import { useLoginMutation } from '../redux/api/userAPI';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { MessageResponse } from '../types/api-types';
+import { Navigate } from 'react-router-dom';
 
 const Login = () => {
     const [gender, setGender] = useState<string>('');
@@ -38,6 +39,8 @@ const Login = () => {
 
             // console.log('User signed in:', user);
             toast.success('Sign in successful');
+
+            <Navigate to={'/'} />;
         } catch (error) {
             console.error('Error during sign-in:', error);
             toast.error('Sign in failed');
