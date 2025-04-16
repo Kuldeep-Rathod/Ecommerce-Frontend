@@ -10,6 +10,8 @@ import { userExist, userNotExist } from './redux/reducer/userReducer';
 import { getUser } from './redux/api/userAPI';
 import { UserReducerInitialState } from './types/reducer-types';
 import ProtectedRoute from './components/ProtectedRoute';
+import AboutUs from './pages/AboutUs';
+import Wishlist from './pages/Wishlist';
 
 const Login = lazy(() => import('./pages/Login'));
 const Home = lazy(() => import('./pages/Home'));
@@ -99,6 +101,10 @@ const App = () => {
                         path='/search'
                         element={<Search />}
                     />
+                    <Route
+                        path='/about'
+                        element={<AboutUs />}
+                    />
 
                     {/* Not logged In Route */}
                     <Route
@@ -123,6 +129,10 @@ const App = () => {
                         <Route
                             path='/account'
                             element={<MyAccount />}
+                        />
+                        <Route
+                            path='/wishlist'
+                            element={<Wishlist />}
                         />
                         <Route
                             path='/shipping'

@@ -1,0 +1,188 @@
+// Variables
+$primary: rgba(39, 136, 255, 0.959);
+$dark: #1e293b;
+$light: #f8fafc;
+$gray: #64748b;
+
+// Mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.about-page {
+    font-family: 'Inter', sans-serif;
+    color: $dark;
+    line-height: 1.6;
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+
+    // Mission Section
+    .mission-section {
+        padding: 4rem 0;
+        background: $light;
+
+        .mission-content {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            text-align: center;
+
+            h2 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+                color: $primary;
+            }
+
+            p {
+                font-size: 1.1rem;
+                color: $gray;
+            }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+
+            .stat-card {
+                background: white;
+                padding: 2rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+                .stat-number {
+                    display: block;
+                    font-size: 2.5rem;
+                    font-weight: bold;
+                    color: $primary;
+                    margin-bottom: 0.5rem;
+                }
+
+                .stat-label {
+                    font-size: 1rem;
+                    color: $gray;
+                }
+            }
+        }
+    }
+
+    // Team Section
+    .team-section {
+        padding: 4rem 0;
+        text-align: center;
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: $primary;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+
+            .team-card {
+                background: white;
+                padding: 1.5rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+                transition: transform 0.3s;
+
+                &:hover {
+                    transform: translateY(-5px);
+                }
+
+                img {
+                    width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    margin: 0 auto 1rem;
+                    border: 3px solid $primary;
+                }
+
+                h3 {
+                    margin-bottom: 0.5rem;
+                }
+
+                .position {
+                    color: $primary;
+                    font-weight: 600;
+                    margin-bottom: 1rem;
+                }
+
+                .bio {
+                    color: $gray;
+                    font-size: 0.9rem;
+                }
+            }
+        }
+    }
+
+    // Values Section
+    .values-section {
+        padding: 4rem 0;
+        background: $light;
+
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: $primary;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+
+            .value-card {
+                background: white;
+                padding: 2rem;
+                border-radius: 0.5rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+                .value-icon {
+                    font-size: 2.5rem;
+                    margin-bottom: 1rem;
+                }
+
+                h3 {
+                    margin-bottom: 1rem;
+                    color: $primary;
+                }
+
+                p {
+                    color: $gray;
+                }
+            }
+        }
+    }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .about-page {
+        .hero-section {
+            height: 300px;
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .mission-section,
+        .team-section,
+        .values-section {
+            padding: 2rem 0;
+        }
+    }
+}
