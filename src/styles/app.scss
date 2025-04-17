@@ -84,7 +84,7 @@ a {
     > aside {
         width: 100%;
         background-color: $white;
-        padding: 1rem;
+        padding: 0rem 1rem;
         z-index: 10;
         overflow-y: auto;
         &::-webkit-scrollbar {
@@ -226,29 +226,17 @@ a {
     cursor: pointer;
     color: rgba(44, 104, 255);
     position: fixed;
-    top: 5.3rem;
-    left: 1rem;
+    top: 1rem;
+    left: 0.75rem;
     font-size: 1.7rem;
     background-color: rgba(0, 115, 255, 0.1);
     border-radius: 50%;
     z-index: 9;
 }
 
-@media (max-width: 786px) {
-    #hamburger {
-        position: fixed;
-        top: 4.3rem;
-        left: 1rem;
-    }
-}
 
-@media (max-width: 425px) {
-    #hamburger {
-        position: fixed;
-        top: 3.3rem;
-        left: 1rem;
-    }
-}
+
+
 
 .loaderSection {
     height: 100vh;
