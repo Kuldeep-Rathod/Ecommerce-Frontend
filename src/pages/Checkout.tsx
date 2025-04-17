@@ -9,7 +9,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { FormEvent, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { RootState } from '../redux/store';
 import { useNewOrderMutation } from '../redux/api/orderAPI';
 import { resetCart } from '../redux/reducer/cartReducer';
@@ -145,12 +145,12 @@ const CheckoutForm = () => {
                             )}
                         </button>
                     </form>
-                    <a
-                        href='/cart'
+                    <Link
+                        to={'/cart'}
                         className='back-to-cart'
                     >
                         <FiArrowLeft /> Back to Cart
-                    </a>
+                    </Link>
                 </div>
 
                 <div className='order-summary'>
