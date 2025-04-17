@@ -1,4 +1,6 @@
 @use 'variables' as *;
+@use './admin/mixin' as mixin;
+@use 'sass:color';
 
 .wishlist-page {
     // max-width: 1200px;
@@ -8,17 +10,49 @@
 
     &__title {
         font-size: 2rem;
-        color: #333;
+        color: $primary;
         margin-bottom: 2rem;
         text-align: center;
         font-weight: 600;
     }
 
-    &__empty-message {
+    .empty-cart {
+        background: $white;
+        border-radius: 12px;
+        width: fit-content;
+        padding: 2rem;
+        margin: 0 auto;
         text-align: center;
-        font-size: 1.2rem;
-        color: #666;
-        margin-top: 3rem;
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        p {
+            color: rgba(0, 0, 0, 0.6);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .continue-shopping {
+            display: inline-block;
+            padding: 0.7rem 1.3rem;
+            background-color: $primary;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: color.adjust($primary, $lightness: -10%);
+
+                transform: translateY(-2px);
+            }
+        }
     }
 
     .wishlist-products-grid {

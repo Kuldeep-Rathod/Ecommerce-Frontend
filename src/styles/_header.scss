@@ -164,7 +164,9 @@
 
                     a,
                     button {
-                        display: block;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
                         padding: 0.5rem 1rem;
                         color: rgba(0, 0, 0, 0.825);
                         text-decoration: none;

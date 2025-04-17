@@ -29,7 +29,7 @@ const CartItemCard = ({
             
             <div className='cart-item-details'>
                 <Link to={`/product/${productId}`} className='cart-item-name'>{name}</Link>
-                <span className='cart-item-price'>${price}</span>
+                <span className='cart-item-price'>₹{price}</span>
                 
                 <div className='cart-item-quantity-mobile'>
                     <button 

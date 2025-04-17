@@ -11,6 +11,7 @@ import { addToCart } from '../redux/reducer/cartReducer';
 import { useDispatch } from 'react-redux';
 import { CartItem } from '../types/types';
 import { responseToast } from '../utils/features';
+import { Link } from 'react-router-dom';
 
 const Wishlist = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
@@ -55,9 +56,18 @@ const Wishlist = () => {
         <div className='wishlist-page'>
             <h2 className='wishlist-page__title'>My Wishlist</h2>
             {data.items.length === 0 ? (
-                <p className='wishlist-page__empty-message'>
-                    Your wishlist is empty.
-                </p>
+                <div className='empty-cart'>
+                    <h2>Your wishlist is empty</h2>
+                    <p>
+                        Looks like you haven't added anything to your wishlist yet
+                    </p>
+                    <Link
+                        to='/'
+                        className='continue-shopping'
+                    >
+                        Continue Shopping
+                    </Link>
+                </div>
             ) : (
                 <div className='wishlist-products-grid'>
                     {data.items.map(({ product }) => (

@@ -3,12 +3,15 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import {
     FaBars,
+    FaClipboardList,
     FaHeart,
     FaSearch,
-    FaShoppingBag,
+    FaShoppingCart,
+    FaSignOutAlt,
     FaTimes,
     FaUser,
 } from 'react-icons/fa';
+import { MdSpaceDashboard } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
@@ -138,18 +141,21 @@ const Header = ({ user }: PropsType) => {
                                         to='/account'
                                         onClick={() => setIsMenuOpen(false)}
                                     >
+                                        <FaUser />
                                         My Account
                                     </Link>
                                     <Link
                                         to='/orders'
                                         onClick={() => setIsMenuOpen(false)}
                                     >
+                                        <FaClipboardList />
                                         My Orders
                                     </Link>
                                     <Link
                                         to='/wishlist'
                                         onClick={() => setIsMenuOpen(false)}
                                     >
+                                        <FaHeart />
                                         Wishlist
                                     </Link>
                                     {user.role === 'admin' && (
@@ -157,6 +163,7 @@ const Header = ({ user }: PropsType) => {
                                             to='/admin/dashboard'
                                             onClick={() => setIsMenuOpen(false)}
                                         >
+                                            <MdSpaceDashboard />
                                             Dashboard
                                         </Link>
                                     )}
@@ -164,6 +171,7 @@ const Header = ({ user }: PropsType) => {
                                         className='logout-btn'
                                         onClick={logoutHandler}
                                     >
+                                        <FaSignOutAlt />
                                         Sign Out
                                     </button>
                                 </div>
@@ -193,7 +201,7 @@ const Header = ({ user }: PropsType) => {
                             onClick={() => setIsMenuOpen(false)}
                             className='icon-link cart-icon'
                         >
-                            <FaShoppingBag />
+                            <FaShoppingCart />
                             {cartItems.length > 0 ? (
                                 <span className='badge'>
                                     {cartItems.length}

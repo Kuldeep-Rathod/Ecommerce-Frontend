@@ -44,7 +44,7 @@ const ProductCard = ({
                 alt={name}
             />
             <p>{name}</p>
-            <span>${price.toFixed(2)}</span>
+            <span>₹{price.toFixed(2)}</span>
             <div>
                 <button
                     onClick={() =>
