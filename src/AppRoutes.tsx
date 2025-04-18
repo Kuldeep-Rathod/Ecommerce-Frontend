@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AboutUs from './pages/AboutUs';
 import Wishlist from './pages/Wishlist';
 import { User } from './types/types';
+import ProductPage from './pages/ProductDetails';
 
 const Login = lazy(() => import('./pages/Login'));
 const Home = lazy(() => import('./pages/Home'));
@@ -62,6 +63,10 @@ const AppRoutes = ({ user }: { user: User | null }) => {
                     <Route
                         path='/search'
                         element={<Search />}
+                    />
+                    <Route
+                        path='/product/:id'
+                        element={<ProductPage />}
                     />
                     <Route
                         path='/about'

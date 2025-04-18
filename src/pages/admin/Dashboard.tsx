@@ -163,7 +163,10 @@ const WidgetItem = ({
     color,
     amount,
 }: WidgetItemProps) => (
-    <article className='widget'>
+    <article
+        className='widget'
+        style={{ borderLeft: `4px solid ${color}` }}
+    >
         <div className='widgetInfo'>
             <p>{heading}</p>
             <h4>{amount ? `₹${value}` : value}</h4>
