@@ -1,18 +1,14 @@
-const OrderDetails = () => {
+import { useParams } from 'react-router-dom';
+import OrderDetails from '../components/OrderDetails';
+
+const OrderDetailsPage = () => {
+    const params = useParams();
+
     return (
         <div>
-            {/* <ProductCard
-                productId='1'
-                name='Macbook'
-                price={232223}
-                stock={213}
-                handler={() => {
-                    addToCartHandler();
-                }}
-                photo='https://m.media-amazon.com/images/I/514T0SvwkHL._SL1500_.jpg'
-            /> */}
+            <OrderDetails orderId={params.id!} />
         </div>
     );
 };
 
-export default OrderDetails;
+export default OrderDetailsPage;

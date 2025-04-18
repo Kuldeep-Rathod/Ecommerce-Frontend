@@ -9,7 +9,14 @@ const MyAccount = () => {
 
     if (!user) return toast('User Not Found');
 
-    console.log(user);
+    const formatDate = (timestamp: string | Date) => {
+        const date = new Date(timestamp);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        });
+    };
 
     const handleLogout = async () => {
         try {
@@ -54,11 +61,13 @@ const MyAccount = () => {
                 </div>
                 <div className='detail-row'>
                     <span className='detail-label'>Date of Birth</span>
-                    <span className='detail-value'>{user.dob}</span>
+                    <span className='detail-value'>{formatDate(user.dob)}</span>
                 </div>
                 <div className='detail-row'>
                     <span className='detail-label'>Member Since</span>
-                    <span className='detail-value'>{user.createdAt}</span>
+                    <span className='detail-value'>
+                        {formatDate(user.createdAt!)}
+                    </span>
                 </div>
             </div>
 

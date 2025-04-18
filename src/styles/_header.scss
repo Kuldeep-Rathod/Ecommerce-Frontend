@@ -34,7 +34,7 @@
         font-weight: 500;
         color: black;
         text-decoration: none;
-        @include mixin.flex(row, unset, center, 0.5rem);
+        @include mixin.flex(row, unset, center, 0rem);
 
         span {
             color: rgba(0, 115, 255);

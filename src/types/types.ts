@@ -20,7 +20,7 @@ export interface Product {
 
 export interface WishlistItem {
     _id: string;
-    product: Product
+    product: Product;
     addedAt: string;
     id: string;
 }
@@ -65,6 +65,8 @@ export type OrderType = {
         name: string;
         _id: string;
     };
+    createdAt?: string;
+    updatedAt?: string;
     _id: string;
 };
 

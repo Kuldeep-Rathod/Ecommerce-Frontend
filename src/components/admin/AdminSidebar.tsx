@@ -66,7 +66,7 @@ function AdminSidebar() {
                         to='/'
                         className='header-logo'
                     >
-                        <span>Quick</span>Cart
+                        <span>Flash</span>kart
                     </Link>
 
                     {phoneActive && (

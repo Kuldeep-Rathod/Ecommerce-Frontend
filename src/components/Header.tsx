@@ -76,7 +76,7 @@ const Header = ({ user }: PropsType) => {
                     to='/'
                     className='header-logo'
                 >
-                    <span>Quick</span>Cart
+                    <span>Flash</span>kart
                 </Link>
 
                 <nav className={`nav-links ${isMenuOpen ? 'open' : ''}`}>

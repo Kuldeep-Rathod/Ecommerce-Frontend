@@ -80,7 +80,7 @@ const Orders = () => {
                             {i.status}
                         </span>
                     ),
-                    action: <Link to={`/admin/orders/${i._id}`}>View</Link>,
+                    action: <Link to={`/orders/${i._id}`}>View</Link>,
                 }))
             );
         }
