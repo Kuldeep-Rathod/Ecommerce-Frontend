@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { CartItem } from '../types/types';
+import { Link } from 'react-router-dom';
 
 interface ProductCardProps {
     productId: string;
@@ -38,27 +39,29 @@ const ProductCard = ({
 
     return (
         <div className='productCard'>
-            {stock < 10 && (
-                <span className={`stock-indicator ${stockStatus}`}>
-                    {stock === 0 ? 'Sold Out' : `Only ${stock} left`}
-                </span>
-            )}
-            <img
-                src={image}
-                alt={name}
-            />
-            <p>{name}</p>
-            <div className='price-category'>
-                <span className='product-price'>
-                    ₹{price.toFixed(2)}{' '}
-                    {originalPrice > price && (
-                        <span className='original-price'>
-                            <s>₹{originalPrice.toFixed(2)}</s>
-                        </span>
-                    )}
-                </span>
-                <span className='product-category'>{category}</span>
-            </div>
+            <Link to={`/product/${productId}`}>
+                {stock < 10 && (
+                    <span className={`stock-indicator ${stockStatus}`}>
+                        {stock === 0 ? 'Sold Out' : `Only ${stock} left`}
+                    </span>
+                )}
+                <img
+                    src={image}
+                    alt={name}
+                />
+                <p>{name}</p>
+                <div className='price-category'>
+                    <span className='product-price'>
+                        ₹{price.toFixed(2)}{' '}
+                        {originalPrice > price && (
+                            <span className='original-price'>
+                                <s>₹{originalPrice.toFixed(2)}</s>
+                            </span>
+                        )}
+                    </span>
+                    <span className='product-category'>{category}</span>
+                </div>
+            </Link>
             <div>
                 <button
                     onClick={() =>
