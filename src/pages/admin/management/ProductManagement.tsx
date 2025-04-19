@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { FaEdit, FaTrash, FaUpload } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
@@ -64,6 +64,50 @@ const ProductManagement = () => {
 
     const [updateProduct] = useUpdateProductMutation();
     const [deleteProduct] = useDeleteProductMutation();
+
+    //Image Slider Logic
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
+    const slideIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+    // Auto-slide every 3 seconds
+    useEffect(() => {
+        slideIntervalRef.current = setInterval(() => {
+            setCurrentIndex((prevIndex) =>
+                prevIndex === images.length - 1 ? 0 : prevIndex + 1
+            );
+        }, 3000);
+
+        return () => {
+            if (slideIntervalRef.current)
+                clearInterval(slideIntervalRef.current);
+        };
+    }, [images.length]);
+
+    // Swipe handler
+    const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+        setTouchStartX(e.touches[0].clientX);
+    };
+
+    const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+        if (touchStartX === null) return;
+
+        const touchEndX = e.changedTouches[0].clientX;
+        const deltaX = touchEndX - touchStartX;
+
+        if (deltaX > 50) {
+            setCurrentIndex((prev) =>
+                prev === 0 ? images.length - 1 : prev - 1
+            );
+        } else if (deltaX < -50) {
+            setCurrentIndex((prev) =>
+                prev === images.length - 1 ? 0 : prev + 1
+            );
+        }
+
+        setTouchStartX(null);
+    };
 
     const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
@@ -184,7 +228,7 @@ const ProductManagement = () => {
                         </button>
                     </div>
 
-                    <div className='product-image-container'>
+                    {/* <div className='product-image-container'>
                         {Array.isArray(images) &&
                             images.map((img, i) => (
                                 <img
@@ -194,6 +238,32 @@ const ProductManagement = () => {
                                     className='product-image'
                                 />
                             ))}
+                    </div> */}
+
+                    <div
+                        className='slider-container'
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={handleTouchEnd}
+                    >
+                        <div
+                            className='slider-wrapper'
+                            style={{
+                                transform: `translateX(-${
+                                    currentIndex * 100
+                                }%)`,
+                                transition: 'transform 0.5s ease-in-out',
+                                width: `${images.length * 100}%`,
+                            }}
+                        >
+                            {images.map((img, i) => (
+                                <img
+                                    key={i}
+                                    src={img}
+                                    alt={`${name}-${i}`}
+                                    className='slider-image'
+                                />
+                            ))}
+                        </div>
                     </div>
 
                     <div className='product-details'>
@@ -214,10 +284,10 @@ const ProductManagement = () => {
 
                         <div className='price-category'>
                             <span className='product-price'>
-                                ${price.toFixed(2)}{' '}
+                                ₹{price.toFixed(2)}{' '}
                                 {originalPrice > price && (
                                     <span className='original-price'>
-                                        <s>${originalPrice.toFixed(2)}</s>
+                                        <s>₹{originalPrice.toFixed(2)}</s>
                                     </span>
                                 )}
                             </span>

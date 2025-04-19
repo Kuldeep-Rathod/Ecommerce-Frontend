@@ -12,7 +12,7 @@ import { CustomError } from '../../types/api-types';
 import { UserReducerInitialState } from '../../types/reducer-types';
 
 interface DataType {
-    photo: ReactElement;
+    image: ReactElement;
     name: string;
     price: number;
     stock: number;
@@ -21,8 +21,8 @@ interface DataType {
 
 const columns: Column<DataType>[] = [
     {
-        Header: 'Photo',
-        accessor: 'photo',
+        Header: 'Image',
+        accessor: 'image',
     },
     {
         Header: 'Name',
@@ -60,7 +60,7 @@ const Products = () => {
         if (data) {
             setRows(
                 data.products.map((i) => ({
-                    photo: <img src={i.photo} />,
+                    image: <img src={i.images[0]} />,
                     name: i.name,
                     price: i.price,
                     stock: i.stock,

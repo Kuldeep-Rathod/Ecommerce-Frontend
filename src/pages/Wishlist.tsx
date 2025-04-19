@@ -24,6 +24,8 @@ const Wishlist = () => {
         }
     );
 
+    console.log(data?.items)
+
     const [toggleWishlist] = useToggleWishlistMutation();
     const dispatch = useDispatch();
 
@@ -59,7 +61,8 @@ const Wishlist = () => {
                 <div className='empty-cart'>
                     <h2>Your wishlist is empty</h2>
                     <p>
-                        Looks like you haven't added anything to your wishlist yet
+                        Looks like you haven't added anything to your wishlist
+                        yet
                     </p>
                     <Link
                         to='/'
@@ -76,8 +79,10 @@ const Wishlist = () => {
                             productId={product._id}
                             name={product.name}
                             price={product.price}
+                            originalPrice={product.originalPrice}
+                            category={product.category}
                             stock={product.stock}
-                            photo={product.photo}
+                            image={product.images[0]}
                             handler={addToCartHandler}
                             toggleHandler={toggleHandler}
                             isWishlisted={true} // All items here are wishlisted

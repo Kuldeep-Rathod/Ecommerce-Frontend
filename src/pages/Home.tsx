@@ -84,9 +84,11 @@ const Home = () => {
                                   productId={product._id}
                                   name={product.name}
                                   price={product.price}
+                                  originalPrice={product.originalPrice}
+                                  category={product.category}
                                   stock={product.stock}
                                   handler={addToCartHandler}
-                                  photo={product.photo}
+                                  image={product.images[0]}
                                   toggleHandler={toggleHandler}
                                   isWishlisted={
                                       wishlistData?.items.some(

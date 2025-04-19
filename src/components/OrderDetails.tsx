@@ -79,7 +79,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
                                 <td>
                                     <div className='product-info'>
                                         <img
-                                            src={item.photo}
+                                            src={item.image}
                                             alt={item.name}
                                             className='product-image'
                                             onError={(e) => {

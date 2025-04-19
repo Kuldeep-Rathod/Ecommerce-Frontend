@@ -4,9 +4,11 @@ import { CartItem } from '../types/types';
 
 interface ProductCardProps {
     productId: string;
-    photo: string;
+    image: string;
     name: string;
     price: number;
+    originalPrice: number;
+    category: string;
     stock: number;
     handler: (cartItem: CartItem) => void;
     toggleHandler: (productId: string) => void;
@@ -15,9 +17,11 @@ interface ProductCardProps {
 
 const ProductCard = ({
     productId,
-    photo,
+    image,
     name,
     price,
+    originalPrice,
+    category,
     stock,
     handler,
     toggleHandler,
@@ -40,17 +44,27 @@ const ProductCard = ({
                 </span>
             )}
             <img
-                src={photo}
+                src={image}
                 alt={name}
             />
             <p>{name}</p>
-            <span>₹{price.toFixed(2)}</span>
+            <div className='price-category'>
+                <span className='product-price'>
+                    ₹{price.toFixed(2)}{' '}
+                    {originalPrice > price && (
+                        <span className='original-price'>
+                            <s>₹{originalPrice.toFixed(2)}</s>
+                        </span>
+                    )}
+                </span>
+                <span className='product-category'>{category}</span>
+            </div>
             <div>
                 <button
                     onClick={() =>
                         handler({
                             productId,
-                            photo,
+                            image,
                             name,
                             price,
                             stock,

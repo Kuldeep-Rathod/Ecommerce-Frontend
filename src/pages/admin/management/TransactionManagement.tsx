@@ -108,7 +108,7 @@ const TransactionManagement = () => {
                         <ProductCard
                             key={i._id}
                             name={i.name}
-                            photo={i.photo}
+                            image={i.image}
                             productId={i.productId}
                             price={i.price}
                             quantity={i.quantity}
@@ -157,14 +157,14 @@ const TransactionManagement = () => {
 
 const ProductCard = ({
     name,
-    photo,
+    image,
     price,
     quantity,
     productId,
 }: OrderItem) => (
     <div className='transactionProductCard'>
         <img
-            src={photo}
+            src={image}
             alt={name}
         />
         <Link to={`/products/${productId}`}>{name}</Link>

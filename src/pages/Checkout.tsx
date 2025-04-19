@@ -162,7 +162,7 @@ const CheckoutForm = () => {
                                 key={item.productId}
                             >
                                 <img
-                                    src={item.photo}
+                                    src={item.image}
                                     alt={item.name}
                                 />
                                 <div className='item-details'>
