@@ -26,6 +26,7 @@
 @use './admin//skeleton/dashboardSkeleton';
 @use './admin/skeleton/tableSkeleton';
 @use './admin/skeleton/chartsSkeleton';
+@use './admin/updateProduct';
 
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -235,10 +236,6 @@ a {
     border-radius: 50%;
     z-index: 9;
 }
-
-
-
-
 
 .loaderSection {
     height: 100vh;

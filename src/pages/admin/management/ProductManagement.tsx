@@ -22,38 +22,73 @@ const ProductManagement = () => {
 
     const { data, isError, isLoading } = useProductDetailsQuery(params.id!);
 
-    const { _id, name, price, category, photo, stock } = data?.product || {
+    const {
+        _id,
+        name,
+        price,
+        originalPrice,
+        brand,
+        description,
+        category,
+        stock,
+        features,
+        colors,
+        images,
+    } = data?.product || {
         _id: '',
         name: '',
         price: 0,
+        originalPrice: 0,
+        brand: '',
+        description: '',
         category: '',
         stock: 0,
-        photo: '',
+        features: [],
+        colors: [],
+        images: [],
     };
 
     const [nameUpdated, setNameUpdated] = useState<string>(name);
     const [priceUpdated, setPriceUpdated] = useState<number>(price);
+    const [originalPriceUpdated, setOriginalPriceUpdated] =
+        useState<number>(originalPrice);
+    const [brandUpdated, setBrandUpdated] = useState<string>(brand);
+    const [descriptionUpdated, setDescriptionUpdated] =
+        useState<string>(description);
+    const [featuresUpdated, setFeaturesUpdated] = useState<string[]>(features);
+    const [colorsUpdated, setColorsUpdated] = useState<string[]>(colors);
     const [stockUpdated, setStockUpdated] = useState<number>(stock);
     const [categoryUpdated, setCategoryUpdated] = useState<string>(category);
-    const [photoUpdated, setPhotoUpdated] = useState<string>('');
-    const [photoFile, setPhotoFile] = useState<File>();
+    const [imagesUpdated, setImagesUpdated] = useState<string[]>(images);
+    const [photoFile, setPhotoFile] = useState<File[]>([]);
 
     const [updateProduct] = useUpdateProductMutation();
     const [deleteProduct] = useDeleteProductMutation();
 
     const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        const file: File | undefined = e.target.files?.[0];
+        const files = e.target.files;
 
-        const reader: FileReader = new FileReader();
+        if (files && files.length > 0) {
+            const fileArray: File[] = Array.from(files);
+            const previews: string[] = [];
 
-        if (file) {
-            reader.readAsDataURL(file);
-            reader.onloadend = () => {
-                if (typeof reader.result === 'string') {
-                    setPhotoUpdated(reader.result);
-                    setPhotoFile(file);
-                }
-            };
+            fileArray.forEach((file) => {
+                const reader = new FileReader();
+
+                reader.onloadend = () => {
+                    if (typeof reader.result === 'string') {
+                        previews.push(reader.result);
+
+                        // Once all previews are loaded, update the state
+                        if (previews.length === fileArray.length) {
+                            setImagesUpdated(previews); // multiple previews
+                            setPhotoFile(fileArray); // multiple files
+                        }
+                    }
+                };
+
+                reader.readAsDataURL(file);
+            });
         }
     };
 
@@ -64,27 +99,51 @@ const ProductManagement = () => {
 
         if (nameUpdated) formData.set('name', nameUpdated);
         if (priceUpdated) formData.set('price', priceUpdated.toString());
+        if (originalPriceUpdated)
+            formData.set('originalPrice', originalPriceUpdated.toString());
         if (stockUpdated !== undefined)
             formData.set('stock', stockUpdated.toString());
         if (categoryUpdated) formData.set('category', categoryUpdated);
-        if (photoFile) formData.set('photo', photoFile);
+        if (brandUpdated) formData.set('brand', brandUpdated);
+        if (descriptionUpdated) formData.set('description', descriptionUpdated);
+        if (featuresUpdated.length > 0)
+            formData.set('features', featuresUpdated.join(','));
+        if (colorsUpdated.length > 0)
+            formData.set('colors', colorsUpdated.join(','));
 
-        const res = await updateProduct({
-            formData,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-            userId: user?._id!,
-            productId: _id,
-        });
+        if (photoFile.length > 0) {
+            photoFile.forEach((file) => {
+                formData.append('images', file);
+            });
+        }
 
-        responseToast(res, navigate, '/admin/products');
+        try {
+            const res = await updateProduct({
+                formData,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                userId: user?._id!,
+                productId: _id,
+            });
+            responseToast(res, navigate, '/admin/products');
+        } catch (error) {
+            console.error('Update failed:', error);
+        }
     };
 
     useEffect(() => {
         if (data) {
-            setNameUpdated(data.product.name);
-            setPriceUpdated(data.product.price);
-            setStockUpdated(data.product.stock);
-            setCategoryUpdated(data.product.category);
+            const { product } = data;
+
+            setNameUpdated(product.name);
+            setPriceUpdated(product.price);
+            setOriginalPriceUpdated(product.originalPrice);
+            setStockUpdated(product.stock);
+            setCategoryUpdated(product.category);
+            setBrandUpdated(product.brand);
+            setDescriptionUpdated(product.description);
+            setFeaturesUpdated(product.features);
+            setColorsUpdated(product.colors);
+            setImagesUpdated(product.images); // This assumes `images` is an array of URLs
         }
     }, [data]);
 
@@ -94,13 +153,16 @@ const ProductManagement = () => {
         );
         if (!confirmDelete) return;
 
-        const res = await deleteProduct({
-            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-            userId: user?._id!,
-            productId: _id,
-        });
-
-        responseToast(res, navigate, '/admin/products');
+        try {
+            const res = await deleteProduct({
+                // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
+                userId: user?._id!,
+                productId: _id,
+            });
+            responseToast(res, navigate, '/admin/products');
+        } catch (error) {
+            console.error('Delete failed:', error);
+        }
     };
 
     if (isError) return <Navigate to={'/404'} />;
@@ -123,15 +185,21 @@ const ProductManagement = () => {
                     </div>
 
                     <div className='product-image-container'>
-                        <img
-                            src={photo}
-                            alt={name}
-                            className='product-image'
-                        />
+                        {Array.isArray(images) &&
+                            images.map((img, i) => (
+                                <img
+                                    key={i}
+                                    src={img}
+                                    alt={`${name}-${i}`}
+                                    className='product-image'
+                                />
+                            ))}
                     </div>
 
                     <div className='product-details'>
                         <h3 className='product-name'>{name}</h3>
+                        <p className='product-brand'>Brand: {brand}</p>
+
                         <div className='stock-badge'>
                             {stock > 0 ? (
                                 <span className='in-stock'>
@@ -143,12 +211,42 @@ const ProductManagement = () => {
                                 </span>
                             )}
                         </div>
+
                         <div className='price-category'>
                             <span className='product-price'>
-                                ${price.toFixed(2)}
+                                ${price.toFixed(2)}{' '}
+                                {originalPrice > price && (
+                                    <span className='original-price'>
+                                        <s>${originalPrice.toFixed(2)}</s>
+                                    </span>
+                                )}
                             </span>
                             <span className='product-category'>{category}</span>
                         </div>
+
+                        {description && (
+                            <p className='product-description'>
+                                <strong>Description:</strong> {description}
+                            </p>
+                        )}
+
+                        {features.length > 0 && (
+                            <div className='product-features'>
+                                <strong>Features:</strong>
+                                <ul>
+                                    {features.map((feature, index) => (
+                                        <li key={index}>{feature}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {colors.length > 0 && (
+                            <div className='product-colors'>
+                                <strong>Available Colors:</strong>{' '}
+                                {colors.join(', ')}
+                            </div>
+                        )}
                     </div>
                 </section>
 
@@ -159,6 +257,7 @@ const ProductManagement = () => {
                     >
                         <h2 className='form-title'>Update Product</h2>
                         <div className='form-row'>
+                            {/* Name */}
                             <div className='form-group'>
                                 <label
                                     htmlFor='name'
@@ -178,6 +277,29 @@ const ProductManagement = () => {
                                 />
                             </div>
 
+                            {/* Brand */}
+                            <div className='form-group'>
+                                <label
+                                    htmlFor='brand'
+                                    className='form-label'
+                                >
+                                    Brand
+                                </label>
+                                <input
+                                    id='brand'
+                                    type='text'
+                                    placeholder='Brand'
+                                    value={brandUpdated}
+                                    onChange={(e) =>
+                                        setBrandUpdated(e.target.value)
+                                    }
+                                    className='form-input'
+                                />
+                            </div>
+                        </div>
+
+                        <div className='form-row'>
+                            {/* Price */}
                             <div className='form-group'>
                                 <label
                                     htmlFor='price'
@@ -198,8 +320,34 @@ const ProductManagement = () => {
                                     step='0.01'
                                 />
                             </div>
+
+                            {/* Original Price */}
+                            <div className='form-group'>
+                                <label
+                                    htmlFor='originalPrice'
+                                    className='form-label'
+                                >
+                                    Original Price
+                                </label>
+                                <input
+                                    id='originalPrice'
+                                    type='number'
+                                    placeholder='Original Price'
+                                    value={originalPriceUpdated}
+                                    onChange={(e) =>
+                                        setOriginalPriceUpdated(
+                                            Number(e.target.value)
+                                        )
+                                    }
+                                    className='form-input'
+                                    min={0}
+                                    step='0.01'
+                                />
+                            </div>
                         </div>
+
                         <div className='form-row'>
+                            {/* Stock */}
                             <div className='form-group'>
                                 <label
                                     htmlFor='stock'
@@ -219,7 +367,7 @@ const ProductManagement = () => {
                                     min={0}
                                 />
                             </div>
-
+                            {/* Category */}
                             <div className='form-group'>
                                 <label
                                     htmlFor='category'
@@ -237,44 +385,118 @@ const ProductManagement = () => {
                                     }
                                     className='form-input'
                                 />
-                            </div>
+                            </div>{' '}
                         </div>
+
+                        {/* Description */}
+                        <div className='form-group'>
+                            <label
+                                htmlFor='description'
+                                className='form-label'
+                            >
+                                Description
+                            </label>
+                            <textarea
+                                id='description'
+                                placeholder='Product description'
+                                value={descriptionUpdated}
+                                onChange={(e) =>
+                                    setDescriptionUpdated(e.target.value)
+                                }
+                                className='form-input'
+                                rows={3}
+                            />
+                        </div>
+
+                        {/* Features & Colors */}
                         <div className='form-row'>
                             <div className='form-group'>
                                 <label
-                                    htmlFor='photo'
+                                    htmlFor='features'
                                     className='form-label'
                                 >
-                                    Photo
-                                    <span className='upload-icon'>
-                                        <FaUpload />
-                                    </span>
+                                    Features (comma separated)
                                 </label>
                                 <input
-                                    id='photo'
+                                    id='features'
+                                    type='text'
+                                    placeholder='e.g. Feature1, Feature2'
+                                    value={featuresUpdated.join(',')}
+                                    onChange={(e) =>
+                                        setFeaturesUpdated(
+                                            e.target.value.split(',')
+                                        )
+                                    }
+                                    className='form-input'
+                                />
+                            </div>
+                            <div className='form-group'>
+                                <label
+                                    htmlFor='colors'
+                                    className='form-label'
+                                >
+                                    Colors (comma separated)
+                                </label>
+                                <input
+                                    id='colors'
+                                    type='text'
+                                    placeholder='e.g. Black, White'
+                                    value={colorsUpdated.join(',')}
+                                    onChange={(e) =>
+                                        setColorsUpdated(
+                                            e.target.value.split(',')
+                                        )
+                                    }
+                                    className='form-input'
+                                />
+                            </div>
+                        </div>
+
+                        {/* Upload New Photo */}
+                        <div className='form-row'>
+                            <div className='form-group'>
+                                <label
+                                    htmlFor='images'
+                                    className='form-label'
+                                >
+                                    Upload Images
+                                    <FaUpload />
+                                </label>
+                                <input
+                                    id='images'
                                     type='file'
                                     onChange={changeImageHandler}
-                                    className='file-input'
-                                    accept='image/*'
+                                    multiple
+                                    className='form-input'
                                 />
-                            </div>{' '}
-                            {photoUpdated && (
+                            </div>
+                        </div>
+                        <div className='form-row'>
+                            {imagesUpdated && (
                                 <div className='image-preview'>
-                                    <img
-                                        src={photoUpdated}
-                                        alt='New Product Preview'
-                                        className='preview-image'
-                                    />
+                                    {Array.isArray(imagesUpdated) &&
+                                        imagesUpdated.map((img, i) => (
+                                            <img
+                                                key={i}
+                                                src={img}
+                                                alt={`${name}-${i}`}
+                                                className='preview-image'
+                                            />
+                                        ))}
                                 </div>
                             )}
                         </div>
 
-                        <button
-                            type='submit'
-                            className='submit-btn'
-                        >
-                            <FaEdit /> Update Product
-                        </button>
+                        {/* Submit */}
+                        <div className='form-group'>
+                            <button
+                                type='submit'
+                                className='submit-btn'
+                            >
+                                <FaEdit />
+                                Update Product
+                            </button>
+                        </div>
                     </form>
                 </article>
             </main>
