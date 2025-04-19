@@ -1,20 +1,11 @@
-import React, { useState } from 'react';
-
-interface Product {
-    _id: number;
-    name: string;
-    brand: string;
-    price: number;
-    originalPrice: number;
-    description: string;
-    features: string[];
-    colors: string[];
-    images: string[];
-    category: string;
-    stock: number;
-    rating: number;
-    reviews: number;
-}
+import React, { useEffect, useState } from 'react';
+import { useProductDetailsQuery } from '../redux/api/productAPI';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import ProductCardSkeleton from '../components/productSceleton';
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/reducer/cartReducer';
+import { CartItem } from '../types/types';
 
 const ProductPage: React.FC = () => {
     const [selectedColor, setSelectedColor] = useState<string>('Black');
@@ -22,46 +13,42 @@ const ProductPage: React.FC = () => {
         'https://res.cloudinary.com/djsewrcyo/image/upload/v1726149377/cld-sample-3.jpg'
     );
 
-    const product: Product = {
-        _id: 1,
-        name: 'Premium Wireless Headphones Pro X',
-        brand: 'AudioMaster',
-        price: 199.99,
-        originalPrice: 249.99,
-        description:
-            'Experience crystal-clear sound with our Premium Wireless Headphones Pro X. Featuring active noise cancellation, 30-hour battery life, and premium comfort for all-day listening.',
-        features: [
-            'Active Noise Cancellation technology',
-            '30-hour battery life with quick charge',
-            'Premium memory foam ear cushions',
-            'Bluetooth 5.0 with 30m range',
-            'Built-in microphone for calls',
-            'Foldable design with travel case',
-        ],
-        colors: ['Black', 'White', 'Blue', 'Red'],
-        images: [
-            'https://res.cloudinary.com/djsewrcyo/image/upload/v1726149377/cld-sample-4.jpg',
-            'https://res.cloudinary.com/djsewrcyo/image/upload/v1726149377/cld-sample-5.jpg',
-            'https://res.cloudinary.com/djsewrcyo/image/upload/v1726149377/cld-sample-2.jpg',
-            'https://res.cloudinary.com/djsewrcyo/image/upload/v1726149377/cld-sample.jpg',
-            'https://res.cloudinary.com/djsewrcyo/image/upload/v1726149377/cld-sample-3.jpg',
-        ],
-        category: 'category',
-        rating: 4.5,
-        reviews: 142,
-        stock: 5,
-    };
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const params = useParams();
+    const { data, isError, isLoading } = useProductDetailsQuery(params.id!);
 
-    const handleThumbnailClick = (img: string) => {
-        setMainImage(img.replace('200x200', '800x800'));
-    };
+    const product = data?.product;
+
+    useEffect(() => {
+        if (product?.images?.length) {
+            setMainImage(product.images[0].replace('200x200', '800x800'));
+        }
+    }, [product]);
+
+    if (isError) return <Navigate to={'/404'} />;
+    if (isLoading) return <ProductCardSkeleton />;
+    if (!product) {
+        toast.error('Product Not Found');
+        return <Navigate to='/404' />;
+    }
 
     const discountPercentage = Math.round(
         ((product.originalPrice - product.price) / product.originalPrice) * 100
     );
 
+    const handleThumbnailClick = (img: string) => {
+        setMainImage(img.replace('200x200', '800x800'));
+    };
+
     const getColorClass = (color: string) => {
-        return color.toLowerCase() + '-color';
+        return color.toLowerCase().replace(/\s+/g, '-') + '-color';
+    };
+
+    const addToCartHandler = (cartItem: CartItem) => {
+        if (cartItem.stock < 1) return toast.error('Out of Stock');
+        dispatch(addToCart(cartItem));
+        toast.success('Added to cart');
     };
 
     return (
@@ -75,7 +62,7 @@ const ProductPage: React.FC = () => {
                     />
                 </div>
                 <div className='thumbnail-container'>
-                    {product.images.slice(1).map((img, index) => (
+                    {product.images.slice(0).map((img, index) => (
                         <img
                             key={index}
                             src={img}
@@ -90,10 +77,35 @@ const ProductPage: React.FC = () => {
                     ))}
                 </div>
                 <div className='action-buttons'>
-                    <button className='btn btn-primary'>
+                    <button
+                        className='btn btn-primary'
+                        onClick={() =>
+                            addToCartHandler({
+                                productId: product._id,
+                                name: product.name,
+                                price: product.price,
+                                image: mainImage,
+                                stock: product.stock,
+                                quantity: 1,
+                            })
+                        }
+                    >
                         <i className='fas fa-shopping-cart'></i> Add to Cart
                     </button>
-                    <button className='btn btn-secondary'>
+                    <button
+                        className='btn btn-secondary'
+                        onClick={() => {
+                            addToCartHandler({
+                                productId: product._id,
+                                name: product.name,
+                                price: product.price,
+                                image: mainImage,
+                                stock: product.stock,
+                                quantity: 1,
+                            });
+                            navigate('/cart')
+                        }}
+                    >
                         <i className='fas fa-bolt'></i> Buy Now
                     </button>
                 </div>
@@ -125,10 +137,15 @@ const ProductPage: React.FC = () => {
                     </a>
                 </div>
 
-                <div className='availability'>
-                    <i className='fas fa-check-circle'></i> Only {product.stock}{' '}
-                    left in stock
-                </div>
+                {product.stock < 50 && (
+                    <div className='availability'>
+                        <span className={`stock-indicator ${''}`}>
+                            {product.stock === 0
+                                ? 'Sold Out'
+                                : `Only ${product.stock} left in stock`}
+                        </span>
+                    </div>
+                )}
 
                 <div className='product-description'>{product.description}</div>
 

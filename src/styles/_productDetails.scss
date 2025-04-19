@@ -40,8 +40,12 @@ $radius-sm: 8px;
             margin-bottom: 20px;
             border-radius: $radius-sm;
             overflow: hidden;
-            background: #f5f5f5;
+            // background: #f5f5f5;
             @include flex-center;
+
+            width: 100%; // responsive width
+            max-width: 45rem; // limits the maximum size
+            aspect-ratio: 4 / 3; // square shape (change to 4 / 3 or 16 / 9 if needed)
 
             .main-image {
                 max-width: 100%;
@@ -136,7 +140,7 @@ $radius-sm: 8px;
             }
 
             .product-brand {
-                color: $primary;
+                color: $success;
                 font-size: 16px;
                 font-weight: 500;
             }
@@ -151,7 +155,7 @@ $radius-sm: 8px;
             .current-price {
                 font-size: 32px;
                 font-weight: 800;
-                color: $danger;
+                color: $primary;
             }
 
             .original-price {
@@ -191,8 +195,8 @@ $radius-sm: 8px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background-color: #ecfdf5;
-            color: $success;
+            background-color: #fdecec;
+            color: $danger;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 14px;
