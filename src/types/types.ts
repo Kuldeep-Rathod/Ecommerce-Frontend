@@ -9,13 +9,29 @@ export interface User {
     createdAt?: string;
 }
 
+// export interface Product {
+//     name: string;
+//     price: number;
+//     stock: number;
+//     category: string;
+//     photo: string;
+//     _id: string;
+// }
+
 export interface Product {
-    name: string;
-    price: number;
-    stock: number;
-    category: string;
-    photo: string;
     _id: string;
+    name: string;
+    brand: string;
+    price: number;
+    originalPrice: number;
+    description: string;
+    features: string[];
+    colors: string[];
+    images: string[];
+    category: string;
+    stock: number;
+    rating: number;
+    reviews: number;
 }
 
 export interface WishlistItem {
