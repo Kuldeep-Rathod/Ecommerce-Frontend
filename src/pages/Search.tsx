@@ -29,7 +29,7 @@ const Search = () => {
 
     const [search, setSearch] = useState('');
     const [sort, setSort] = useState('');
-    const [maxPrice, setMaxPrice] = useState(10000);
+    const [maxPrice, setMaxPrice] = useState(100000);
     const [category, setCategory] = useState('');
     const [page, setPage] = useState(1);
 

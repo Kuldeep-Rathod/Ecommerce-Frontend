@@ -42,7 +42,7 @@ const ProductPage: React.FC = () => {
     };
 
     const getColorClass = (color: string) => {
-        return color.toLowerCase().replace(/\s+/g, '-') + '-color';
+        return color.toLowerCase().replace(/\s+/g, '') + '-color';
     };
 
     const addToCartHandler = (cartItem: CartItem) => {
@@ -103,7 +103,7 @@ const ProductPage: React.FC = () => {
                                 stock: product.stock,
                                 quantity: 1,
                             });
-                            navigate('/cart')
+                            navigate('/cart');
                         }}
                     >
                         <i className='fas fa-bolt'></i> Buy Now
