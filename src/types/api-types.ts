@@ -19,7 +19,37 @@ export type CustomError = {
     };
 };
 
-//Response
+export interface CartItemApi {
+    _id: string;
+    id: string;
+    productId: string;
+    quantity: number;
+    price: number;
+    name: string;
+    image: string;
+    stock: number;
+    addedAt: string;
+}
+
+export interface CartApi {
+    _id: string;
+    id: string;
+    user: string;
+    cartItems: CartItemApi[];
+    subTotal: number;
+    tax: number;
+    shippingCharges: number;
+    discount: number;
+    total: number;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+}
+
+export interface GetCartResponse {
+    success: boolean;
+    cart: CartApi;
+}
 
 export type MessageResponse = {
     success: boolean;
@@ -91,6 +121,19 @@ export interface WishlistResponse {
 }
 
 //Requests
+export interface UpsertCartRequest {
+    userId: string;
+    cartItems: {
+        productId: string;
+        quantity: number;
+    }[];
+}
+
+export interface DecreaseQuantityRequest {
+    userId: string;
+    productId: string;
+    action: string;
+}
 
 export type NewProductRequest = {
     id: string;

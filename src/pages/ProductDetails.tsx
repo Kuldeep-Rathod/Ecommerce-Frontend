@@ -3,11 +3,18 @@ import { useProductDetailsQuery } from '../redux/api/productAPI';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import ProductCardSkeleton from '../components/productSceleton';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../redux/reducer/cartReducer';
 import { CartItem } from '../types/types';
+import { RootState } from '../redux/store';
+import { useUpsertCartMutation } from '../redux/api/cartAPI';
 
 const ProductPage: React.FC = () => {
+    const { user } = useSelector((state: RootState) => state.userReducer);
+    const userId = user?._id;
+
+    const [upsertCart] = useUpsertCartMutation();
+
     const [selectedColor, setSelectedColor] = useState<string>('Black');
     const [mainImage, setMainImage] = useState<string>(
         'https://res.cloudinary.com/djsewrcyo/image/upload/v1726149377/cld-sample-3.jpg'
@@ -16,8 +23,8 @@ const ProductPage: React.FC = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const params = useParams();
-    const { data, isError, isLoading } = useProductDetailsQuery(params.id!);
 
+    const { data, isError, isLoading } = useProductDetailsQuery(params.id!);
     const product = data?.product;
 
     useEffect(() => {
@@ -46,9 +53,24 @@ const ProductPage: React.FC = () => {
     };
 
     const addToCartHandler = (cartItem: CartItem) => {
+        const cartItemReq = {
+            productId: cartItem.productId,
+            quantity: 1,
+        };
+        if (!userId) return;
+
         if (cartItem.stock < 1) return toast.error('Out of Stock');
+
+        upsertCart({ userId, cartItems: [cartItemReq] })
+            .then(() => {
+                toast.success('Added to cart');
+            })
+            .catch((err) => {
+                toast.error(
+                    err?.data?.message || err?.error || 'Failed to add item'
+                );
+            });
         dispatch(addToCart(cartItem));
-        toast.success('Added to cart');
     };
 
     return (
@@ -129,10 +151,7 @@ const ProductPage: React.FC = () => {
                     </span>
                 </div>
                 <div className='rating'>
-                    <a
-                        href='#reviews'
-                        className='review-count'
-                    >
+                    <a href='#reviews' className='review-count'>
                         {product.reviews} reviews
                     </a>
                 </div>

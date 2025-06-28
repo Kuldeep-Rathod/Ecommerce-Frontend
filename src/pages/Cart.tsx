@@ -1,54 +1,110 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { VscError } from 'react-icons/vsc';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CartItemCard from '../components/CartItem';
+import { useDebouncedCartSync } from '../hooks/useDebouncedCartSync';
+import {
+    useGetCartQuery,
+    useUpdateCartItemQuantityMutation,
+} from '../redux/api/cartAPI';
 import {
     addToCart,
     calculatePrice,
     discountApplied,
     removeCartItem,
+    setCartFromServer,
 } from '../redux/reducer/cartReducer';
+import { RootState, server } from '../redux/store';
 import { CartReducerInitialState } from '../types/reducer-types';
 import { CartItem } from '../types/types';
-import axios from 'axios';
-import { server } from '../redux/store';
 
 const Cart = () => {
+    const { user } = useSelector((state: RootState) => state.userReducer);
+    const userId = user?._id;
+
     const { cartItems, subTotal, tax, discount, total, shippingCharges } =
         useSelector(
             (state: { cartReducer: CartReducerInitialState }) =>
                 state.cartReducer
         );
 
+    const { data: serverCartData } = useGetCartQuery(userId!, {
+        skip: !userId,
+    });
+    const [updateItemQuantity] = useUpdateCartItemQuantityMutation();
+
     const [couponCode, setCouponCode] = useState<string>('');
     const [isValidCouponCode, setIsValidCouponCode] = useState<boolean>(false);
     const [isCouponApplied, setIsCouponApplied] = useState<boolean>(false);
 
+    const debouncedCartSync = useDebouncedCartSync(updateItemQuantity);
     const dispatch = useDispatch();
 
     const incrementHandler = (cartItem: CartItem) => {
+        const productId = cartItem.productId;
+        if (!userId || cartItems.length === 0) return;
+
         if (cartItem.quantity >= cartItem.stock)
             return toast.error(`We have only ${cartItem.stock} in Stock!`);
+
         dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity + 1 }));
+        debouncedCartSync(
+            { userId, productId, action: 'increment' },
+            () => {},
+            () => {}
+        );
     };
 
     const decrementHandler = (cartItem: CartItem) => {
-        if (cartItem.quantity <= 1) return;
+        const productId = cartItem.productId;
+        if (cartItem.quantity <= 1 || !userId || cartItems.length === 0) return;
+
         dispatch(addToCart({ ...cartItem, quantity: cartItem.quantity - 1 }));
+        debouncedCartSync(
+            { userId, productId, action: 'decrement' },
+            () => {},
+            () => {}
+        );
     };
 
     const removeHandler = (productId: string) => {
         dispatch(removeCartItem(productId));
     };
 
+    // ⬇️ Sync Backend → Redux on first mount
+    useEffect(() => {
+        if (
+            serverCartData?.success &&
+            serverCartData.cart?.cartItems?.length > 0
+        ) {
+            const formattedCartItems: CartItem[] =
+                serverCartData.cart.cartItems.map((item: CartItem) => ({
+                    productId: item.productId,
+                    image: item.image,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity,
+                    stock: item.stock,
+                }));
+
+            dispatch(
+                setCartFromServer({
+                    cartItems: formattedCartItems,
+                    subTotal: serverCartData.cart.subTotal,
+                    tax: serverCartData.cart.tax,
+                    shippingCharges: serverCartData.cart.shippingCharges,
+                    discount: serverCartData.cart.discount,
+                    total: serverCartData.cart.total,
+                })
+            );
+        }
+    }, [serverCartData, dispatch]);
+
     useEffect(() => {
         if (!couponCode) return;
-
-        // Using a cancel token to prevent overlapping requests.
-        // This ensures that if a new request is triggered while a previous one is still pending,
-        // the previous request will be canceled to avoid race conditions and unnecessary network calls.
         const { token: cancelToken, cancel } = axios.CancelToken.source();
 
         const timeOutId = setTimeout(() => {
@@ -86,7 +142,7 @@ const Cart = () => {
     }, [couponCode, dispatch]);
 
     useEffect(() => {
-        dispatch(calculatePrice());
+        console.log('rerenderrrrrr 3');
     }, [cartItems, dispatch]);
 
     // Keep your existing imports and component logic the same as before
@@ -123,10 +179,7 @@ const Cart = () => {
                                 Looks like you haven't added anything to your
                                 cart yet
                             </p>
-                            <Link
-                                to='/'
-                                className='continue-shopping'
-                            >
+                            <Link to='/' className='continue-shopping'>
                                 Continue Shopping
                             </Link>
                         </div>
@@ -196,17 +249,11 @@ const Cart = () => {
                             <span>₹{total.toFixed(2)}</span>
                         </div>
 
-                        <Link
-                            to='/shipping'
-                            className='checkout-button'
-                        >
+                        <Link to='/shipping' className='checkout-button'>
                             Proceed to Checkout
                         </Link>
 
-                        <Link
-                            to='/'
-                            className='continue-shopping'
-                        >
+                        <Link to='/' className='continue-shopping'>
                             Continue Shopping
                         </Link>
                     </aside>

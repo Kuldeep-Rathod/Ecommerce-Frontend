@@ -1,24 +1,26 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from '../components/ProductCard';
+import ProductCardSkeleton from '../components/productSceleton';
+import { useUpsertCartMutation } from '../redux/api/cartAPI';
 import {
     useCategoriesQuery,
     useSearchProductsQuery,
 } from '../redux/api/productAPI';
-import { CustomError } from '../types/api-types';
-import toast from 'react-hot-toast';
-import ProductCardSkeleton from '../components/productSceleton';
-import { CartItem } from '../types/types';
-import { addToCart } from '../redux/reducer/cartReducer';
-import { useDispatch, useSelector } from 'react-redux';
 import {
     useGetWishlistQuery,
     useToggleWishlistMutation,
 } from '../redux/api/wishlistAPI';
+import { addToCart } from '../redux/reducer/cartReducer';
 import { RootState } from '../redux/store';
+import { CustomError } from '../types/api-types';
+import { CartItem } from '../types/types';
 import { responseToast } from '../utils/features';
 
 const Search = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
+    const userId = user?._id;
 
     const {
         data: CategoriesResponse,
@@ -26,6 +28,10 @@ const Search = () => {
         isError,
         error,
     } = useCategoriesQuery('');
+    const { data: wishlistData, isLoading: wishlistLoading } =
+        useGetWishlistQuery(userId!, {
+            skip: !userId,
+        });
 
     const [search, setSearch] = useState('');
     const [sort, setSort] = useState('');
@@ -48,28 +54,39 @@ const Search = () => {
 
     const dispatch = useDispatch();
 
-    const { data: wishlistData, isLoading: wishlistLoading } =
-        useGetWishlistQuery(user?._id || '', {
-            skip: !user?._id,
-        });
-
     const [toggleWishlist] = useToggleWishlistMutation();
+    const [upsertCart] = useUpsertCartMutation();
 
     const toggleHandler = async (productId: string) => {
-        if (!user?._id) return toast.error('Please log in to add to wishlist');
+        if (!userId) return toast.error('Please log in to add to wishlist');
 
         const res = await toggleWishlist({
             productId,
-            userId: user._id,
+            userId,
         });
 
         responseToast(res, null, '');
     };
 
     const addToCartHandler = (cartItem: CartItem) => {
+        const cartItemReq = {
+            productId: cartItem.productId,
+            quantity: 1,
+        };
+        if (!userId) return;
+
         if (cartItem.stock < 1) return toast.error('Out of Stock');
+
+        upsertCart({ userId, cartItems: [cartItemReq] })
+            .then(() => {
+                toast.success('Added to cart');
+            })
+            .catch((err) => {
+                toast.error(
+                    err?.data?.message || err?.error || 'Failed to add item'
+                );
+            });
         dispatch(addToCart(cartItem));
-        toast.success('Added to cart');
     };
 
     const isPrevPage = page > 1;
@@ -123,10 +140,7 @@ const Search = () => {
                         <option value=''>All Categories</option>
                         {LoadingCategories === false
                             ? CategoriesResponse?.categories.map((i) => (
-                                  <option
-                                      key={i}
-                                      value={i}
-                                  >
+                                  <option key={i} value={i}>
                                       {i.toUpperCase()}
                                   </option>
                               ))

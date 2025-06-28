@@ -1,32 +1,29 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import ProductCard from '../components/ProductCard';
+import { useUpsertCartMutation } from '../redux/api/cartAPI';
 import {
     useGetWishlistQuery,
     useToggleWishlistMutation,
 } from '../redux/api/wishlistAPI';
-import { RootState } from '../redux/store';
-import toast from 'react-hot-toast';
-import { useEffect } from 'react';
-import ProductCard from '../components/ProductCard';
 import { addToCart } from '../redux/reducer/cartReducer';
-import { useDispatch } from 'react-redux';
+import { RootState } from '../redux/store';
 import { CartItem } from '../types/types';
 import { responseToast } from '../utils/features';
-import { Link } from 'react-router-dom';
 
 const Wishlist = () => {
     const { user } = useSelector((state: RootState) => state.userReducer);
+    const userId = user?._id;
 
-    const { data, isLoading, isError, error } = useGetWishlistQuery(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-        user?._id!,
-        {
-            skip: !user?._id,
-        }
-    );
-
-    console.log(data?.items)
+    const { data, isLoading, isError, error } = useGetWishlistQuery(userId!, {
+        skip: !userId,
+    });
 
     const [toggleWishlist] = useToggleWishlistMutation();
+    const [upsertCart] = useUpsertCartMutation();
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -38,15 +35,30 @@ const Wishlist = () => {
     }, [user, isError, error]);
 
     const toggleHandler = async (productId: string) => {
-        if (!user?._id) return toast.error('Please log in to toggle wishlist');
-        const res = await toggleWishlist({ productId, userId: user._id });
+        if (!userId) return toast.error('Please log in to toggle wishlist');
+        const res = await toggleWishlist({ productId, userId });
         responseToast(res, null, '');
     };
 
     const addToCartHandler = (cartItem: CartItem) => {
+        const cartItemReq = {
+            productId: cartItem.productId,
+            quantity: 1,
+        };
+        if (!userId) return;
+
         if (cartItem.stock < 1) return toast.error('Out of Stock');
+
+        upsertCart({ userId, cartItems: [cartItemReq] })
+            .then(() => {
+                toast.success('Added to cart');
+            })
+            .catch((err) => {
+                toast.error(
+                    err?.data?.message || err?.error || 'Failed to add item'
+                );
+            });
         dispatch(addToCart(cartItem));
-        toast.success('Added to cart');
     };
 
     if (!user) return null;
@@ -64,10 +76,7 @@ const Wishlist = () => {
                         Looks like you haven't added anything to your wishlist
                         yet
                     </p>
-                    <Link
-                        to='/'
-                        className='continue-shopping'
-                    >
+                    <Link to='/' className='continue-shopping'>
                         Continue Shopping
                     </Link>
                 </div>

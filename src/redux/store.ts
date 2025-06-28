@@ -6,6 +6,7 @@ import { cartReducer } from './reducer/cartReducer';
 import { orderAPI } from './api/orderAPI';
 import { dashboardAPI } from './api/dashboardAPI';
 import { wishlistAPI } from './api/wishlistAPI';
+import { cartAPI } from './api/cartAPI';
 
 export const server = import.meta.env.VITE_SERVER;
 
@@ -16,6 +17,7 @@ export const store = configureStore({
         [orderAPI.reducerPath]: orderAPI.reducer,
         [dashboardAPI.reducerPath]: dashboardAPI.reducer,
         [wishlistAPI.reducerPath]: wishlistAPI.reducer,
+        [cartAPI.reducerPath]: cartAPI.reducer,
         [userReducer.name]: userReducer.reducer,
         [cartReducer.name]: cartReducer.reducer,
     },
@@ -25,7 +27,8 @@ export const store = configureStore({
             .concat(productAPI.middleware)
             .concat(orderAPI.middleware)
             .concat(dashboardAPI.middleware)
-            .concat(wishlistAPI.middleware),
+            .concat(wishlistAPI.middleware)
+            .concat(cartAPI.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

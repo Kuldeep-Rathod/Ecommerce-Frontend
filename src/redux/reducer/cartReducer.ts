@@ -66,6 +66,25 @@ export const cartReducer = createSlice({
             state.shippingInfo = action.payload;
         },
         resetCart: () => initialState,
+
+        setCartFromServer: (
+            state,
+            action: PayloadAction<{
+                cartItems: CartItem[];
+                subTotal: number;
+                tax: number;
+                shippingCharges: number;
+                discount: number;
+                total: number;
+            }>
+        ) => {
+            state.cartItems = action.payload.cartItems;
+            state.subTotal = action.payload.subTotal;
+            state.tax = action.payload.tax;
+            state.shippingCharges = action.payload.shippingCharges;
+            state.discount = action.payload.discount;
+            state.total = action.payload.total;
+        },
     },
 });
 
@@ -76,4 +95,5 @@ export const {
     discountApplied,
     saveShippingInfo,
     resetCart,
+    setCartFromServer,
 } = cartReducer.actions;

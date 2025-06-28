@@ -12,11 +12,10 @@ import {
     FaUser,
 } from 'react-icons/fa';
 import { MdSpaceDashboard } from 'react-icons/md';
-import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
+import { useGetCartQuery } from '../redux/api/cartAPI';
 import { useGetWishlistQuery } from '../redux/api/wishlistAPI';
-import { CartReducerInitialState } from '../types/reducer-types';
 import { User } from '../types/types';
 
 interface PropsType {
@@ -24,11 +23,14 @@ interface PropsType {
 }
 
 const Header = ({ user }: PropsType) => {
-    const { cartItems } = useSelector(
-        (state: { cartReducer: CartReducerInitialState }) => state.cartReducer
-    );
-    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-    const { data: wishlistData } = useGetWishlistQuery(user?._id!);
+    const userId = user?._id;
+
+    const { data: wishlistData } = useGetWishlistQuery(userId!, {
+        skip: !userId,
+    });
+    const { data: serverCartData } = useGetCartQuery(userId!, {
+        skip: !userId,
+    });
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -72,10 +74,7 @@ const Header = ({ user }: PropsType) => {
                     {isMenuOpen ? <FaTimes /> : <FaBars />}
                 </button>
 
-                <Link
-                    to='/'
-                    className='header-logo'
-                >
+                <Link to='/' className='header-logo'>
                     <span>Flash</span>kart
                 </Link>
 
@@ -95,16 +94,10 @@ const Header = ({ user }: PropsType) => {
                     </div>
 
                     <div className='main-links'>
-                        <Link
-                            to='/'
-                            onClick={() => setIsMenuOpen(false)}
-                        >
+                        <Link to='/' onClick={() => setIsMenuOpen(false)}>
                             Home
                         </Link>
-                        <Link
-                            to='/search'
-                            onClick={() => setIsMenuOpen(false)}
-                        >
+                        <Link to='/search' onClick={() => setIsMenuOpen(false)}>
                             Shop
                         </Link>
                         <Link
@@ -113,16 +106,10 @@ const Header = ({ user }: PropsType) => {
                         >
                             Categories
                         </Link>
-                        <Link
-                            to='/deals'
-                            onClick={() => setIsMenuOpen(false)}
-                        >
+                        <Link to='/deals' onClick={() => setIsMenuOpen(false)}>
                             Deals
                         </Link>
-                        <Link
-                            to='/about'
-                            onClick={() => setIsMenuOpen(false)}
-                        >
+                        <Link to='/about' onClick={() => setIsMenuOpen(false)}>
                             About
                         </Link>
                     </div>
@@ -177,10 +164,7 @@ const Header = ({ user }: PropsType) => {
                                 </div>
                             </div>
                         ) : (
-                            <Link
-                                to='/login'
-                                className='auth-link'
-                            >
+                            <Link to='/login' className='auth-link'>
                                 <FaUser /> Sign In
                             </Link>
                         )}
@@ -191,9 +175,13 @@ const Header = ({ user }: PropsType) => {
                             className='icon-link'
                         >
                             <FaHeart />
-                            <span className='badge'>
-                                {wishlistData?.items.length}
-                            </span>
+                            {wishlistData?.items.length ? (
+                                <span className='badge'>
+                                    {wishlistData?.items.length}
+                                </span>
+                            ) : (
+                                ''
+                            )}
                         </Link>
 
                         <Link
@@ -202,9 +190,9 @@ const Header = ({ user }: PropsType) => {
                             className='icon-link cart-icon'
                         >
                             <FaShoppingCart />
-                            {cartItems.length > 0 ? (
+                            {serverCartData?.cart.cartItems.length ? (
                                 <span className='badge'>
-                                    {cartItems.length}
+                                    {serverCartData?.cart.cartItems.length}
                                 </span>
                             ) : (
                                 ''
@@ -213,10 +201,7 @@ const Header = ({ user }: PropsType) => {
                     </div>
                 </nav>
 
-                <form
-                    className='desktop-search'
-                    onSubmit={handleSearch}
-                >
+                <form className='desktop-search' onSubmit={handleSearch}>
                     <input
                         type='text'
                         placeholder='Search products...'
