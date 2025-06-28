@@ -8,15 +8,16 @@ import {
 import { loadStripe } from '@stripe/stripe-js';
 import { FormEvent, useState } from 'react';
 import toast from 'react-hot-toast';
+import { FiArrowLeft, FiCheck, FiLock } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { RootState } from '../redux/store';
+import Swal from 'sweetalert2';
+import { useClearCartMutation } from '../redux/api/cartAPI';
 import { useNewOrderMutation } from '../redux/api/orderAPI';
 import { resetCart } from '../redux/reducer/cartReducer';
-import { responseToast } from '../utils/features';
+import { RootState } from '../redux/store';
 import { NewOrderRequest } from '../types/api-types';
-import { FiArrowLeft, FiCheck, FiLock } from 'react-icons/fi';
-import Swal from 'sweetalert2';
+import { responseToast } from '../utils/features';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
@@ -27,6 +28,7 @@ const CheckoutForm = () => {
     const dispatch = useDispatch();
 
     const { user } = useSelector((state: RootState) => state.userReducer);
+    const userId = user?._id;
 
     const {
         shippingInfo,
@@ -41,6 +43,7 @@ const CheckoutForm = () => {
     const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
     const [newOrder] = useNewOrderMutation();
+    const [clearCart] = useClearCartMutation();
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -56,8 +59,7 @@ const CheckoutForm = () => {
             shippingCharges,
             tax,
             total,
-            // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-            user: user?._id!,
+            user: userId!,
         };
 
         if (cartItems.length === 0) {
@@ -88,7 +90,19 @@ const CheckoutForm = () => {
 
         if (paymentIntent.status === 'succeeded') {
             const res = await newOrder(orderData);
+            if (!userId) return;
             dispatch(resetCart());
+
+            clearCart(userId)
+                .unwrap()
+                .then((res) => {
+                    toast.success(res.message || 'Cart Cleared');
+                })
+                .catch((err) => {
+                    console.error('Clear cart error:', err);
+                    toast.error(err?.data?.message || 'Failed to clear cart');
+                });
+
             Swal.fire({
                 title: 'Payment Successful!',
                 text: 'Thank you for your purchase.',
@@ -145,10 +159,7 @@ const CheckoutForm = () => {
                             )}
                         </button>
                     </form>
-                    <Link
-                        to={'/cart'}
-                        className='back-to-cart'
-                    >
+                    <Link to={'/cart'} className='back-to-cart'>
                         <FiArrowLeft /> Back to Cart
                     </Link>
                 </div>
@@ -157,14 +168,8 @@ const CheckoutForm = () => {
                     <h2>Order Summary</h2>
                     <div className='order-items'>
                         {cartItems.map((item) => (
-                            <div
-                                className='item'
-                                key={item.productId}
-                            >
-                                <img
-                                    src={item.image}
-                                    alt={item.name}
-                                />
+                            <div className='item' key={item.productId}>
+                                <img src={item.image} alt={item.name} />
                                 <div className='item-details'>
                                     <div className='item-name'>{item.name}</div>
                                     <div className='item-price'>

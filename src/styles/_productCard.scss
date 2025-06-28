@@ -46,6 +46,8 @@
         @include mixin.flex(row, space-between, center, 1rem);
 
         .product-price {
+            display: flex;
+            flex-direction: column;
             font-size: 1.3rem;
             font-weight: 700;
             color: $primary;
