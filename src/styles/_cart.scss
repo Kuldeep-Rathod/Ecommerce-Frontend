@@ -39,7 +39,7 @@
             flex-direction: row;
             gap: 3rem;
         }
-    } 
+    }
 
     .cart-items {
         flex: 1;
@@ -255,6 +255,23 @@
                 text-decoration: underline;
             }
         }
+
+        .clear-cart-button {
+            width: 100%;
+            margin-top: 1rem;
+            color: #f44336;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s ease;
+
+            &:hover {
+                color: white;
+                background-color: #d32f2f;
+            }
+        }
     }
 }
 
@@ -263,7 +280,7 @@
     flex-wrap: wrap;
     gap: 1rem;
     padding: 1rem;
-    background-color: rgb(238 246 255 / 51%);;
+    background-color: rgb(238 246 255 / 51%);
     border-radius: 10px;
     margin-bottom: 1rem;
     align-items: center;

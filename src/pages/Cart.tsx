@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 import CartItemCard from '../components/CartItem';
 import { useDebouncedCartSync } from '../hooks/useDebouncedCartSync';
 import {
+    useClearCartMutation,
     useGetCartQuery,
+    useRemoveCartItemMutation,
     useUpdateCartItemQuantityMutation,
 } from '../redux/api/cartAPI';
 import {
@@ -15,6 +17,7 @@ import {
     calculatePrice,
     discountApplied,
     removeCartItem,
+    resetCart,
     setCartFromServer,
 } from '../redux/reducer/cartReducer';
 import { RootState, server } from '../redux/store';
@@ -31,10 +34,12 @@ const Cart = () => {
                 state.cartReducer
         );
 
+    const [updateItemQuantity] = useUpdateCartItemQuantityMutation();
+    const [removeCartItemMute] = useRemoveCartItemMutation();
+    const [clearCart] = useClearCartMutation();
     const { data: serverCartData } = useGetCartQuery(userId!, {
         skip: !userId,
     });
-    const [updateItemQuantity] = useUpdateCartItemQuantityMutation();
 
     const [couponCode, setCouponCode] = useState<string>('');
     const [isValidCouponCode, setIsValidCouponCode] = useState<boolean>(false);
@@ -71,7 +76,34 @@ const Cart = () => {
     };
 
     const removeHandler = (productId: string) => {
+        if (!userId) return;
+
         dispatch(removeCartItem(productId));
+
+        removeCartItemMute({ userId, productId })
+            .unwrap()
+            .then((res) => {
+                toast.success(res.message || 'Item removed from cart');
+            })
+            .catch((err) => {
+                console.error('Remove error:', err);
+                toast.error(err?.data?.message || 'Failed to remove item');
+            });
+    };
+
+    const clearCartHandler = () => {
+        if (!userId) return;
+        dispatch(resetCart());
+
+        clearCart(userId)
+            .unwrap()
+            .then((res) => {
+                toast.success(res.message || 'Cart Cleared');
+            })
+            .catch((err) => {
+                console.error('Clear cart error:', err);
+                toast.error(err?.data?.message || 'Failed to clear cart');
+            });
     };
 
     // ⬇️ Sync Backend → Redux on first mount
@@ -256,6 +288,12 @@ const Cart = () => {
                         <Link to='/' className='continue-shopping'>
                             Continue Shopping
                         </Link>
+                        <button
+                            className='clear-cart-button'
+                            onClick={clearCartHandler}
+                        >
+                            Clear Cart
+                        </button>
                     </aside>
                 )}
             </div>
